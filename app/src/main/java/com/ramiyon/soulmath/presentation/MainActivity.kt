@@ -1,7 +1,8 @@
-package com.ramiyon.soulmath
+package com.ramiyon.soulmath.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.ramiyon.soulmath.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
