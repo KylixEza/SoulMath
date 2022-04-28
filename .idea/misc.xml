@@ -5,6 +5,9 @@
       <map>
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_main_logo2.xml" value="0.214" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_main.xml" value="1.1" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/fragment_login.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/fragment_on_boarding.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/fragment_register.xml" value="0.20677083333333332" />
       </map>
     </option>
   </component>
