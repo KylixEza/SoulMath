@@ -1,14 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.onboard.screens.SecondScreenFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.onboard.screens.FirstScreenFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/iv_onboard2"
+        android:layout_width="290dp"
+        android:layout_height="290dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/ic_onboard_screen2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </ImageView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_desc_holder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        app:cardCornerRadius="28dp"
+        android:backgroundTint="@color/light_sea_blue"
+        app:layout_constraintStart_toStartOf="@id/iv_onboard2"
+        app:layout_constraintTop_toBottomOf="@id/iv_onboard2"
+        app:layout_constraintEnd_toEndOf="@id/iv_onboard2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="28dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:fontFamily="@font/poppins"
+                android:textSize="22sp"
+                tools:text="@string/example_title_onboard_screen"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:textAlignment="center"
+                android:fontFamily="@font/poppins_light"
+                android:textSize="16sp"
+                android:textColor="@color/dark_gray"
+                tools:text="@string/example_subtitle_onboard_screen"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:paddingHorizontal="32dp"
+                android:paddingVertical="12dp"
+                android:layout_gravity="center"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/poppins_semibold"
+                android:backgroundTint="@color/secondary_blue"
+                android:drawableEnd="@drawable/ic_circle_next"
+                android:drawablePadding="16dp"
+                app:cornerRadius="28dp">
+            </com.google.android.material.button.MaterialButton>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
