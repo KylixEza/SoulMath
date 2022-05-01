@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "969463746937",
+    "project_id": "ramiyon-soulmath",
+    "storage_bucket": "ramiyon-soulmath.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:969463746937:android:20a31ef9b3056d20e95fa8",
+        "android_client_info": {
+          "package_name": "com.ramiyon.soulmath"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "969463746937-nsf7ca8nbcih9hfrfmkr0n1udulfblgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7mIWmUmDhATVFvcBPIPBcXNsxS1CcDKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "969463746937-nsf7ca8nbcih9hfrfmkr0n1udulfblgt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

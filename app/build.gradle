@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-android-extensions'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -85,7 +86,7 @@ dependencies {
     implementation "io.insert-koin:koin-android-viewmodel:3.1.6"
 
     //GMS
-    implementation "com.google.android.gms:play-services-auth:20.1.0"
+    implementation "com.google.android.gms:play-services-auth:20.2.0"
 
     //Firebase
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
