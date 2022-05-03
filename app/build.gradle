@@ -115,6 +115,7 @@ dependencies {
     implementation 'com.tbuonomo:dotsindicator:4.2'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.github.KylixEza:GDSCToast:1.2.1'
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.4.2"

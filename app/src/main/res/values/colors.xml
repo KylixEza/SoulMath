@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue">#FF48A7F8</color>
+    <color name="primary_blue">#FF2489F4</color>
     <color name="secondary_blue">#FF48A7F8</color>
     <color name="medium_blue">#FF6EC2FB</color>
     <color name="sea_blue">#FF9BDCFD</color>
@@ -12,4 +12,7 @@
     <color name="light_gray">#FFC9C9C9</color>
     <color name="dark_gray">#FF5D5D5D</color>
     <color name="gray">#FF807A7A</color>
+
+    <color name="text_remember_me">#FF474748</color>
+    <color name="text_or_decision_login_method">#FF8A887B</color>
 </resources>

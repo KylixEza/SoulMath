@@ -7,4 +7,12 @@
     <string name="example_long_text">Helooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</string>
 
     <string name="next">Berikutnya</string>
+    <string name="login">Masuk</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Ingat saya</string>
+    <string name="forget_password">Lupa password?</string>
+    <string name="or">atau</string>
+    <string name="login_with_google">Masuk dengan akun Google</string>
+    <string name="register">Daftar</string>
 </resources>
