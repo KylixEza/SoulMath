@@ -1,8 +1,9 @@
 package com.ramiyon.soulmath
 
 import android.app.Application
+import com.ramiyon.soulmath.data.di.dataSourcesModule
 import com.ramiyon.soulmath.data.di.dataStoreModule
-import com.ramiyon.soulmath.data.di.localDataSourceModule
+import com.ramiyon.soulmath.data.di.firebaseModule
 import com.ramiyon.soulmath.domain.di.repositoryModule
 import com.ramiyon.soulmath.domain.di.useCaseModule
 import com.ramiyon.soulmath.presentation.di.viewModelModule
@@ -20,7 +21,8 @@ class SoulMath: Application() {
             modules(
                 listOf(
                     dataStoreModule,
-                    localDataSourceModule,
+                    firebaseModule,
+                    dataSourcesModule,
                     repositoryModule,
                     useCaseModule,
                     viewModelModule
