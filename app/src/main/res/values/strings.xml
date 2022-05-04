@@ -15,4 +15,11 @@
     <string name="or">atau</string>
     <string name="login_with_google">Masuk dengan akun Google</string>
     <string name="register">Daftar</string>
+    <string name="register">Daftar</string>
+    <string name="username">Username</string>
+    <string name="phone_number">Phone number</string>
+    <string name="your_address">Your address</string>
+    <string name="email">Email</string>
+    <string name="do_not_have_any_account">Tidak punya akun?</string>
+    <string name="already_have_accounts">Sudah punya akun?</string>
 </resources>
