@@ -1,7 +1,10 @@
 package com.ramiyon.soulmath.domain.usecase.login
 
+import com.ramiyon.soulmath.util.Resource
+import kotlinx.coroutines.flow.Flow
+
 interface LoginUseCase {
     suspend fun savePrefRememberMe(isRemember: Boolean)
     suspend fun savePrefHaveLoginAppBefore(isLogin: Boolean)
-    suspend fun savePrefHaveRunAppBefore(isFirstTime: Boolean)
+    fun signIn(email: String, password: String): Flow<Resource<Unit>>
 }
