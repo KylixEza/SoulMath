@@ -1,18 +1,17 @@
 package com.ramiyon.soulmath.presentation.ui.auth.register
 
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.viewbinding.library.fragment.viewBinding
-import android.widget.LinearLayout
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.presentation.common.buildAestheticDialog
+import com.ramiyon.soulmath.presentation.common.buildLottieDialog
 import com.ramiyon.soulmath.databinding.FragmentRegisterBinding
 import com.ramiyon.soulmath.databinding.LottieDialogBinding
 import com.ramiyon.soulmath.domain.model.User
@@ -23,13 +22,11 @@ import com.ramiyon.soulmath.util.toUserBody
 import com.thecode.aestheticdialogs.*
 import org.koin.android.ext.android.inject
 
-
 class RegisterFragment : Fragment() {
 
     private val viewModel by inject<RegisterViewModel>()
     private val binding by viewBinding<FragmentRegisterBinding>()
     private lateinit var lottieBinding: LottieDialogBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,13 +57,14 @@ class RegisterFragment : Fragment() {
                         password,
                         user.toUserBody()
                     ).observe(viewLifecycleOwner) { resource ->
-                        val lottieDialog = buildLottieDialog("loading_blue_paper_airplane.json")
+                        val lottieDialog = buildLottieDialog(lottieBinding, "loading_blue_paper_airplane.json")
                         when (resource) {
                             is Resource.Loading<*> -> {
                                 lottieDialog.show()
                             }
 
                             is Resource.Success<*> -> {
+                                lottieDialog.dismiss()
                                 buildAestheticDialog(
                                     DialogType.SUCCESS,
                                     "Register Success",
@@ -109,36 +107,4 @@ class RegisterFragment : Fragment() {
             }
         }
     }
-
-    private fun buildAestheticDialog(
-        condition: DialogType,
-        title: String,
-        message: String,
-        action: (AestheticDialog.Builder) -> Unit
-    ) =
-        AestheticDialog.Builder(requireActivity(), DialogStyle.FLASH, condition)
-            .setTitle(title)
-            .setMessage(message)
-            .setAnimation(DialogAnimation.ZOOM)
-            .setGravity(Gravity.CENTER)
-            .setOnClickListener(object : OnDialogClickListener {
-                override fun onClick(dialog: AestheticDialog.Builder) {
-                    action(dialog)
-                }
-            })
-            .show()
-
-    private fun buildLottieDialog(fileName: String) =
-        Dialog(requireContext()).apply {
-            lottieBinding.lavAnimation.apply {
-                setAnimation(fileName)
-                repeatCount = 100
-                playAnimation()
-            }
-            setContentView(lottieBinding.root)
-            setCanceledOnTouchOutside(false)
-            val metrics = resources.displayMetrics
-            val width = metrics.widthPixels
-            this.window?.setLayout(6 * width / 7, LinearLayout.LayoutParams.WRAP_CONTENT)
-        }
 }
