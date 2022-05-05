@@ -1,4 +1,4 @@
-package com.ramiyon.soulmath.presentation
+package com.ramiyon.soulmath.presentation.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splash_destination"
-        android:name="com.ramiyon.soulmath.presentation.splash.SplashFragment"
+        android:name="com.ramiyon.soulmath.presentation.ui.splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/on_boarding_destination"
-        android:name="com.ramiyon.soulmath.presentation.onboard.OnBoardingFragment"
+        android:name="com.ramiyon.soulmath.presentation.ui.onboard.OnBoardingFragment"
         android:label="fragment_on_boarding"
         tools:layout="@layout/fragment_on_boarding" >
         <action
@@ -57,12 +57,12 @@
     </fragment>
     <activity
         android:id="@+id/main_destination"
-        android:name="com.ramiyon.soulmath.presentation.MainActivity"
+        android:name="com.ramiyon.soulmath.presentation.ui.main.MainActivity"
         android:label="BaseActivity"
         tools:layout="@layout/activity_main"/>
     <fragment
         android:id="@+id/login_destination"
-        android:name="com.ramiyon.soulmath.presentation.auth.login.LoginFragment"
+        android:name="com.ramiyon.soulmath.presentation.ui.auth.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -85,7 +85,7 @@
     </fragment>
     <fragment
         android:id="@+id/register_destination"
-        android:name="com.ramiyon.soulmath.presentation.auth.register.RegisterFragment"
+        android:name="com.ramiyon.soulmath.presentation.ui.auth.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action

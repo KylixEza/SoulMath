@@ -1,4 +1,4 @@
-package com.ramiyon.soulmath.presentation.splash
+package com.ramiyon.soulmath.presentation.ui.splash
 
 import androidx.lifecycle.ViewModel
 

@@ -32,7 +32,7 @@ class RemoteDataSource(
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun signInUser(email: String, password: String): Flow<RemoteResponse<UserResponse>> = flow {
+    suspend fun signIn(email: String, password: String): Flow<RemoteResponse<UserResponse>> = flow {
         firebaseService.signInWithEmailAndPassword(email, password).collect { response ->
             when(response) {
                 is FirebaseResponse.Success -> {

@@ -2,6 +2,7 @@ package com.ramiyon.soulmath.data.repository
 
 import com.ramiyon.soulmath.data.mechanism.NetworkBoundRequest
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
+import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
 import com.ramiyon.soulmath.data.source.remote.RemoteResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.UserBody
 import com.ramiyon.soulmath.data.source.remote.api.response.UserResponse
@@ -9,6 +10,7 @@ import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import kotlinx.coroutines.flow.Flow
 
 class SoulMathRepositoryImpl(
+    private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ): SoulMathRepository {
 
@@ -24,27 +26,26 @@ class SoulMathRepositoryImpl(
 
     override fun readPrefHaveRunAppBefore(): Flow<Boolean> = localDataSource.readPrefHaveRunAppBefore()
 
-    fun signUp(email: String, password: String, body: UserBody)  =
+    override fun signUp(email: String, password: String, body: UserBody)  =
         object : NetworkBoundRequest<UserResponse>() {
             override suspend fun createCall(): Flow<RemoteResponse<UserResponse>> {
-                TODO("Not yet implemented")
+                return remoteDataSource.signUp(email, password, body)
             }
 
             override suspend fun saveCallResult(data: UserResponse) {
                 TODO("Not yet implemented")
             }
-        }
+        }.asFlow()
 
-    fun singIn(email: String, password: String) =
+    override fun singIn(email: String, password: String) =
         object : NetworkBoundRequest<UserResponse>() {
             override suspend fun createCall(): Flow<RemoteResponse<UserResponse>> {
-                TODO("Not yet implemented")
+                return remoteDataSource.signIn(email, password)
             }
 
             override suspend fun saveCallResult(data: UserResponse) {
                 TODO("Not yet implemented")
             }
 
-        }
-
+        }.asFlow()
 }

@@ -1,4 +1,4 @@
-package com.ramiyon.soulmath.presentation.onboard.screens
+package com.ramiyon.soulmath.presentation.ui.onboard.screens
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.ramiyon.soulmath.R
 
-class SecondScreenFragment : Fragment() {
+class ThirdScreenFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second_screen, container, false)
+        return inflater.inflate(R.layout.fragment_third_screen, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

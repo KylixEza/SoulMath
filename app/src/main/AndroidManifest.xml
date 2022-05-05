@@ -13,13 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SoulMath">
         <activity
-            android:name=".presentation.auth.AuthActivity"
+            android:name="com.ramiyon.soulmath.presentation.ui.auth.AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.splash.SplashActivity"
+            android:name="com.ramiyon.soulmath.presentation.ui.splash.SplashActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

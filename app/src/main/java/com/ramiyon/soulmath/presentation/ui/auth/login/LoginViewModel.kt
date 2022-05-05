@@ -1,4 +1,4 @@
-package com.ramiyon.soulmath.presentation.auth.login
+package com.ramiyon.soulmath.presentation.ui.auth.login
 
 import androidx.lifecycle.ViewModel
 import com.ramiyon.soulmath.domain.usecase.login.LoginUseCase
