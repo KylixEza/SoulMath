@@ -1,8 +1,6 @@
 package com.ramiyon.soulmath.domain.repository
 
-import com.ramiyon.soulmath.data.mechanism.NetworkBoundRequest
 import com.ramiyon.soulmath.data.source.remote.api.response.UserBody
-import com.ramiyon.soulmath.data.source.remote.api.response.UserResponse
 import com.ramiyon.soulmath.data.util.Resource
 import kotlinx.coroutines.flow.Flow
 
