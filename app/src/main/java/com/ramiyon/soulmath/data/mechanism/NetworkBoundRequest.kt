@@ -1,7 +1,7 @@
 package com.ramiyon.soulmath.data.mechanism
 
 import com.ramiyon.soulmath.data.source.remote.RemoteResponse
-import com.ramiyon.soulmath.data.util.Resource
+import com.ramiyon.soulmath.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.first

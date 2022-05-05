@@ -1,7 +1,7 @@
 package com.ramiyon.soulmath.domain.repository
 
 import com.ramiyon.soulmath.data.source.remote.api.response.UserBody
-import com.ramiyon.soulmath.data.util.Resource
+import com.ramiyon.soulmath.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface SoulMathRepository {
@@ -14,5 +14,5 @@ interface SoulMathRepository {
     fun readPrefHaveRunAppBefore(): Flow<Boolean>
 
     fun signUp(email: String, password: String, body: UserBody): Flow<Resource<Unit>>
-    fun singIn(email: String, password: String): Flow<Resource<Unit>>
+    fun signIn(email: String, password: String): Flow<Resource<Unit>>
 }

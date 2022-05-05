@@ -1,7 +1,7 @@
 package com.ramiyon.soulmath.domain.usecase.register
 
 import com.ramiyon.soulmath.data.source.remote.api.response.UserBody
-import com.ramiyon.soulmath.data.util.Resource
+import com.ramiyon.soulmath.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface RegisterUseCase {

@@ -37,7 +37,7 @@ class SoulMathRepositoryImpl(
             }
         }.asFlow()
 
-    override fun singIn(email: String, password: String) =
+    override fun signIn(email: String, password: String) =
         object : NetworkBoundRequest<UserResponse>() {
             override suspend fun createCall(): Flow<RemoteResponse<UserResponse>> {
                 return remoteDataSource.signIn(email, password)
