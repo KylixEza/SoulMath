@@ -15,16 +15,17 @@ import com.ramiyon.soulmath.presentation.common.buildLottieDialog
 import com.ramiyon.soulmath.databinding.FragmentRegisterBinding
 import com.ramiyon.soulmath.databinding.LottieDialogBinding
 import com.ramiyon.soulmath.domain.model.User
-import com.ramiyon.soulmath.presentation.ui.main.MainActivity
+import com.ramiyon.soulmath.presentation.ui.MainActivity
 import com.ramiyon.soulmath.util.Constanta
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.toUserBody
 import com.thecode.aestheticdialogs.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
 
-    private val viewModel by inject<RegisterViewModel>()
+    private val viewModel by viewModel<RegisterViewModel>()
     private val binding by viewBinding<FragmentRegisterBinding>()
     private lateinit var lottieBinding: LottieDialogBinding
 
@@ -75,7 +76,6 @@ class RegisterFragment : Fragment() {
                                         startActivity(Intent(requireContext(), MainActivity::class.java))
                                     else
                                         view.findNavController().navigate(RegisterFragmentDirections.actionRegisterDestinationToMainDestination())
-                                    viewModel.savePrefHaveLoginAppBefore(true)
                                     viewModel.savePrefHaveRunAppBefore(true)
                                     activity?.finish()
                                 }

@@ -14,10 +14,6 @@ class RegisterViewModel(
     fun signUp(email: String, password: String, body: UserBody) =
         registerUseCase.signUp(email, password, body).asLiveData()
 
-    fun savePrefHaveLoginAppBefore(isLogin: Boolean) = viewModelScope.launch {
-        registerUseCase.savePrefHaveLoginAppBefore(isLogin)
-    }
-
     fun savePrefHaveRunAppBefore(isFirstTime: Boolean) = viewModelScope.launch {
         registerUseCase.savePrefHaveRunAppBefore(isFirstTime)
     }

@@ -13,16 +13,19 @@ import com.ramiyon.soulmath.databinding.FragmentLoginBinding
 import com.ramiyon.soulmath.databinding.LottieDialogBinding
 import com.ramiyon.soulmath.presentation.common.buildAestheticDialog
 import com.ramiyon.soulmath.presentation.common.buildLottieDialog
-import com.ramiyon.soulmath.presentation.ui.main.MainActivity
+import com.ramiyon.soulmath.presentation.ui.MainActivity
 import com.ramiyon.soulmath.util.Constanta
 import com.ramiyon.soulmath.util.Resource
 import com.thecode.aestheticdialogs.DialogType
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.properties.Delegates
 
 class LoginFragment : Fragment() {
 
-    private val viewModel by inject<LoginViewModel>()
+    private val viewModel by viewModel<LoginViewModel>()
     private val binding by viewBinding<FragmentLoginBinding>()
+    private var isRememberMe by Delegates.notNull<Boolean>()
     private lateinit var lottieBinding: LottieDialogBinding
 
     override fun onCreateView(
@@ -35,6 +38,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        isRememberMe = false
 
         with(binding) {
             activity?.apply {
@@ -58,7 +63,7 @@ class LoginFragment : Fragment() {
                                         startActivity(Intent(requireContext(), MainActivity::class.java))
                                     else
                                         view.findNavController().navigate(LoginFragmentDirections.actionLoginDestinationToMainDestination())
-                                    viewModel.savePrefHaveLoginAppBefore(true)
+                                    viewModel.savePrefRememberMe(isRememberMe)
                                     activity?.finish()
                                 }
                             }
@@ -81,7 +86,7 @@ class LoginFragment : Fragment() {
             }
 
             sbRememberMe.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.savePrefRememberMe(isChecked)
+                isRememberMe = isChecked
             }
         }
     }

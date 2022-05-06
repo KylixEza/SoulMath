@@ -5,6 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface LoginUseCase {
     suspend fun savePrefRememberMe(isRemember: Boolean)
-    suspend fun savePrefHaveLoginAppBefore(isLogin: Boolean)
     fun signIn(email: String, password: String): Flow<Resource<Unit>>
 }

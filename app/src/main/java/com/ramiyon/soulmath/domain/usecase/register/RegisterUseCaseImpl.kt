@@ -10,6 +10,5 @@ class RegisterUseCaseImpl(
     override fun signUp(email: String, password: String, body: UserBody) =
         repository.signUp(email, password, body)
 
-    override suspend fun savePrefHaveLoginAppBefore(isLogin: Boolean) = repository.savePrefHaveLoginAppBefore(isLogin)
     override suspend fun savePrefHaveRunAppBefore(isFirstTime: Boolean) = repository.savePrefHaveRunAppBefore(isFirstTime)
 }

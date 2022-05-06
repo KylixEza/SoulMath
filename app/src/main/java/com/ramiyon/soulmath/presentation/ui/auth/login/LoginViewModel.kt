@@ -11,9 +11,5 @@ class LoginViewModel(private val loginUseCase: LoginUseCase): ViewModel() {
         loginUseCase.savePrefRememberMe(isRemember)
     }
 
-    fun savePrefHaveLoginAppBefore(isLogin: Boolean) = viewModelScope.launch {
-        loginUseCase.savePrefHaveLoginAppBefore(isLogin)
-    }
-
     fun signIn(email: String, password: String) = loginUseCase.signIn(email, password).asLiveData()
 }

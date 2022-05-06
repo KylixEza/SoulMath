@@ -23,23 +23,15 @@ class SoulMathDataStore(private val context: Context) {
         saveBooleanValue(isRemember, DataStoreUtil.REMEMBER_ME)
     }
 
-    suspend fun savePrefHaveLoginAppBefore(isLogin: Boolean) {
-        saveBooleanValue(isLogin, DataStoreUtil.HAVE_LOGIN_APP_BEFORE)
-    }
-
     suspend fun savePrefHaveRunAppBefore(isFirstTime: Boolean) {
         saveBooleanValue(isFirstTime, DataStoreUtil.HAVE_RUN_APP_BEFORE)
     }
 
     fun readPrefRememberMe(): Flow<Boolean> = context.userPreferenceDataStore.data.map {
-        it[DataStoreUtil.REMEMBER_ME] != null
-    }
-
-    fun readPrefHaveLoginAppBefore(): Flow<Boolean> = context.userPreferenceDataStore.data.map {
-        it[DataStoreUtil.HAVE_LOGIN_APP_BEFORE] != null
+        it[DataStoreUtil.REMEMBER_ME] ?: false
     }
 
     fun readPrefHaveRunAppBefore(): Flow<Boolean> = context.userPreferenceDataStore.data.map {
-        it[DataStoreUtil.HAVE_RUN_APP_BEFORE] != null
+        it[DataStoreUtil.HAVE_RUN_APP_BEFORE] ?: false
     }
 }

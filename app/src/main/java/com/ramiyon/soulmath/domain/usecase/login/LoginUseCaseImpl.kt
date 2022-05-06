@@ -8,7 +8,6 @@ class LoginUseCaseImpl(
     private val repository: SoulMathRepository
 ): LoginUseCase {
     override suspend fun savePrefRememberMe(isRemember: Boolean) = repository.savePrefRememberMe(isRemember)
-    override suspend fun savePrefHaveLoginAppBefore(isLogin: Boolean) = repository.savePrefHaveLoginAppBefore(isLogin)
     override fun signIn(email: String, password: String): Flow<Resource<Unit>> = repository.signIn(email, password)
 
 }
