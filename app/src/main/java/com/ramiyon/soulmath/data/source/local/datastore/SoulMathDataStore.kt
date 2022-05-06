@@ -13,18 +13,18 @@ class SoulMathDataStore(private val context: Context) {
         name = DataStoreUtil.DATA_STORE_NAME
     )
 
-    private suspend fun saveBooleanValue(value: Boolean, key: Preferences.Key<Boolean>) {
+    private suspend fun<T> saveValue(value: T, key: Preferences.Key<T>) {
         context.userPreferenceDataStore.edit {
             it[key] = value
         }
     }
 
     suspend fun savePrefRememberMe(isRemember: Boolean) {
-        saveBooleanValue(isRemember, DataStoreUtil.REMEMBER_ME)
+        saveValue(isRemember, DataStoreUtil.REMEMBER_ME)
     }
 
     suspend fun savePrefHaveRunAppBefore(isFirstTime: Boolean) {
-        saveBooleanValue(isFirstTime, DataStoreUtil.HAVE_RUN_APP_BEFORE)
+        saveValue(isFirstTime, DataStoreUtil.HAVE_RUN_APP_BEFORE)
     }
 
     fun readPrefRememberMe(): Flow<Boolean> = context.userPreferenceDataStore.data.map {

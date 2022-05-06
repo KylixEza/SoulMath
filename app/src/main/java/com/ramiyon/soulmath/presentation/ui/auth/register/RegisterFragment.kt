@@ -20,7 +20,6 @@ import com.ramiyon.soulmath.util.Constanta
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.toUserBody
 import com.thecode.aestheticdialogs.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {

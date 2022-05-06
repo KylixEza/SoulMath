@@ -83,7 +83,6 @@ dependencies {
     //Dependency Injection
     implementation "io.insert-koin:koin-core:3.1.6"
     implementation "io.insert-koin:koin-android:3.1.6"
-    implementation "io.insert-koin:koin-android-viewmodel:3.1.6"
 
     //GMS
     implementation "com.google.android.gms:play-services-auth:20.2.0"

@@ -41,7 +41,7 @@
                 android:textColor="@color/black"
                 android:fontFamily="@font/poppins"
                 android:textSize="22sp"
-                tools:text="@string/example_title_onboard_screen"/>
+                android:text="@string/example_title_onboard_screen"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -51,12 +51,13 @@
                 android:fontFamily="@font/poppins_light"
                 android:textSize="16sp"
                 android:textColor="@color/dark_gray"
-                tools:text="@string/example_subtitle_onboard_screen"/>
+                android:text="@string/example_subtitle_onboard_screen"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="84dp"
                 android:paddingHorizontal="32dp"
                 android:paddingVertical="12dp"
                 android:layout_gravity="center"
