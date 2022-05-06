@@ -17,7 +17,10 @@ val firebaseModule = module {
     single { FirebaseService() }
 }
 
-val dataSourcesModule = module {
+val repositoryModule = module {
     single { LocalDataSource(get()) }
     single { RemoteDataSource(get()) }
+    single<SoulMathRepository> {
+        SoulMathRepositoryImpl(get(), get())
+    }
 }
