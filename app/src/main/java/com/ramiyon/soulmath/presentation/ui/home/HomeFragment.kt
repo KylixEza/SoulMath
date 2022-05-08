@@ -1,5 +1,6 @@
 package com.ramiyon.soulmath.presentation.ui.home
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,11 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requireActivity().window.statusBarColor = resources.getColor(R.color.primary_blue, null)
+        } else {
+            requireActivity().window.statusBarColor = resources.getColor(R.color.primary_blue)
+        }
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
