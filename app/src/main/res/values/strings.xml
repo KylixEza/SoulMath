@@ -20,4 +20,16 @@
     <string name="your_address">Your address</string>
     <string name="do_not_have_any_account">Tidak punya akun?</string>
     <string name="already_have_accounts">Sudah punya akun?</string>
+    <string name="home">Beranda</string>
+    <string name="forum">Forum</string>
+    <string name="leaderboard">Peringkat</string>
+    <string name="profile">Profil</string>
+    <string name="example_greeting">Hi, Eric Alexander</string>
+    <string name="have_you_studied_today">Sudah belajar hari ini?</string>
+    <string name="your_progress_report">Laporan Kemajuanmu</string>
+    <string name="example_material_count">25</string>
+    <string name="example_xp_progress_report">2300 XP</string>
+    <string name="material">Materi</string>
+    <string name="quiz">Quiz</string>
+    <string name="last_material">Materi terakhir</string>
 </resources>
