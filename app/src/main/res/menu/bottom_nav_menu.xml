@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_destination"
+        android:title="@string/home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/forum_destination"
+        android:title="@string/forum"
+        android:enabled="true"
+        android:icon="@drawable/ic_forum"/>
+
+    <item
+        android:id="@+id/leaderboard_destination"
+        android:title="@string/leaderboard"
+        android:enabled="true"
+        android:icon="@drawable/ic_leaderboard"/>
+
+    <item
+        android:id="@+id/profile_destination"
+        android:title="@string/profile"
+        android:enabled="true"
+        android:icon="@drawable/ic_profile"/>
+
+</menu>
