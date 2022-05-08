@@ -1,13 +1,15 @@
 package com.ramiyon.soulmath.presentation.adapter
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.ramiyon.soulmath.presentation.diff_callback.BaseDiffUtil
 
 abstract class BaseRecyclerViewAdapter<VB: ViewBinding, ListType>
     : RecyclerView.Adapter<BaseRecyclerViewAdapter<VB, ListType>.BaseViewHolder>() {
 
-    private val itemList = arrayListOf<ListType>().toMutableList()
+    protected val itemList = arrayListOf<ListType>().toMutableList()
 
     protected abstract fun inflateViewBinding(
         parent: ViewGroup
@@ -15,11 +17,18 @@ abstract class BaseRecyclerViewAdapter<VB: ViewBinding, ListType>
 
     protected abstract val bind: (ListType) -> Unit
 
+    protected abstract val diffUtilBuilder: (List<ListType>, List<ListType>) -> DiffUtil.Callback
+
     fun setAllData(data: List<ListType>) {
+        val diffCallback = diffUtilBuilder(itemList, data)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
         itemList.apply {
             clear()
             addAll(data)
         }
+
+        diffResult.dispatchUpdatesTo(this)
     }
 
     inner class BaseViewHolder(val view: VB): RecyclerView.ViewHolder(view.root) {
