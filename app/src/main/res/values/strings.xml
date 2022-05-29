@@ -25,11 +25,11 @@
     <string name="leaderboard">Peringkat</string>
     <string name="profile">Profil</string>
     <string name="example_greeting">Hi, Eric Alexander</string>
-    <string name="have_you_studied_today">Sudah belajar hari ini?</string>
+    <string name="study_math_now">Yuk, belajar matematika sekarang</string>
     <string name="your_progress_report">Laporan Kemajuanmu</string>
     <string name="example_material_count">25</string>
     <string name="example_xp_progress_report">2300 XP</string>
-    <string name="material">Materi</string>
-    <string name="quiz">Quiz</string>
-    <string name="last_material">Materi terakhir</string>
+    <string name="study">Belajar</string>
+    <string name="game">Bermain</string>
+    <string name="last_studied">Terakhir dipelajari</string>
 </resources>
