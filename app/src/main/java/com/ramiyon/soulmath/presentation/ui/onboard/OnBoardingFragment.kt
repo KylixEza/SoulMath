@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.navigation.fragment.navArgs
-import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.databinding.FragmentOnBoardingBinding
 import com.ramiyon.soulmath.presentation.adapter.OnBoardingViewPagerAdapter
+import com.ramiyon.soulmath.presentation.animation.DepthPageTransform
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.FirstScreenFragment
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.FourthScreenFragment
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.SecondScreenFragment
@@ -51,6 +51,7 @@ class OnBoardingFragment : Fragment() {
         adapter.apply {
             setAllFragments(listOfFragment)
             binding?.viewPager?.adapter = this
+            binding?.viewPager?.setPageTransformer(DepthPageTransform())
         }
 
         binding?.apply {
