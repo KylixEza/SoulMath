@@ -14,11 +14,11 @@ import com.ramiyon.soulmath.presentation.common.buildAestheticDialog
 import com.ramiyon.soulmath.presentation.common.buildLottieDialog
 import com.ramiyon.soulmath.databinding.FragmentRegisterBinding
 import com.ramiyon.soulmath.databinding.LottieDialogBinding
-import com.ramiyon.soulmath.domain.model.User
+import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.presentation.ui.MainActivity
 import com.ramiyon.soulmath.util.Constanta
 import com.ramiyon.soulmath.util.Resource
-import com.ramiyon.soulmath.util.toUserBody
+import com.ramiyon.soulmath.util.toStudentBody
 import com.thecode.aestheticdialogs.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -48,14 +48,14 @@ class RegisterFragment : Fragment() {
                     val address = edtAddress.editText?.text.toString()
                     val phoneNumber = edtPhoneNumber.editText?.text.toString()
 
-                    val user = User(
+                    val user = Student(
                         address = address, email = email, name = username, phoneNumber = phoneNumber
                     )
 
                     viewModel.signUp(
                         email,
                         password,
-                        user.toUserBody()
+                        user.toStudentBody()
                     ).observe(viewLifecycleOwner) { resource ->
                         val lottieDialog = buildLottieDialog(lottieBinding, "loading_blue_paper_airplane.json")
                         when (resource) {

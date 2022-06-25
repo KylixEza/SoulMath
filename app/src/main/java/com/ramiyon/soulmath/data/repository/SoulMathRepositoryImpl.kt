@@ -4,8 +4,8 @@ import com.ramiyon.soulmath.data.mechanism.NetworkBoundRequest
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
 import com.ramiyon.soulmath.data.source.remote.RemoteResponse
-import com.ramiyon.soulmath.data.source.remote.api.response.UserBody
-import com.ramiyon.soulmath.data.source.remote.api.response.UserResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
+import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -22,24 +22,24 @@ class SoulMathRepositoryImpl(
 
     override fun readPrefHaveRunAppBefore(): Flow<Boolean> = localDataSource.readPrefHaveRunAppBefore()
 
-    override fun signUp(email: String, password: String, body: UserBody)  =
-        object : NetworkBoundRequest<UserResponse>() {
-            override suspend fun createCall(): Flow<RemoteResponse<UserResponse>> {
+    override fun signUp(email: String, password: String, body: StudentBody)  =
+        object : NetworkBoundRequest<StudentResponse>() {
+            override suspend fun createCall(): Flow<RemoteResponse<StudentResponse>> {
                 return remoteDataSource.signUp(email, password, body)
             }
 
-            override suspend fun saveCallResult(data: UserResponse) {
+            override suspend fun saveCallResult(data: StudentResponse) {
                 TODO("Not yet implemented")
             }
         }.asFlow()
 
     override fun signIn(email: String, password: String) =
-        object : NetworkBoundRequest<UserResponse>() {
-            override suspend fun createCall(): Flow<RemoteResponse<UserResponse>> {
+        object : NetworkBoundRequest<StudentResponse>() {
+            override suspend fun createCall(): Flow<RemoteResponse<StudentResponse>> {
                 return remoteDataSource.signIn(email, password)
             }
 
-            override suspend fun saveCallResult(data: UserResponse) {
+            override suspend fun saveCallResult(data: StudentResponse) {
                 TODO("Not yet implemented")
             }
 

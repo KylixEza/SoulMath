@@ -1,8 +1,13 @@
 package com.ramiyon.soulmath.util
 
-import com.ramiyon.soulmath.data.source.remote.api.response.UserBody
-import com.ramiyon.soulmath.domain.model.User
+import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
+import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
+import com.ramiyon.soulmath.domain.model.Student
 
-fun User.toUserBody() = UserBody(
-    uid, address, avatar, email, name, phoneNumber,
+fun Student.toStudentBody() = StudentBody(
+    studentId, address, avatar, username, email, phoneNumber, xp
+)
+
+fun StudentResponse.toStudent() = Student(
+    studentId, address, avatar, username, email, phoneNumber, xp
 )

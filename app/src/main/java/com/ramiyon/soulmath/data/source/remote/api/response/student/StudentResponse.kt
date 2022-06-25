@@ -1,10 +1,11 @@
-package com.ramiyon.soulmath.data.source.remote.api.response
+package com.ramiyon.soulmath.data.source.remote.api.response.student
 
 import com.google.gson.annotations.SerializedName
 
-data class UserBody(
-	@field:SerializedName("uid")
-	var uid: String,
+data class StudentResponse(
+
+	@field:SerializedName("student_id")
+	var studentId: String,
 
 	@field:SerializedName("address")
 	val address: String,
@@ -12,12 +13,15 @@ data class UserBody(
 	@field:SerializedName("avatar")
 	val avatar: String,
 
+	@field:SerializedName("username")
+	val username: String,
+
 	@field:SerializedName("email")
 	val email: String,
 
-	@field:SerializedName("name")
-	val name: String,
-
 	@field:SerializedName("phone_number")
 	val phoneNumber: String,
+
+	@field:SerializedName("xp")
+	val xp: Int
 )

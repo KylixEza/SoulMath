@@ -1,7 +1,7 @@
 package com.ramiyon.soulmath.data.source.remote
 
-import com.ramiyon.soulmath.data.source.remote.api.response.UserBody
-import com.ramiyon.soulmath.data.source.remote.api.response.UserResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
+import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.data.source.remote.firebase.FirebaseResponse
 import com.ramiyon.soulmath.data.source.remote.firebase.FirebaseService
 import kotlinx.coroutines.Dispatchers
@@ -13,11 +13,11 @@ class RemoteDataSource(
     private val firebaseService: FirebaseService
 ) {
 
-    suspend fun signUp(email: String, password: String, body: UserBody): Flow<RemoteResponse<UserResponse>> = flow {
+    suspend fun signUp(email: String, password: String, body: StudentBody): Flow<RemoteResponse<StudentResponse>> = flow {
         firebaseService.createUserWithEmailAndPassword(email, password).collect { response ->
             when(response) {
                 is FirebaseResponse.Success -> {
-                    body.uid = response.data
+                    body.studentId = response.data
                     try {
                         /*apiService.postNewUser(body).data
                         val user = apiService.getDetailUser(response.data).data
@@ -32,7 +32,7 @@ class RemoteDataSource(
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun signIn(email: String, password: String): Flow<RemoteResponse<UserResponse>> = flow {
+    suspend fun signIn(email: String, password: String): Flow<RemoteResponse<StudentResponse>> = flow {
         firebaseService.signInWithEmailAndPassword(email, password).collect { response ->
             when(response) {
                 is FirebaseResponse.Success -> {

@@ -1,4 +1,4 @@
-package com.ramiyon.soulmath.presentation.diff_callback
+package com.ramiyon.soulmath.base
 
 import androidx.recyclerview.widget.DiffUtil
 
