@@ -1,4 +1,4 @@
-package com.ramiyon.soulmath.data.source.remote.firebase
+package com.ramiyon.soulmath.data.util
 
 sealed class FirebaseResponse <out R> {
     data class Success<out T>(val data: T): FirebaseResponse<T>()

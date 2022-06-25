@@ -1,6 +1,6 @@
-package com.ramiyon.soulmath.data.mechanism
+package com.ramiyon.soulmath.base
 
-import com.ramiyon.soulmath.data.source.remote.RemoteResponse
+import com.ramiyon.soulmath.data.util.RemoteResponse
 import com.ramiyon.soulmath.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,7 +13,7 @@ abstract class NetworkBoundRequest<RequestType> {
         when (val remoteResponse = createCall().first()) {
             is RemoteResponse.Success<RequestType> -> {
                 saveCallResult(remoteResponse.data)
-                emit(Resource.Success(null))
+                emit(Resource.Success(remoteResponse.data))
             }
             is RemoteResponse.Error -> {
                 emit(

@@ -1,8 +1,11 @@
 package com.ramiyon.soulmath.data.source.local
 
+import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
+import com.ramiyon.soulmath.data.source.local.database.room.SoulMathDao
 import com.ramiyon.soulmath.data.source.local.datastore.SoulMathDataStore
 
 class LocalDataSource(
+    private val dao: SoulMathDao,
     private val dataStore: SoulMathDataStore
 ) {
 
@@ -11,4 +14,9 @@ class LocalDataSource(
 
     fun readPrefRememberMe() = dataStore.readPrefRememberMe()
     fun readPrefHaveRunAppBefore() = dataStore.readPrefHaveRunAppBefore()
+
+    suspend fun insertStudent(studentEntity: StudentEntity) = dao.insertStudent(studentEntity)
+    suspend fun updateStudent(studentEntity: StudentEntity) = dao.updateStudent(studentEntity)
+    fun getStudentDetail(studentId: String) = dao.getStudentDetail(studentId)
+
 }

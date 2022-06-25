@@ -1,10 +1,7 @@
 package com.ramiyon.soulmath
 
 import android.app.Application
-import com.ramiyon.soulmath.data.di.dataStoreModule
-import com.ramiyon.soulmath.data.di.firebaseModule
-import com.ramiyon.soulmath.data.di.networkModule
-import com.ramiyon.soulmath.data.di.repositoryModule
+import com.ramiyon.soulmath.data.di.*
 import com.ramiyon.soulmath.domain.di.useCaseModule
 import com.ramiyon.soulmath.presentation.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -22,6 +19,7 @@ class SoulMath: Application() {
                 listOf(
                     dataStoreModule,
                     networkModule,
+                    databaseModule,
                     firebaseModule,
                     repositoryModule,
                     useCaseModule,

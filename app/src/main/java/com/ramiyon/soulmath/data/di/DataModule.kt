@@ -1,7 +1,9 @@
 package com.ramiyon.soulmath.data.di
 
+import androidx.room.Room
 import com.ramiyon.soulmath.data.repository.SoulMathRepositoryImpl
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
+import com.ramiyon.soulmath.data.source.local.database.room.SoulMathDatabase
 import com.ramiyon.soulmath.data.source.local.datastore.SoulMathDataStore
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
 import com.ramiyon.soulmath.data.source.remote.api.ApiService
@@ -10,6 +12,7 @@ import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -38,6 +41,18 @@ val networkModule = module {
     }
 }
 
+val databaseModule = module {
+    factory {
+        get<SoulMathDatabase>().soulMathDao()
+    }
+    single {
+        Room.databaseBuilder(
+            androidContext(),
+            SoulMathDatabase::class.java, "soulmath.db"
+        ).fallbackToDestructiveMigration()
+            .build()
+    }
+}
 
 val firebaseModule = module {
     single { FirebaseService() }
@@ -45,7 +60,7 @@ val firebaseModule = module {
 
 val repositoryModule = module {
     single { LocalDataSource(get()) }
-    single { RemoteDataSource(get()) }
+    single { RemoteDataSource(get(), get()) }
     single<SoulMathRepository> {
         SoulMathRepositoryImpl(get(), get())
     }

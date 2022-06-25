@@ -1,4 +1,4 @@
-package com.ramiyon.soulmath.data.source.remote
+package com.ramiyon.soulmath.data.util
 
 sealed class RemoteResponse<out T> {
     data class Success<out T> (val data: T): RemoteResponse<T>()

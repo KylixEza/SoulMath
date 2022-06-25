@@ -4,23 +4,23 @@ import com.google.gson.annotations.SerializedName
 
 data class StudentBody(
 	@field:SerializedName("student_id")
-	var studentId: String,
+	var studentId: String = "",
 
 	@field:SerializedName("address")
-	val address: String,
+	val address: String = "",
 
 	@field:SerializedName("avatar")
-	val avatar: String,
+	val avatar: String = "",
 
 	@field:SerializedName("username")
-	val username: String,
+	val username: String = "",
 
 	@field:SerializedName("email")
-	val email: String,
+	val email: String = "",
 
 	@field:SerializedName("phone_number")
-	val phoneNumber: String,
+	val phoneNumber: String = "",
 
 	@field:SerializedName("xp")
-	val xp: Int
+	val xp: Int = 0
 )
