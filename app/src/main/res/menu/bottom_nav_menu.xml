@@ -8,12 +8,6 @@
         android:icon="@drawable/ic_home"/>
 
     <item
-        android:id="@+id/forum_destination"
-        android:title="@string/forum"
-        android:enabled="true"
-        android:icon="@drawable/ic_forum"/>
-
-    <item
         android:id="@+id/leaderboard_destination"
         android:title="@string/leaderboard"
         android:enabled="true"

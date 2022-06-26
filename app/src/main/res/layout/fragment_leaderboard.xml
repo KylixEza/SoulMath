@@ -6,14 +6,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.ui.leaderboard.LeaderboardFragment">
 
-    <io.github.florent37.shapeofview.shapes.RoundRectView
-        android:id="@+id/shape_view_leaderboard"
+
+    <View
+        android:id="@+id/view_leaderboard"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:backgroundTint="@color/primary_blue"
+        android:layout_height="260dp"
+        android:background="@color/primary_blue"
         app:shape_roundRect_bottomLeftRadius="24dp"
         app:shape_roundRect_bottomRightRadius="24dp"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_header_leaderboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/leaderboard"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_header_leaderboard"
+        app:layout_constraintEnd_toEndOf="parent">
+        <include
+            android:id="@+id/include_leaderboard_top_three"
+            layout="@layout/include_leaderboard_top_three"/>
+    </LinearLayout>
+
+    <io.github.florent37.shapeofview.shapes.RoundRectView
+        android:id="@+id/cv_leaderboard_holder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="-32dp"
+        app:shape_roundRect_topLeftRadius="30dp"
+        app:shape_roundRect_topRightRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_leaderboard"
+        tools:layout_editor_absoluteX="0dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_leaderboard"
@@ -22,8 +60,9 @@
         android:layout_marginTop="84dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/shape_view_leaderboard"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="@id/cv_leaderboard_holder"
+        app:layout_constraintBottom_toBottomOf="@id/cv_leaderboard_holder"
+        tools:listitem="@layout/item_list_leaderboard"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
