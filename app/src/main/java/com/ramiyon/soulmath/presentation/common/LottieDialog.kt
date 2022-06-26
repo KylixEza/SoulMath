@@ -5,9 +5,9 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.widget.LinearLayout
-import com.ramiyon.soulmath.databinding.LottieDialogBinding
+import com.ramiyon.soulmath.databinding.DialogLottieBinding
 
-fun Context.buildLottieDialog(lottieBinding: LottieDialogBinding, fileName: String) =
+fun Context.buildLottieDialog(lottieBinding: DialogLottieBinding, fileName: String) =
     Dialog(this).apply {
         lottieBinding.lavAnimation.apply {
             setAnimation(fileName)

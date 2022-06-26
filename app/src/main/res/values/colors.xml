@@ -12,7 +12,8 @@
     <color name="soft_light_gray">#FF979797</color>
     <color name="light_gray">#FFC9C9C9</color>
     <color name="dark_gray">#FF5D5D5D</color>
-    <color name="gray">#FF807A7A</color>
+    <color name="gray">#FF474748</color>
+    <color name="sand_gray">#FF807A7A</color>
 
     <color name="text_remember_me">#FF474748</color>
     <color name="text_or_decision_login_method">#FF8A887B</color>
