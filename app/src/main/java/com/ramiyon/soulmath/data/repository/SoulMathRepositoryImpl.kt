@@ -1,18 +1,22 @@
 package com.ramiyon.soulmath.data.repository
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ramiyon.soulmath.base.NetworkBoundRequest
+import com.ramiyon.soulmath.base.NetworkOnlyResource
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
 import com.ramiyon.soulmath.data.util.RemoteResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
+import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
+import com.ramiyon.soulmath.util.Resource
+import com.ramiyon.soulmath.util.toStudent
 import com.ramiyon.soulmath.util.toStudentEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class SoulMathRepositoryImpl(
     private val remoteDataSource: RemoteDataSource,
@@ -61,4 +65,15 @@ class SoulMathRepositoryImpl(
             }
 
         }.asFlow()
+
+    override fun fetchLeaderboard(): Flow<Resource<List<Student>>> =
+        object : NetworkOnlyResource<List<Student>, List<StudentResponse>?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<List<StudentResponse>?>> =
+                remoteDataSource.fetchLeaderboard()
+
+            override fun mapTransform(data: List<StudentResponse>?): Flow<List<Student>> =
+                flow { data?.map { it.toStudent() } }
+
+        }.asFlow()
+
 }

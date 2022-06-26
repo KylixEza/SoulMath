@@ -6,5 +6,7 @@ import com.ramiyon.soulmath.domain.usecase.leaderboard.LeaderboardUseCase
 class LeaderboardViewModel(
     private val useCase: LeaderboardUseCase
 ) : ViewModel() {
-    // TODO: Implement the ViewModel
+
+    fun fetchLeaderboard() = useCase.fetchLeaderboard()
+
 }

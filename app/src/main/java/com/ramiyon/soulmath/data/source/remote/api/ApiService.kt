@@ -8,6 +8,9 @@ import retrofit2.http.Path
 
 interface ApiService {
 
-    fun singUp(@Body studentBody: StudentBody): BaseResponse<StudentResponse>
-    fun signIn(@Path("studentId") studentId: String): BaseResponse<StudentResponse>
+    suspend fun singUp(@Body studentBody: StudentBody): BaseResponse<StudentResponse>
+
+    suspend fun signIn(@Path("studentId") studentId: String): BaseResponse<StudentResponse>
+
+    suspend fun fetchLeaderboard(): BaseResponse<List<StudentResponse>>
 }
