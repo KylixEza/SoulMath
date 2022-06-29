@@ -42,4 +42,9 @@ abstract class BaseFragment<VB: ViewBinding, VM: ViewModel?>: Fragment() {
         super.onDestroyView()
     }
 
+    abstract fun resourceLoading()
+    abstract fun resourceSuccess()
+    abstract fun resourceError()
+    abstract fun resourceEmpty()
+
 }

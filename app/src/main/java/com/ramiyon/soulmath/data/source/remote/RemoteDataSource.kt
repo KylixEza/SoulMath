@@ -2,7 +2,6 @@ package com.ramiyon.soulmath.data.source.remote
 
 import com.ramiyon.soulmath.base.BaseRemoteResponse
 import com.ramiyon.soulmath.data.source.remote.api.ApiService
-import com.ramiyon.soulmath.data.source.remote.api.response.BaseResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.data.util.FirebaseResponse

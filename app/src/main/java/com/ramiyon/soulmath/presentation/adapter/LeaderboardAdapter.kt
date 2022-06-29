@@ -22,12 +22,7 @@ class LeaderboardAdapter(
     override val binder: (Student, ItemListLeaderboardBinding) -> Unit = { data, view ->
         view.apply {
             val rank = position?.plus(1)
-            when (rank) {
-                1 -> view.buildLeaderboardItem(data, R.drawable.ic_rank_first)
-                2 -> view.buildLeaderboardItem(data, R.drawable.ic_rank_second)
-                3 -> view.buildLeaderboardItem(data, R.drawable.ic_rank_third)
-                else -> view.buildLeaderboardItem(data, null, rank!!)
-            }
+            view.buildLeaderboardItem(data, rank)
         }
     }
 
@@ -35,15 +30,10 @@ class LeaderboardAdapter(
         LeaderboardDiffUtil(old, new)
     }
 
-    private fun ItemListLeaderboardBinding.buildLeaderboardItem(data: Student, resId: Int?, rank: Int = 0) {
+    private fun ItemListLeaderboardBinding.buildLeaderboardItem(data: Student, rank: Int?) {
         this.apply {
-            if(resId != null) {
-                tvRank.visibility = View.INVISIBLE
-                ivRank.setImageResource(resId)
-            } else {
-                tvRank.text = rank.toString()
-                ivRank.visibility = View.INVISIBLE
-            }
+            tvRank.text = rank.toString()
+            ivRank.visibility = View.INVISIBLE
             Glide.with(context)
                 .load(data.avatar)
                 .placeholder(R.drawable.ilu_default_profile_picture)
