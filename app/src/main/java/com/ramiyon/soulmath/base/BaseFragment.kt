@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-abstract class BaseFragment<VB: ViewBinding, VM: ViewModel>: Fragment() {
+abstract class BaseFragment<VB: ViewBinding, VM: ViewModel?>: Fragment() {
 
-    val viewModel by viewModel<ViewModel>()
+    abstract val viewModel: VM
     private var _binding: VB? = null
     private val binding get() = _binding
 
