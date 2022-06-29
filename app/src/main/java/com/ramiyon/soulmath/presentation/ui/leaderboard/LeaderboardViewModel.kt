@@ -8,5 +8,6 @@ class LeaderboardViewModel(
 ) : ViewModel() {
 
     fun fetchLeaderboard() = useCase.fetchLeaderboard()
+    fun fetchStudentRank() = useCase.fetchStudentRank()
 
 }

@@ -1,6 +1,8 @@
 package com.ramiyon.soulmath.data.source.remote
 
+import com.ramiyon.soulmath.base.BaseRemoteResponse
 import com.ramiyon.soulmath.data.source.remote.api.ApiService
+import com.ramiyon.soulmath.data.source.remote.api.response.BaseResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.data.util.FirebaseResponse
@@ -51,22 +53,14 @@ class RemoteDataSource(
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun fetchLeaderboard() = flow {
-        try {
-            val response = apiService.fetchLeaderboard()
-            val leaderboard = response.data
-            if (response.status == "200") {
-                if (response.count == 0) {
-                    emit(RemoteResponse.Empty())
-                } else {
-                    emit(RemoteResponse.Success(leaderboard))
-                }
-            } else {
-                throw Exception(response.message)
-            }
-        } catch (e: Exception) {
-            emit(RemoteResponse.Error(e.message.toString()))
-        }
-    }.flowOn(Dispatchers.IO)
+    suspend fun fetchLeaderboard() =
+        object : BaseRemoteResponse<List<StudentResponse>>() {
+
+        }.createCall { apiService.fetchLeaderboard() }
+
+    suspend fun fetchStudentRank() =
+        object : BaseRemoteResponse<StudentResponse>() {
+
+        }.createCall { apiService.fetchStudentRank() }
 
 }

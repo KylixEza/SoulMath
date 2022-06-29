@@ -9,4 +9,5 @@ class LeaderboardUseCaseImpl(
     private val repository: SoulMathRepository
 ): LeaderboardUseCase {
     override fun fetchLeaderboard(): Flow<Resource<List<Student>>> = repository.fetchLeaderboard()
+    override fun fetchStudentRank(): Flow<Resource<Student>> = repository.fetchStudentRank()
 }

@@ -76,4 +76,13 @@ class SoulMathRepositoryImpl(
 
         }.asFlow()
 
+    override fun fetchStudentRank(): Flow<Resource<Student>> =
+        object : NetworkOnlyResource<Student, StudentResponse?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<StudentResponse?>> =
+                remoteDataSource.fetchStudentRank()
+
+            override fun mapTransform(data: StudentResponse?): Flow<Student> = flow { data?.toStudent() }
+
+        }.asFlow()
+
 }

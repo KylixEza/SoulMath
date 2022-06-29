@@ -13,4 +13,6 @@ interface ApiService {
     suspend fun signIn(@Path("studentId") studentId: String): BaseResponse<StudentResponse>
 
     suspend fun fetchLeaderboard(): BaseResponse<List<StudentResponse>>
+
+    suspend fun fetchStudentRank(): BaseResponse<StudentResponse>
 }
