@@ -14,16 +14,16 @@ import com.ramiyon.soulmath.domain.model.Student
 fun Context.buildLeaderboardDialog(
     layoutInflater: LayoutInflater,
     rank: Int,
-    data: Student
+    data: Student?
 ) {
     val materialBuilder = MaterialAlertDialogBuilder(this).create()
     val binding = DialogRankBinding.inflate(layoutInflater)
 
     binding.apply {
         Glide.with(this@buildLeaderboardDialog)
-            .load(data.avatar)
+            .load(data?.avatar)
             .into(binding.ivProfile)
-        tvXp.text = getString(R.string.xp_earned, data.xp)
+        tvXp.text = getString(R.string.xp_earned, data?.xp)
         tvDescRank.text = getString(R.string.leaderboard_dialog_description, rank)
         btnOk.setOnClickListener { materialBuilder.dismiss() }
         ivClose.setOnClickListener { materialBuilder.dismiss() }

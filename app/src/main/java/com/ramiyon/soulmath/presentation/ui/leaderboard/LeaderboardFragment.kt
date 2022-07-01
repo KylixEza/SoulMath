@@ -14,6 +14,7 @@ import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentLeaderboardBinding
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.presentation.adapter.LeaderboardAdapter
+import com.ramiyon.soulmath.presentation.common.buildLeaderboardDialog
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import org.koin.android.ext.android.inject
@@ -59,6 +60,7 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
                 viewModel.fetchStudentRank().observe(viewLifecycleOwner) {
                     when(it) {
                         is Resource.Success -> {
+                            requireContext().buildLeaderboardDialog(layoutInflater, -1, it.data)
                             progressBarTopThree.visibility = View.INVISIBLE
 
                             val topThree = data?.take(3)
