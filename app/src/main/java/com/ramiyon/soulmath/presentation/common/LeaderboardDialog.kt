@@ -23,7 +23,7 @@ fun Context.buildLeaderboardDialog(
         Glide.with(this@buildLeaderboardDialog)
             .load(data.avatar)
             .into(binding.ivProfile)
-        tvXp.text = "${data.xp} XP"
+        tvXp.text = getString(R.string.xp_earned, data.xp)
         tvDescRank.text = getString(R.string.leaderboard_dialog_description, rank)
         btnOk.setOnClickListener { materialBuilder.dismiss() }
         ivClose.setOnClickListener { materialBuilder.dismiss() }

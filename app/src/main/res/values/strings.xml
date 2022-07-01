@@ -37,5 +37,5 @@
     <string name="information">Informasi</string>
     <string name="ok">OK</string>
     <string name="leaderboard_dialog_description">Kamu berada pada peringkat ke %d nih. \n Yuk, terus tingkatkan belajarmu agar \n dapat tambahan poin XP.</string>
-
+    <string name="xp_earned">%d XP</string>
 </resources>

@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
     private var _binding: VB? = null
-    private val binding get() = _binding
+    val binding get() = _binding
 
     abstract fun inflateViewBinding(container: ViewGroup?): VB
     abstract fun VB.binder(): () -> Unit
@@ -40,10 +40,5 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
         _binding = null
         super.onDestroyView()
     }
-
-    abstract fun resourceLoading()
-    abstract fun resourceSuccess()
-    abstract fun resourceError()
-    abstract fun resourceEmpty()
 
 }
