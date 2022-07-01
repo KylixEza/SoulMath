@@ -30,6 +30,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
+        android:id="@+id/holder_top_three"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -40,6 +41,24 @@
             android:id="@+id/include_leaderboard_top_three"
             layout="@layout/include_leaderboard_top_three"/>
     </LinearLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/progress_bar_top_three"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_header_leaderboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shimmer_auto_start="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include
+                android:id="@+id/include_leaderboard_top_three"
+                layout="@layout/include_leaderboard_top_three"/>
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <io.github.florent37.shapeofview.shapes.RoundRectView
         android:id="@+id/cv_leaderboard_holder"
@@ -63,5 +82,27 @@
         app:layout_constraintBottom_toBottomOf="@id/cv_leaderboard_holder"
         tools:listitem="@layout/item_list_leaderboard"/>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/progress_bar_leaderboard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="84dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cv_leaderboard_holder"
+        app:layout_constraintBottom_toBottomOf="@id/cv_leaderboard_holder"
+        app:shimmer_auto_start="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/item_list_leaderboard"/>
+            <include layout="@layout/item_list_leaderboard"/>
+            <include layout="@layout/item_list_leaderboard"/>
+            <include layout="@layout/item_list_leaderboard"/>
+            <include layout="@layout/item_list_leaderboard"/>
+            <include layout="@layout/item_list_leaderboard"/>
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
