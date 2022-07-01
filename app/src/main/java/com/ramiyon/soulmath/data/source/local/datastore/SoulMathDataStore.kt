@@ -27,11 +27,19 @@ class SoulMathDataStore(private val context: Context) {
         saveValue(isFirstTime, DataStoreUtil.HAVE_RUN_APP_BEFORE)
     }
 
+    suspend fun savePrefStudentId(studentId: String) {
+        saveValue(studentId, DataStoreUtil.STUDENT_ID)
+    }
+
     fun readPrefRememberMe(): Flow<Boolean> = context.userPreferenceDataStore.data.map {
         it[DataStoreUtil.REMEMBER_ME] ?: false
     }
 
     fun readPrefHaveRunAppBefore(): Flow<Boolean> = context.userPreferenceDataStore.data.map {
         it[DataStoreUtil.HAVE_RUN_APP_BEFORE] ?: false
+    }
+
+    fun readPrefStudentId(): Flow<String?> = context.userPreferenceDataStore.data.map {
+        it[DataStoreUtil.STUDENT_ID]
     }
 }

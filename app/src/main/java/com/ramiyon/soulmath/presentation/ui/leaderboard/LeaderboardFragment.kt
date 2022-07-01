@@ -12,7 +12,7 @@ import com.gdsc.gdsctoast.util.ToastType
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentLeaderboardBinding
-import com.ramiyon.soulmath.domain.model.Student
+import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.presentation.adapter.LeaderboardAdapter
 import com.ramiyon.soulmath.presentation.common.buildLeaderboardDialog
 import com.ramiyon.soulmath.util.Resource
@@ -45,7 +45,7 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
         }
     }
 
-    private val leaderboardResourceCallback = object : ResourceStateCallback<List<Student>?> {
+    private val leaderboardResourceCallback = object : ResourceStateCallback<List<Leaderboard>?> {
         override fun onResourceLoading() {
             binding?.apply {
                 holderTopThree.visibility = View.INVISIBLE
@@ -55,12 +55,12 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
             }
         }
 
-        override fun onResourceSuccess(data: List<Student>?) {
+        override fun onResourceSuccess(data: List<Leaderboard>?) {
             binding?.apply {
                 viewModel.fetchStudentRank().observe(viewLifecycleOwner) {
                     when(it) {
                         is Resource.Success -> {
-                            requireContext().buildLeaderboardDialog(layoutInflater, -1, it.data)
+                            requireContext().buildLeaderboardDialog(layoutInflater, it.data)
                             progressBarTopThree.visibility = View.INVISIBLE
 
                             val topThree = data?.take(3)
@@ -106,7 +106,7 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
         }
     }
 
-    private fun Student?.topThreeBind(
+    private fun Leaderboard?.topThreeBind(
         imageAvatar: ImageView,
         textUsername: TextView,
         textXp: TextView

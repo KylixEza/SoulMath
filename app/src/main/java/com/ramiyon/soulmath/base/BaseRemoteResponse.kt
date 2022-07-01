@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flowOn
 
 abstract class BaseRemoteResponse<RequestType> {
 
-    inline fun createCall(crossinline call: suspend () -> BaseResponse<RequestType>) = flow {
+    inline fun callApi(crossinline call: suspend () -> BaseResponse<RequestType>) = flow {
         try {
             val response = call()
             val data = response.data

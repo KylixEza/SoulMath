@@ -15,5 +15,4 @@ interface SoulMathDao {
 
     @Query("SELECT * FROM student WHERE studentId = :studentId")
     fun getStudentDetail(studentId: String): Flow<StudentEntity>
-
 }

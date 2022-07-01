@@ -1,6 +1,7 @@
 package com.ramiyon.soulmath.data.source.remote.api
 
 import com.ramiyon.soulmath.data.source.remote.api.response.BaseResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import retrofit2.http.Body
@@ -12,7 +13,7 @@ interface ApiService {
 
     suspend fun signIn(@Path("studentId") studentId: String): BaseResponse<StudentResponse>
 
-    suspend fun fetchLeaderboard(): BaseResponse<List<StudentResponse>>
+    suspend fun fetchLeaderboard(): BaseResponse<List<LeaderboardResponse>>
 
-    suspend fun fetchStudentRank(): BaseResponse<StudentResponse>
+    suspend fun fetchStudentRank(@Path("studentId") studentId: String): BaseResponse<LeaderboardResponse>
 }

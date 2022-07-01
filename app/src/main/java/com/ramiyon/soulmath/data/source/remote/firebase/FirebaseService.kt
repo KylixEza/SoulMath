@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.*
 class FirebaseService {
 
     val auth = Firebase.auth
-    fun getCurrentUserId() = auth.currentUser?.uid
 
     fun createUserWithEmailAndPassword(
         email: String,

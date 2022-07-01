@@ -7,16 +7,20 @@ import com.ramiyon.soulmath.base.NetworkOnlyResource
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
-import com.ramiyon.soulmath.data.util.RemoteResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
-import com.ramiyon.soulmath.domain.model.Student
+import com.ramiyon.soulmath.data.util.RemoteResponse
+import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import com.ramiyon.soulmath.util.Resource
-import com.ramiyon.soulmath.util.toStudent
+import com.ramiyon.soulmath.util.toLeaderboard
 import com.ramiyon.soulmath.util.toStudentEntity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class SoulMathRepositoryImpl(
     private val remoteDataSource: RemoteDataSource,
@@ -66,23 +70,36 @@ class SoulMathRepositoryImpl(
 
         }.asFlow()
 
-    override fun fetchLeaderboard(): Flow<Resource<List<Student>>> =
-        object : NetworkOnlyResource<List<Student>, List<StudentResponse>?>() {
-            override suspend fun createCall(): Flow<RemoteResponse<List<StudentResponse>?>> =
+    override fun fetchLeaderboard(): Flow<Resource<List<Leaderboard>>> =
+        object : NetworkOnlyResource<List<Leaderboard>, List<LeaderboardResponse>?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<List<LeaderboardResponse>?>> =
                 remoteDataSource.fetchLeaderboard()
 
-            override fun mapTransform(data: List<StudentResponse>?): Flow<List<Student>> =
-                flow { data?.map { it.toStudent() } }
+            override fun mapTransform(data: List<LeaderboardResponse>?): Flow<List<Leaderboard>> =
+                flow { data?.map { it.toLeaderboard() } }
 
         }.asFlow()
 
-    override fun fetchStudentRank(): Flow<Resource<Student>> =
-        object : NetworkOnlyResource<Student, StudentResponse?>() {
-            override suspend fun createCall(): Flow<RemoteResponse<StudentResponse?>> =
-                remoteDataSource.fetchStudentRank()
+    override fun fetchStudentRank(): Flow<Resource<Leaderboard>> {
 
-            override fun mapTransform(data: StudentResponse?): Flow<Student> = flow { data?.toStudent() }
+        var studentId: String? = null
+        runBlocking {
+            withContext(Dispatchers.Default) {
+                localDataSource.readPrefStudentId().collect {
+                    studentId = it
+                }
+            }
+        }
+
+        return object : NetworkOnlyResource<Leaderboard, LeaderboardResponse?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<LeaderboardResponse?>> =
+                remoteDataSource.fetchStudentRank(studentId.toString())
+
+            override fun mapTransform(data: LeaderboardResponse?): Flow<Leaderboard> =
+                flow { data?.toLeaderboard() }
 
         }.asFlow()
+    }
+
 
 }
