@@ -13,7 +13,7 @@ interface SoulMathRepository {
     fun readPrefRememberMe(): Flow<Boolean>
     fun readPrefHaveRunAppBefore(): Flow<Boolean>
 
-    fun signUp(email: String, password: String, body: StudentBody): Flow<Resource<Unit>>
+    fun signUp(email: String, password: String, student: Student): Flow<Resource<Unit>>
     fun signIn(email: String, password: String): Flow<Resource<Unit>>
     fun fetchLeaderboard(): Flow<Resource<List<Leaderboard>>>
     fun fetchStudentRank(): Flow<Resource<Leaderboard>>

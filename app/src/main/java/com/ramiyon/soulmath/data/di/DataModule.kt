@@ -59,9 +59,9 @@ val firebaseModule = module {
 }
 
 val repositoryModule = module {
-    single { LocalDataSource(get()) }
+    single { LocalDataSource(get(), get()) }
     single { RemoteDataSource(get(), get()) }
     single<SoulMathRepository> {
-        SoulMathRepositoryImpl(get(), get())
+        SoulMathRepositoryImpl(androidApplication(), get(), get())
     }
 }

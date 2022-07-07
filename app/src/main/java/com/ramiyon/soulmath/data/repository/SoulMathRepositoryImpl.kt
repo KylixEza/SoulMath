@@ -1,20 +1,25 @@
 package com.ramiyon.soulmath.data.repository
 
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import android.content.Context
+import androidx.work.Worker
+import com.ramiyon.soulmath.base.DatabaseBoundResource
 import com.ramiyon.soulmath.base.NetworkBoundRequest
 import com.ramiyon.soulmath.base.NetworkOnlyResource
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
-import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
+import com.ramiyon.soulmath.data.util.LocalAnswer
 import com.ramiyon.soulmath.data.util.RemoteResponse
+import com.ramiyon.soulmath.data.worker.WorkerCommand
+import com.ramiyon.soulmath.data.worker.WorkerParams
 import com.ramiyon.soulmath.domain.model.Leaderboard
+import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.toLeaderboard
+import com.ramiyon.soulmath.util.toStudentBody
 import com.ramiyon.soulmath.util.toStudentEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,11 +28,22 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class SoulMathRepositoryImpl(
+    private val context: Context,
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ): SoulMathRepository {
 
-    private val loggedStudentId = Firebase.auth.currentUser?.uid
+    fun getCurrentStudentId(): String? {
+        var studentId: String? = null
+        runBlocking {
+            withContext(Dispatchers.Default) {
+                localDataSource.readPrefStudentId().collect {
+                    studentId = it
+                }
+            }
+        }
+        return studentId
+    }
 
     override suspend fun savePrefRememberMe(isRemember: Boolean) = localDataSource.savePrefRememberMe(isRemember)
 
@@ -37,10 +53,10 @@ class SoulMathRepositoryImpl(
 
     override fun readPrefHaveRunAppBefore(): Flow<Boolean> = localDataSource.readPrefHaveRunAppBefore()
 
-    override fun signUp(email: String, password: String, body: StudentBody)  =
+    override fun signUp(email: String, password: String, student: Student)  =
         object : NetworkBoundRequest<StudentResponse?>() {
             override suspend fun createCall(): Flow<RemoteResponse<StudentResponse?>> {
-                return remoteDataSource.signUp(email, password, body)
+                return remoteDataSource.signUp(email, password, student.toStudentBody())
             }
 
             override suspend fun saveCallResult(data: StudentResponse?) {
@@ -59,8 +75,14 @@ class SoulMathRepositoryImpl(
 
             override suspend fun saveCallResult(data: StudentResponse?) {
                 var currentUser: StudentEntity? = null
-                loggedStudentId?.let { localDataSource.getStudentDetail(it) }?.collect {
-                    currentUser = it
+                getCurrentStudentId()?.let { localDataSource.getStudentDetail(it) }?.collect {
+                    currentUser = when(it) {
+                        is LocalAnswer.Success -> it.data
+                        is LocalAnswer.Error -> {
+                            null
+                        }
+                        is LocalAnswer.Empty -> return@collect
+                    }
                 }
                 if (currentUser != null) {
                     localDataSource.updateStudent(data!!.toStudentEntity())
@@ -81,26 +103,37 @@ class SoulMathRepositoryImpl(
 
         }.asFlow()
 
-    override fun fetchStudentRank(): Flow<Resource<Leaderboard>> {
-
-        var studentId: String? = null
-        runBlocking {
-            withContext(Dispatchers.Default) {
-                localDataSource.readPrefStudentId().collect {
-                    studentId = it
-                }
-            }
-        }
-
-        return object : NetworkOnlyResource<Leaderboard, LeaderboardResponse?>() {
+    override fun fetchStudentRank(): Flow<Resource<Leaderboard>> =
+       object : NetworkOnlyResource<Leaderboard, LeaderboardResponse?>() {
             override suspend fun createCall(): Flow<RemoteResponse<LeaderboardResponse?>> =
-                remoteDataSource.fetchStudentRank(studentId.toString())
+                remoteDataSource.fetchStudentRank(getCurrentStudentId().toString())
 
             override fun mapTransform(data: LeaderboardResponse?): Flow<Leaderboard> =
                 flow { data?.toLeaderboard() }
 
         }.asFlow()
-    }
 
 
+    fun updateStudentProfile(student: Student) =
+        object : DatabaseBoundResource<String?>(context) {
+            override fun putParamsForWorkManager(): MutableMap<String, *> {
+                return mutableMapOf(
+                    WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
+                    WorkerParams.STUDENT_BODY.param to student.toStudentBody()
+                )
+            }
+
+            override fun callWorkerCommand(): WorkerCommand {
+                return WorkerCommand.WORKER_COMMAND_UPDATE_PROFILE
+            }
+
+            override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
+                return remoteDataSource.updateStudentProfile(getCurrentStudentId()!!, student.toStudentBody())
+            }
+
+            override suspend fun saveToDatabase(): LocalAnswer<Unit> {
+                return localDataSource.updateStudent(student.toStudentEntity())
+            }
+
+        }
 }

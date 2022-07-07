@@ -1,6 +1,6 @@
 package com.ramiyon.soulmath.base
 
-import com.ramiyon.soulmath.data.util.LocalResult
+import com.ramiyon.soulmath.data.util.LocalAnswer
 import kotlinx.coroutines.flow.flow
 
 abstract class BaseDatabaseAnswer<RequestType> {
@@ -10,27 +10,27 @@ abstract class BaseDatabaseAnswer<RequestType> {
             val value = callDatabase()
             if(value is List<*>) {
                 if(value.isEmpty())
-                    emit(LocalResult.Empty())
+                    emit(LocalAnswer.Empty())
             }
-            emit(LocalResult.Success(value))
+            emit(LocalAnswer.Success(value))
 
         } catch (e: Exception) {
-            emit(LocalResult.Error(e.toString()))
+            emit(LocalAnswer.Error(e.toString()))
         }
     }
 
-    private suspend fun singleValue(): LocalResult<RequestType> {
+    private suspend fun singleValue(): LocalAnswer<RequestType> {
         try {
             val value = callDatabase()
             if(value is List<*>) {
                 if(value.isEmpty()) {
-                    return LocalResult.Empty()
+                    return LocalAnswer.Empty()
                 }
-                return LocalResult.Success(value)
+                return LocalAnswer.Success(value)
             }
-            return LocalResult.Success(value)
+            return LocalAnswer.Success(value)
         } catch (e: Exception) {
-            return LocalResult.Error(e.toString())
+            return LocalAnswer.Error(e.toString())
         }
     }
 

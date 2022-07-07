@@ -11,6 +11,10 @@ fun Student.toStudentBody() = StudentBody(
     studentId, address, avatar, username, email, phoneNumber, xp
 )
 
+fun Student.toStudentEntity() = StudentEntity(
+    studentId, address, avatar, username, email, phoneNumber, xp
+)
+
 fun StudentResponse.toStudentEntity() = StudentEntity(
     studentId, address, avatar, username, email, phoneNumber, xp
 )

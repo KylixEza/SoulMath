@@ -3,7 +3,7 @@ package com.ramiyon.soulmath.util
 import kotlin.concurrent.thread
 
 
-fun isInternetConnection(): Boolean {
+fun isNetworkConnected(): Boolean {
     var returnVal = false
     thread {
         returnVal = try {

@@ -67,4 +67,18 @@ class RemoteDataSource(
                 return apiService.fetchStudentRank(studentId)
             }
         }.asFlow()
+
+    suspend fun updateStudentProfile(studentId: String, body: StudentBody) =
+        object : BaseRemoteResponse<String>() {
+            override suspend fun call(): BaseResponse<String> {
+                return apiService.updateStudentProfile(studentId, body)
+            }
+        }.asFlow()
+
+    suspend fun updateStudentXp(studentId: String, body: StudentBody) =
+        object : BaseRemoteResponse<String>() {
+            override suspend fun call(): BaseResponse<String> {
+                return apiService.updateStudentXp(studentId, body)
+            }
+        }.asFlow()
 }

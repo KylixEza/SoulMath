@@ -10,10 +10,10 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.databinding.DialogLottieBinding
 import com.ramiyon.soulmath.presentation.common.buildAestheticDialog
 import com.ramiyon.soulmath.presentation.common.buildLottieDialog
 import com.ramiyon.soulmath.databinding.FragmentRegisterBinding
-import com.ramiyon.soulmath.databinding.LottieDialogBinding
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.presentation.ui.MainActivity
 import com.ramiyon.soulmath.util.Constanta
@@ -26,13 +26,13 @@ class RegisterFragment : Fragment() {
 
     private val viewModel by viewModel<RegisterViewModel>()
     private val binding by viewBinding<FragmentRegisterBinding>()
-    private lateinit var lottieBinding: LottieDialogBinding
+    private lateinit var lottieBinding: DialogLottieBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        lottieBinding = LottieDialogBinding.inflate(inflater, container, false)
+        lottieBinding = DialogLottieBinding.inflate(inflater, container, false)
         return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
@@ -49,13 +49,13 @@ class RegisterFragment : Fragment() {
                     val phoneNumber = edtPhoneNumber.editText?.text.toString()
 
                     val user = Student(
-                        address = address, email = email, name = username, phoneNumber = phoneNumber
+                        address = address, email = email, username = username, phoneNumber = phoneNumber
                     )
 
                     viewModel.signUp(
                         email,
                         password,
-                        user.toStudentBody()
+                        user
                     ).observe(viewLifecycleOwner) { resource ->
                         val lottieDialog = buildLottieDialog(lottieBinding, "loading_blue_paper_airplane.json")
                         when (resource) {
