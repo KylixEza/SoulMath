@@ -7,14 +7,17 @@ import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class InternetServiceWorker(
+abstract class InternetServiceWorker(
     ctx: Context,
     params: WorkerParameters
 ): Worker(ctx, params), KoinComponent {
 
     private val repository by inject<SoulMathRepository>()
 
+    abstract fun saveToDatabase(): () -> Unit
+
     override fun doWork(): Result {
+        saveToDatabase()
         return Result.success()
     }
 }

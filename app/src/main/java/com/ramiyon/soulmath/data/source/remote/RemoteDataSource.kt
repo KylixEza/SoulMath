@@ -2,6 +2,7 @@ package com.ramiyon.soulmath.data.source.remote
 
 import com.ramiyon.soulmath.base.BaseRemoteResponse
 import com.ramiyon.soulmath.data.source.remote.api.ApiService
+import com.ramiyon.soulmath.data.source.remote.api.response.BaseResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
@@ -55,13 +56,15 @@ class RemoteDataSource(
 
     suspend fun fetchLeaderboard() =
         object : BaseRemoteResponse<List<LeaderboardResponse>>() {
+            override suspend fun call(): BaseResponse<List<LeaderboardResponse>> {
+                return apiService.fetchLeaderboard()
+            }
+        }.asFlow()
 
-        }.callApi { apiService.fetchLeaderboard() }
-
-    suspend fun fetchStudentRank(studentId: String): Flow<RemoteResponse<LeaderboardResponse?>> {
-        return object : BaseRemoteResponse<LeaderboardResponse>() {
-
-        }.callApi { apiService.fetchStudentRank(studentId) }
-    }
-
+    suspend fun fetchStudentRank(studentId: String) =
+        object : BaseRemoteResponse<LeaderboardResponse>() {
+            override suspend fun call(): BaseResponse<LeaderboardResponse> {
+                return apiService.fetchStudentRank(studentId)
+            }
+        }.asFlow()
 }
