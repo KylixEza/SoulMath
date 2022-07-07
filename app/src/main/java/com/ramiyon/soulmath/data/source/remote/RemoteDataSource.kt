@@ -24,7 +24,7 @@ class RemoteDataSource(
                 is FirebaseResponse.Success -> {
                     body.studentId = response.data
                     try {
-                        val student = apiService.singUp(body).data
+                        val student = apiService.register(body).data
                         emit(RemoteResponse.Success(student))
                     } catch (e: Exception) {
                         emit(RemoteResponse.Error(e.message.toString()))
@@ -41,7 +41,7 @@ class RemoteDataSource(
             when(response) {
                 is FirebaseResponse.Success -> {
                     try {
-                        val student = apiService.signIn(response.data).data
+                        val student = apiService.login(response.data).data
                         emit(RemoteResponse.Success(student))
                     } catch (e: Exception) {
                         emit(RemoteResponse.Error(e.message.toString()))

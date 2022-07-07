@@ -103,6 +103,12 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.3"
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3"
 
+    //KHTTP
+    implementation 'io.karn:khttp-android:0.1.0'
+
+    //Worker
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+
     //Exo Player
     implementation 'com.google.android.exoplayer:exoplayer:2.18.0'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.18.0'

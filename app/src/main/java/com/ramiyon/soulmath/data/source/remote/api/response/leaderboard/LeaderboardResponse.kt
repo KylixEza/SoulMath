@@ -14,5 +14,4 @@ data class LeaderboardResponse(
 
     @field:SerializedName("rank")
     val rank: Int
-
 )

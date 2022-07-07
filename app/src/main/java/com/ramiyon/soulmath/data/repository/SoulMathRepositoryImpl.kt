@@ -46,6 +46,7 @@ class SoulMathRepositoryImpl(
             override suspend fun saveCallResult(data: StudentResponse?) {
                 if (data != null) {
                     localDataSource.insertStudent(data.toStudentEntity())
+                    localDataSource.saveStudentId(data.studentId)
                 }
             }
         }.asFlow()
