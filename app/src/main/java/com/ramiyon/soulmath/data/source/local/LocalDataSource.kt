@@ -1,8 +1,10 @@
 package com.ramiyon.soulmath.data.source.local
 
+import com.ramiyon.soulmath.base.BaseDatabaseAnswer
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.local.database.room.SoulMathDao
 import com.ramiyon.soulmath.data.source.local.datastore.SoulMathDataStore
+import kotlinx.coroutines.flow.first
 
 class LocalDataSource(
     private val dao: SoulMathDao,
@@ -17,8 +19,24 @@ class LocalDataSource(
     fun readPrefHaveRunAppBefore() = dataStore.readPrefHaveRunAppBefore()
     fun readPrefStudentId() = dataStore.readPrefStudentId()
 
-    suspend fun insertStudent(studentEntity: StudentEntity) = dao.insertStudent(studentEntity)
-    suspend fun updateStudent(studentEntity: StudentEntity) = dao.updateStudent(studentEntity)
-    fun getStudentDetail(studentId: String) = dao.getStudentDetail(studentId)
+    suspend fun insertStudent(studentEntity: StudentEntity) =
+        object : BaseDatabaseAnswer<Unit>() {
+            override suspend fun callDatabase() {
+                dao.insertStudent(studentEntity)
+            }
+        }.doSingleEvent()
 
+    suspend fun updateStudent(studentEntity: StudentEntity) =
+        object : BaseDatabaseAnswer<Unit>() {
+            override suspend fun callDatabase() {
+                dao.updateStudent(studentEntity)
+            }
+        }.doSingleEvent()
+
+    fun getStudentDetail(studentId: String) =
+        object : BaseDatabaseAnswer<StudentEntity>() {
+            override suspend fun callDatabase(): StudentEntity {
+                return dao.getStudentDetail(studentId).first()
+            }
+        }.doObservable()
 }

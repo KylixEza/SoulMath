@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flowOn
 
 abstract class BaseRemoteResponse<RequestType> {
 
-    private fun initialize() = flow {
+    private val value = flow {
         try {
             val response = call()
             val data = response.data
@@ -30,5 +30,5 @@ abstract class BaseRemoteResponse<RequestType> {
     }.flowOn(Dispatchers.IO)
 
     abstract suspend fun call(): BaseResponse<RequestType>
-    fun asFlow() = initialize()
+    fun asFlow() = value
 }
