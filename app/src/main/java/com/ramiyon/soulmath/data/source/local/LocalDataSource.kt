@@ -33,6 +33,13 @@ class LocalDataSource(
             }
         }.doSingleEvent()
 
+    suspend fun updateStudentXp(studentEntity: StudentEntity) =
+        object : BaseDatabaseAnswer<Unit>() {
+            override suspend fun callDatabase() {
+                dao.updateStudentXp(studentEntity.studentId, studentEntity.xp)
+            }
+        }.doSingleEvent()
+
     fun getStudentDetail(studentId: String) =
         object : BaseDatabaseAnswer<StudentEntity>() {
             override suspend fun callDatabase(): StudentEntity {

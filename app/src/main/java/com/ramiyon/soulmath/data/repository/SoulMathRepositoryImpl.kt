@@ -154,7 +154,7 @@ class SoulMathRepositoryImpl(
             }
 
             override suspend fun saveToDatabase(): LocalAnswer<Unit> {
-                return localDataSource.updateStudent(student.toStudentEntity())
+                return localDataSource.updateStudentXp(student.toStudentEntity())
             }
 
         }.doWork()
