@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.viewbinding.library.fragment.viewBinding
 import androidx.navigation.findNavController
 import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.databinding.DialogLottieBinding
 import com.ramiyon.soulmath.databinding.FragmentLoginBinding
-import com.ramiyon.soulmath.databinding.LottieDialogBinding
 import com.ramiyon.soulmath.presentation.common.buildAestheticDialog
 import com.ramiyon.soulmath.presentation.common.buildLottieDialog
 import com.ramiyon.soulmath.presentation.ui.MainActivity
@@ -26,13 +26,13 @@ class LoginFragment : Fragment() {
     private val viewModel by viewModel<LoginViewModel>()
     private val binding by viewBinding<FragmentLoginBinding>()
     private var isRememberMe by Delegates.notNull<Boolean>()
-    private lateinit var lottieBinding: LottieDialogBinding
+    private lateinit var lottieBinding: DialogLottieBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        lottieBinding = LottieDialogBinding.inflate(inflater, container, false)
+        lottieBinding = DialogLottieBinding.inflate(inflater, container, false)
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 

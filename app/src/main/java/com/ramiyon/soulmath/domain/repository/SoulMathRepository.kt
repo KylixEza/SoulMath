@@ -1,6 +1,5 @@
 package com.ramiyon.soulmath.domain.repository
 
-import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.util.Resource
