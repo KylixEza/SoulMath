@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
-abstract class DatabaseBoundResource<FromApi>(
+abstract class DatabaseBoundWorker<FromApi>(
     context: Context
 ) {
 

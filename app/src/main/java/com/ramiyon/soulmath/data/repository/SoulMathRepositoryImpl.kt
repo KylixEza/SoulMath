@@ -1,8 +1,7 @@
 package com.ramiyon.soulmath.data.repository
 
 import android.content.Context
-import androidx.work.Worker
-import com.ramiyon.soulmath.base.DatabaseBoundResource
+import com.ramiyon.soulmath.base.DatabaseBoundWorker
 import com.ramiyon.soulmath.base.NetworkBoundRequest
 import com.ramiyon.soulmath.base.NetworkOnlyResource
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
@@ -115,7 +114,7 @@ class SoulMathRepositoryImpl(
 
 
     fun updateStudentProfile(student: Student) =
-        object : DatabaseBoundResource<String?>(context) {
+        object : DatabaseBoundWorker<String?>(context) {
             override fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
                     WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
@@ -135,5 +134,28 @@ class SoulMathRepositoryImpl(
                 return localDataSource.updateStudent(student.toStudentEntity())
             }
 
-        }
+        }.doWork()
+
+    fun updateStudentXp(student: Student) =
+        object : DatabaseBoundWorker<String?>(context) {
+            override fun putParamsForWorkManager(): MutableMap<String, *> {
+                return mutableMapOf(
+                    WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
+                    WorkerParams.STUDENT_BODY.param to student.toStudentBody()
+                )
+            }
+
+            override fun callWorkerCommand(): WorkerCommand {
+                return WorkerCommand.WORKER_COMMAND_UPDATE_XP
+            }
+
+            override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
+                return remoteDataSource.updateStudentXp(getCurrentStudentId()!!, student.toStudentBody())
+            }
+
+            override suspend fun saveToDatabase(): LocalAnswer<Unit> {
+                return localDataSource.updateStudent(student.toStudentEntity())
+            }
+
+        }.doWork()
 }
