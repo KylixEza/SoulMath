@@ -1,11 +1,13 @@
 package com.ramiyon.soulmath.presentation.ui.onboard.screens.first
 
 import androidx.lifecycle.ViewModel
-import com.ramiyon.soulmath.data.source.dummy.getOnBoardContentByPage
+import com.ramiyon.soulmath.domain.usecase.onboard.OnBoardUseCase
 
-class FirstScreenViewModel: ViewModel() {
+class FirstScreenViewModel(
+    private val useCase: OnBoardUseCase
+): ViewModel() {
 
-    val title = getOnBoardContentByPage(0).first
-    val subtitle = getOnBoardContentByPage(0).second
+    val title = useCase.getOnBoardTitle(0)
+    val subtitle = useCase.getOnBoardSubtitle(0)
 
 }

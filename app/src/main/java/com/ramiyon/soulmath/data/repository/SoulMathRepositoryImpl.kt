@@ -4,6 +4,7 @@ import android.content.Context
 import com.ramiyon.soulmath.base.DatabaseBoundWorker
 import com.ramiyon.soulmath.base.NetworkBoundRequest
 import com.ramiyon.soulmath.base.NetworkOnlyResource
+import com.ramiyon.soulmath.data.source.dummy.getOnBoardContentByPage
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
@@ -43,6 +44,10 @@ class SoulMathRepositoryImpl(
         }
         return studentId
     }
+
+    override fun getOnBoardTitle(page: Int): String = getOnBoardContentByPage(page).first
+
+    override fun getOnBoardSubtitle(page: Int): String = getOnBoardContentByPage(page).second
 
     override suspend fun savePrefRememberMe(isRemember: Boolean) = localDataSource.savePrefRememberMe(isRemember)
 

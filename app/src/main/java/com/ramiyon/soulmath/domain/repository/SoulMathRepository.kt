@@ -6,6 +6,10 @@ import com.ramiyon.soulmath.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface SoulMathRepository {
+
+    fun getOnBoardTitle(page: Int): String
+    fun getOnBoardSubtitle(page: Int): String
+
     suspend fun savePrefRememberMe(isRemember: Boolean)
     suspend fun savePrefHaveRunAppBefore(isFirstTime: Boolean)
 

@@ -1,9 +1,17 @@
 package com.ramiyon.soulmath.presentation.ui.onboard.screens.third
 
 import androidx.lifecycle.ViewModel
-import com.ramiyon.soulmath.data.source.dummy.getOnBoardContentByPage
+import androidx.lifecycle.viewModelScope
+import com.ramiyon.soulmath.domain.usecase.onboard.OnBoardUseCase
+import kotlinx.coroutines.launch
 
-class ThirdScreenViewModel: ViewModel() {
-    val title = getOnBoardContentByPage(2).first
-    val subtitle = getOnBoardContentByPage(2).second
+class ThirdScreenViewModel(
+    private val useCase: OnBoardUseCase
+): ViewModel() {
+    val title = useCase.getOnBoardTitle(2)
+    val subtitle = useCase.getOnBoardSubtitle(2)
+
+    fun savePrefHaveRunAppBefore(isFirstTime: Boolean) = viewModelScope.launch {
+        useCase.savePrefHaveRunAppBefore(isFirstTime)
+    }
 }

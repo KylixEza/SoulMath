@@ -13,9 +13,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { FirstScreenViewModel() }
-    viewModel { SecondScreenViewModel() }
-    viewModel { ThirdScreenViewModel() }
+    viewModel { FirstScreenViewModel(get()) }
+    viewModel { SecondScreenViewModel(get()) }
+    viewModel { ThirdScreenViewModel(get()) }
     viewModel { SplashViewModel(get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
