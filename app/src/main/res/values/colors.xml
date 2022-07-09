@@ -17,4 +17,5 @@
 
     <color name="text_remember_me">#FF474748</color>
     <color name="text_or_decision_login_method">#FF8A887B</color>
+    <color name="indicator_default">#FF807A7A</color>
 </resources>

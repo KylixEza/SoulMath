@@ -5,13 +5,18 @@
       <map>
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/bottom_navigation_style.xml" value="0.1785" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/dialog_box.xml" value="0.1" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/email_indicator_selector.xml" value="0.1905" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_arrow_next_blue.xml" value="0.187" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_circle_next.xml" value="0.213" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_default_ava.xml" value="0.1785" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_email_indicator.xml" value="0.1905" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_email_indicator_focused.xml" value="0.1905" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_game.xml" value="0.187" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_main_logo2.xml" value="0.214" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_notification.xml" value="0.214" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_notification_background.xml" value="0.214" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_password_indicator.xml" value="0.1905" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_password_indicator_focused.xml" value="0.1905" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_progress_report.xml" value="0.187" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_rank_first.xml" value="0.187" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_rank_third.xml" value="0.1785" />

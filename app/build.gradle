@@ -54,10 +54,10 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     //Lifecycle + KTX
-    implementation "androidx.fragment:fragment-ktx:1.4.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
+    implementation "androidx.fragment:fragment-ktx:1.5.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0"
 
     //ViewBinding Delegate
     implementation 'com.github.yogacp:android-viewbinding:1.0.3'
@@ -79,6 +79,10 @@ dependencies {
     //Coroutine Flow
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
+
+    //RxJava
+    implementation "io.reactivex.rxjava2:rxjava:2.2.19"
+    implementation "com.jakewharton.rxbinding2:rxbinding:2.0.0"
 
     //Dependency Injection
     implementation "io.insert-koin:koin-core:3.1.6"

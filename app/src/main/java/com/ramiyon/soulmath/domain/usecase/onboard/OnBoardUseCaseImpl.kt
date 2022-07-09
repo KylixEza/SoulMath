@@ -9,7 +9,5 @@ class OnBoardUseCaseImpl(
 
     override fun getOnBoardSubtitle(page: Int) = repository.getOnBoardSubtitle(page)
 
-    override fun savePrefHaveRunAppBefore(isFirstTime: Boolean) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun savePrefHaveRunAppBefore(isFirstTime: Boolean) = repository.savePrefHaveRunAppBefore(isFirstTime)
 }
