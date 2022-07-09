@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
@@ -15,15 +13,17 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
     val binding get() = _binding
 
     abstract fun inflateViewBinding(container: ViewGroup?): VB
-    abstract fun VB.binder(): () -> Unit
+    abstract fun VB.binder()
 
-    fun onCreateViewBehaviour(): () -> Unit = {}
+    open fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) { }
+    open fun onViewCreatedBehaviour() { }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        onCreateViewBehaviour(inflater, container)
         _binding = inflateViewBinding(container)
         return binding?.root
     }

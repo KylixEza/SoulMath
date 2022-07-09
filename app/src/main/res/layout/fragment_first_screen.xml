@@ -4,19 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.ui.onboard.screens.FirstScreenFragment">
+    tools:context=".presentation.ui.onboard.screens.first.FirstScreenFragment">
 
 
-    <ImageView
-        android:id="@+id/iv_onboard1"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lav_onboard1"
         android:layout_width="290dp"
         android:layout_height="290dp"
         android:layout_marginTop="60dp"
-        android:src="@drawable/ic_onboard_screen1"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_fileName="onboard_first_screen.json"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-    </ImageView>
+    </com.airbnb.lottie.LottieAnimationView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_desc_holder"
@@ -25,9 +27,9 @@
         android:layout_marginTop="36dp"
         app:cardCornerRadius="28dp"
         android:backgroundTint="@color/light_sea_blue"
-        app:layout_constraintStart_toStartOf="@id/iv_onboard1"
-        app:layout_constraintTop_toBottomOf="@id/iv_onboard1"
-        app:layout_constraintEnd_toEndOf="@id/iv_onboard1">
+        app:layout_constraintStart_toStartOf="@id/lav_onboard1"
+        app:layout_constraintTop_toBottomOf="@id/lav_onboard1"
+        app:layout_constraintEnd_toEndOf="@id/lav_onboard1">
         
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,6 +37,7 @@
             android:orientation="vertical"
             android:padding="28dp">
             <TextView
+                android:id="@+id/tv_first_onboard_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -44,6 +47,7 @@
                 android:text="@string/example_title_onboard_screen"/>
 
             <TextView
+                android:id="@+id/tv_first_onboard_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"

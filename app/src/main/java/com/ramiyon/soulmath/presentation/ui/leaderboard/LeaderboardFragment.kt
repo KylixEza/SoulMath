@@ -28,7 +28,7 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
     override fun inflateViewBinding(container: ViewGroup?): FragmentLeaderboardBinding =
         FragmentLeaderboardBinding.inflate(layoutInflater, container, false)
 
-    override fun FragmentLeaderboardBinding.binder(): () -> Unit = {
+    override fun FragmentLeaderboardBinding.binder() {
         this.apply {
             rvLeaderboard.apply {
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

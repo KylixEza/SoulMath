@@ -29,7 +29,7 @@ class SplashFragment : Fragment() {
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({
             observeHaveRunAppBefore(view)
-        }, 4000L)
+        }, 1500)
     }
 
     private fun observeHaveRunAppBefore(view: View) {

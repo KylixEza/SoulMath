@@ -1,46 +1,38 @@
 package com.ramiyon.soulmath.presentation.ui.onboard
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.navigation.fragment.navArgs
+import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentOnBoardingBinding
 import com.ramiyon.soulmath.presentation.adapter.OnBoardingViewPagerAdapter
 import com.ramiyon.soulmath.presentation.animation.DepthPageTransform
-import com.ramiyon.soulmath.presentation.ui.onboard.screens.FirstScreenFragment
-import com.ramiyon.soulmath.presentation.ui.onboard.screens.FourthScreenFragment
-import com.ramiyon.soulmath.presentation.ui.onboard.screens.SecondScreenFragment
-import com.ramiyon.soulmath.presentation.ui.onboard.screens.ThirdScreenFragment
+import com.ramiyon.soulmath.presentation.ui.onboard.screens.first.FirstScreenFragment
+import com.ramiyon.soulmath.presentation.ui.onboard.screens.second.SecondScreenFragment
+import com.ramiyon.soulmath.presentation.ui.onboard.screens.third.ThirdScreenFragment
 
-class OnBoardingFragment : Fragment() {
+class OnBoardingFragment : BaseFragment<FragmentOnBoardingBinding>() {
 
-    private var _binding: FragmentOnBoardingBinding? = null
-    private val binding: FragmentOnBoardingBinding? get() = _binding
     private val args by navArgs<OnBoardingFragmentArgs>()
     lateinit var argSource: String
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) {
         requireActivity().window.statusBarColor = View.GONE
-        _binding = FragmentOnBoardingBinding.inflate(inflater, container, false)
-        return binding?.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun inflateViewBinding(container: ViewGroup?): FragmentOnBoardingBinding {
+        return FragmentOnBoardingBinding.inflate(layoutInflater, container, false)
+    }
 
+    override fun FragmentOnBoardingBinding.binder() {
         argSource = args.source
 
         val listOfFragment = listOf(
             FirstScreenFragment(),
             SecondScreenFragment(),
             ThirdScreenFragment(),
-            FourthScreenFragment()
         )
 
         val adapter = OnBoardingViewPagerAdapter(
@@ -50,13 +42,11 @@ class OnBoardingFragment : Fragment() {
 
         adapter.apply {
             setAllFragments(listOfFragment)
-            binding?.viewPager?.adapter = this
-            binding?.viewPager?.setPageTransformer(DepthPageTransform())
+            viewPager.adapter = this
+            viewPager.setPageTransformer(DepthPageTransform())
         }
+        pageIndicatorView.setViewPager2(viewPager)
 
-        binding?.apply {
-            pageIndicatorView.setViewPager2(viewPager)
-        }
 
         activity?.onBackPressedDispatcher?.addCallback {
             if (argSource == "Login" || argSource == "Register") {
@@ -70,10 +60,5 @@ class OnBoardingFragment : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 }
