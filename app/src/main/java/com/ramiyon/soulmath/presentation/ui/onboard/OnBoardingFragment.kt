@@ -12,6 +12,7 @@ import com.ramiyon.soulmath.presentation.animation.DepthPageTransform
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.first.FirstScreenFragment
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.second.SecondScreenFragment
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.third.ThirdScreenFragment
+import com.ramiyon.soulmath.util.ScreenOrientation
 
 class OnBoardingFragment : BaseFragment<FragmentOnBoardingBinding>() {
 
@@ -60,5 +61,9 @@ class OnBoardingFragment : BaseFragment<FragmentOnBoardingBinding>() {
                 }
             }
         }
+    }
+
+    override fun determineScreenOrientation(): ScreenOrientation {
+        return ScreenOrientation.PORTRAIT
     }
 }

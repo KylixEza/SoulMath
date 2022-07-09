@@ -17,6 +17,7 @@ import com.ramiyon.soulmath.presentation.adapter.LeaderboardAdapter
 import com.ramiyon.soulmath.presentation.common.buildLeaderboardDialog
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
+import com.ramiyon.soulmath.util.ScreenOrientation
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -114,5 +115,9 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
         Glide.with(requireContext()).load(this?.avatar).into(imageAvatar)
         textUsername.text = this?.username
         textXp.text = getString(R.string.xp_earned, this?.xp ?: 0)
+    }
+
+    override fun determineScreenOrientation(): ScreenOrientation {
+        return ScreenOrientation.PORTRAIT
     }
 }

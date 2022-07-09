@@ -5,12 +5,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentFirstScreenBinding
-import com.ramiyon.soulmath.presentation.ui.onboard.screens.OnBoardScreenViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import com.ramiyon.soulmath.util.ScreenOrientation
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FirstScreenFragment : BaseFragment<FragmentFirstScreenBinding>() {
 
-    private val viewModel by sharedViewModel<OnBoardScreenViewModel>()
+    private val viewModel by viewModel<FirstScreenViewModel>()
 
     override fun inflateViewBinding(container: ViewGroup?): FragmentFirstScreenBinding {
         return FragmentFirstScreenBinding.inflate(layoutInflater, container, false)
@@ -21,7 +21,11 @@ class FirstScreenFragment : BaseFragment<FragmentFirstScreenBinding>() {
         btnNext.setOnClickListener {
             viewPager?.currentItem = 1
         }
-        tvFirstOnboardTitle.text = viewModel.getOnBoardContentTitleByPage(0)
-        tvFirstOnboardSubtitle.text = viewModel.getOnBoardContentSubtitleByPage(0)
+        tvFirstOnboardTitle.text = viewModel.title
+        tvFirstOnboardSubtitle.text = viewModel.subtitle
+    }
+
+    override fun determineScreenOrientation(): ScreenOrientation {
+        return ScreenOrientation.PORTRAIT
     }
 }

@@ -1,11 +1,13 @@
 package com.ramiyon.soulmath.base
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.ramiyon.soulmath.util.ScreenOrientation
 
 abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
@@ -14,6 +16,7 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
     abstract fun inflateViewBinding(container: ViewGroup?): VB
     abstract fun VB.binder()
+    abstract fun determineScreenOrientation(): ScreenOrientation
 
     open fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) { }
     open fun onViewCreatedBehaviour() { }
@@ -30,6 +33,11 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(determineScreenOrientation() == ScreenOrientation.PORTRAIT) {
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        } else {
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
 
         binding?.apply {
             binder()
