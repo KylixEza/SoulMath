@@ -13,6 +13,7 @@ import com.ramiyon.soulmath.databinding.FragmentLoginBinding
 import com.ramiyon.soulmath.presentation.common.buildAestheticDialog
 import com.ramiyon.soulmath.presentation.common.buildLottieDialog
 import com.ramiyon.soulmath.presentation.ui.MainActivity
+import com.ramiyon.soulmath.presentation.validator.ConstraintValidator
 import com.ramiyon.soulmath.presentation.validator.LoginValidator
 import com.ramiyon.soulmath.util.Constanta
 import com.ramiyon.soulmath.util.Resource
@@ -36,9 +37,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         activity?.apply {
             lottieBinding = DialogLottieBinding.inflate(layoutInflater)
             isRememberMe = false
-
-            val validator = LoginValidator(this@binder)
-            validator.requirementObserve()
 
             val lottieDialog = buildLottieDialog(lottieBinding, "loading_blue_paper_airplane.json")
             btnLogin.setOnClickListener {
@@ -96,10 +94,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                     tilEmail.startIconDrawable = defaultIcon
                 }
             }
+
+            tvRegister.setOnClickListener {
+                view?.findNavController()?.navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+            }
         }
     }
 
     override fun determineScreenOrientation(): ScreenOrientation {
         return ScreenOrientation.PORTRAIT
+    }
+
+    override fun constraintValidator(): ConstraintValidator? {
+        return binding?.let { LoginValidator(it) }
     }
 }

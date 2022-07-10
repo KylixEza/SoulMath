@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.ramiyon.soulmath.presentation.validator.ConstraintValidator
 import com.ramiyon.soulmath.util.ScreenOrientation
 
 abstract class BaseFragment<VB: ViewBinding>: Fragment() {
@@ -20,6 +21,7 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
     open fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) { }
     open fun onViewCreatedBehaviour() { }
+    open fun constraintValidator(): ConstraintValidator? { return null }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +43,7 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
         binding?.apply {
             binder()
+            constraintValidator()?.validate()
         }
     }
 

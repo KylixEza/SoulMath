@@ -8,7 +8,7 @@ import io.reactivex.Observable
 
 class LoginValidator(
     private val binding: FragmentLoginBinding
-) {
+): ConstraintValidator {
 
     init {
         initObserve()
@@ -38,8 +38,16 @@ class LoginValidator(
         }
     }
 
+    private fun showPasswordMinimalAlert(isNotValid: Boolean?) {
+        binding.edtPassword.error = if (isNotValid == true) "Password minimal 6 karakter" else null
+    }
+
+    private fun showEmailExistAlert(isNotValid: Boolean?) {
+        binding.edtEmail.error = if (isNotValid == true) "Email tidak valid" else null
+    }
+
     @SuppressLint("CheckResult")
-    fun requirementObserve() {
+    override fun validate() {
         val emailStream = RxTextView.textChanges(binding.edtEmail)
             .skipInitialValue()
             .map { email ->
@@ -68,13 +76,5 @@ class LoginValidator(
         invalidFieldStream.subscribe { isValid ->
             binding.btnLogin.isEnabled = isValid
         }
-    }
-
-    private fun showPasswordMinimalAlert(isNotValid: Boolean?) {
-        binding.edtPassword.error = if (isNotValid == true) "Password minimal 6 karakter" else null
-    }
-
-    private fun showEmailExistAlert(isNotValid: Boolean?) {
-        binding.edtEmail.error = if (isNotValid == true) "Email tidak valid" else null
     }
 }
