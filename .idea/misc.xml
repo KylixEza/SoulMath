@@ -22,17 +22,18 @@
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_rank_third.xml" value="0.1785" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_study.xml" value="0.187" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ilu_default_profile_picture.xml" value="0.1" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/recycler_view_ripple.xml" value="0.187" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/font/viga.xml" value="0.23697916666666666" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_auth.xml" value="0.25" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_splash.xml" value="0.1837962962962963" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/dialog_box.xml" value="0.1837962962962963" />
-        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/dialog_lottie.xml" value="0.1837962962962963" />
-        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/dialog_rank.xml" value="0.25" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/dialog_lottie.xml" value="0.5" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/dialog_rank.xml" value="0.4530386740331492" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/fragment_first_screen.xml" value="0.18" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/fragment_forum.xml" value="0.1837962962962963" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/fragment_home.xml" value="0.2" />
-        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/fragment_leaderboard.xml" value="0.25" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/fragment_leaderboard.xml" value="0.18" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/fragment_on_boarding.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/fragment_profile.xml" value="0.1837962962962963" />
@@ -46,7 +47,7 @@
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/include_progress_report.xml" value="0.2" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/include_xp_progress_report.xml" value="0.5" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/item_list_last_material.xml" value="0.1837962962962963" />
-        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/item_list_leaderboard.xml" value="0.67" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/item_list_leaderboard.xml" value="0.33" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/lottie_dialog.xml" value="0.1837962962962963" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1837962962962963" />
       </map>

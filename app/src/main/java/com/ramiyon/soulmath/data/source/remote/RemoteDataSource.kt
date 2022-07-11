@@ -20,35 +20,46 @@ class RemoteDataSource(
 ) {
 
     suspend fun signUp(email: String, password: String, body: StudentBody): Flow<RemoteResponse<StudentResponse?>> = flow {
-        firebaseService.createUserWithEmailAndPassword(email, password).collect { response ->
-            when(response) {
+        firebaseService.createUserWithEmailAndPassword(email, password).collect { firebaseResponse ->
+            when(firebaseResponse) {
                 is FirebaseResponse.Success -> {
-                    body.studentId = response.data
+                    body.studentId = firebaseResponse.data
                     try {
-                        val student = apiService.register(body).data
-                        emit(RemoteResponse.Success(student))
+                        val response = apiService.register(body)
+                        val data = response.data
+                        if (response.status == "200") {
+                            emit(RemoteResponse.Success(data))
+                        } else {
+                            throw Exception(response.message)
+                        }
                     } catch (e: Exception) {
                         emit(RemoteResponse.Error(e.message.toString()))
                     }
                 }
-                is FirebaseResponse.Error -> emit(RemoteResponse.Error(response.errorMessage))
+                is FirebaseResponse.Error -> emit(RemoteResponse.Error(firebaseResponse.errorMessage))
                 is FirebaseResponse.Empty -> emit(RemoteResponse.Empty())
             }
         }
     }.flowOn(Dispatchers.IO)
 
     suspend fun signIn(email: String, password: String): Flow<RemoteResponse<StudentResponse?>> = flow {
-        firebaseService.signInWithEmailAndPassword(email, password).collect { response ->
-            when(response) {
+        firebaseService.signInWithEmailAndPassword(email, password).collect { firebaseResponse ->
+            when(firebaseResponse) {
                 is FirebaseResponse.Success -> {
+                    val studentId = firebaseResponse.data
                     try {
-                        val student = apiService.login(response.data).data
-                        emit(RemoteResponse.Success(student))
+                        val response = apiService.login(studentId)
+                        val data = response.data
+                        if (response.status == "200") {
+                            emit(RemoteResponse.Success(data))
+                        } else {
+                            throw Exception(response.message)
+                        }
                     } catch (e: Exception) {
                         emit(RemoteResponse.Error(e.message.toString()))
                     }
                 }
-                is FirebaseResponse.Error -> emit(RemoteResponse.Error(response.errorMessage))
+                is FirebaseResponse.Error -> emit(RemoteResponse.Error(firebaseResponse.errorMessage))
                 is FirebaseResponse.Empty -> emit(RemoteResponse.Empty())
             }
         }

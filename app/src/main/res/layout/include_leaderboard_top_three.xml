@@ -8,8 +8,8 @@
     <!-- First Rank-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_avatar_first_rank"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -57,8 +57,8 @@
     <!-- Second Rank-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_avatar_second_rank"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginTop="36dp"
         android:layout_marginStart="42dp"
         app:civ_border_color="@color/white"
@@ -106,8 +106,8 @@
     <!-- Third Rank-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_avatar_third_rank"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="42dp"
         app:civ_border_color="@color/white"

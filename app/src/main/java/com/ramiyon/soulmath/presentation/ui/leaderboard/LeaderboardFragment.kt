@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.gdsc.gdsctoast.GDSCToast.Companion.showAnyToast
@@ -11,6 +12,7 @@ import com.gdsc.gdsctoast.util.ToastShape
 import com.gdsc.gdsctoast.util.ToastType
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseFragment
+import com.ramiyon.soulmath.databinding.DialogRankBinding
 import com.ramiyon.soulmath.databinding.FragmentLeaderboardBinding
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.presentation.adapter.LeaderboardAdapter
@@ -25,23 +27,23 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
 
     private val adapter by inject<LeaderboardAdapter>()
     private val viewModel: LeaderboardViewModel by viewModel()
+    private lateinit var dialogRankBinding: DialogRankBinding
 
     override fun inflateViewBinding(container: ViewGroup?): FragmentLeaderboardBinding =
         FragmentLeaderboardBinding.inflate(layoutInflater, container, false)
 
     override fun FragmentLeaderboardBinding.binder() {
-        this.apply {
-            rvLeaderboard.apply {
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                adapter = this@LeaderboardFragment.adapter
-            }
-            viewModel.fetchLeaderboard().observe(viewLifecycleOwner) {
-                when(it) {
-                    is Resource.Success -> leaderboardResourceCallback.onResourceSuccess(it.data)
-                    is Resource.Loading -> leaderboardResourceCallback.onResourceLoading()
-                    is Resource.Empty -> leaderboardResourceCallback.onResourceEmpty()
-                    is Resource.Error -> leaderboardResourceCallback.onResourceError(it.message)
-                }
+        dialogRankBinding = DialogRankBinding.inflate(layoutInflater)
+        rvLeaderboard.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = this@LeaderboardFragment.adapter
+        }
+        viewModel.fetchLeaderboard().observe(viewLifecycleOwner) {
+            when(it) {
+                is Resource.Success -> leaderboardResourceCallback.onResourceSuccess(it.data)
+                is Resource.Loading -> leaderboardResourceCallback.onResourceLoading()
+                is Resource.Empty -> leaderboardResourceCallback.onResourceEmpty()
+                is Resource.Error -> leaderboardResourceCallback.onResourceError(it.message)
             }
         }
     }
@@ -58,10 +60,13 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
 
         override fun onResourceSuccess(data: List<Leaderboard>?) {
             binding?.apply {
-                viewModel.fetchStudentRank().observe(viewLifecycleOwner) {
-                    when(it) {
+                viewModel.fetchStudentRank().observe(viewLifecycleOwner) { rankResource ->
+                    when(rankResource) {
                         is Resource.Success -> {
-                            requireContext().buildLeaderboardDialog(layoutInflater, it.data)
+                            val dialog = requireContext().buildLeaderboardDialog(dialogRankBinding, rankResource.data)
+                            ivLeaderboardInformation.setOnClickListener {
+                                dialog.show()
+                            }
                             progressBarTopThree.visibility = View.INVISIBLE
 
                             val topThree = data?.take(3)
@@ -69,12 +74,26 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
                             holderTopThree.apply {
                                 visibility = View.VISIBLE
                                 includeLeaderboardTopThree.apply {
-                                    val firstPlace = topThree?.get(0)
-                                    firstPlace?.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
-                                    val secondPlace = topThree?.get(1)
-                                    secondPlace?.topThreeBind(ivAvatarSecondRank, tvUsernameSecondRank, tvXpSecondRank)
-                                    val thirdPlace = topThree?.get(2)
-                                    thirdPlace?.topThreeBind(ivAvatarThirdRank, tvUsernameThirdRank, tvXpThirdRank)
+                                    when(topThree?.size) {
+                                        1 -> {
+                                            val firstPlace = topThree[0]
+                                            firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
+                                        }
+                                        2 -> {
+                                            val firstPlace = topThree[0]
+                                            firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
+                                            val secondPlace = topThree[1]
+                                            secondPlace.topThreeBind(ivAvatarSecondRank, tvUsernameSecondRank, tvXpSecondRank)
+                                        }
+                                        3 -> {
+                                            val firstPlace = topThree[0]
+                                            firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
+                                            val secondPlace = topThree[1]
+                                            secondPlace.topThreeBind(ivAvatarSecondRank, tvUsernameSecondRank, tvXpSecondRank)
+                                            val thirdPlace = topThree[2]
+                                            thirdPlace.topThreeBind(ivAvatarThirdRank, tvUsernameThirdRank, tvXpThirdRank)
+                                        }
+                                    }
                                 }
                             }
                             progressBarLeaderboard.visibility = View.INVISIBLE
@@ -83,7 +102,7 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
                         }
                         is Resource.Loading -> onResourceLoading()
                         is Resource.Empty -> return@observe
-                        is Resource.Error -> onResourceError(it.message)
+                        is Resource.Error -> onResourceError(rankResource.message)
                     }
                 }
             }
@@ -112,7 +131,7 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
         textUsername: TextView,
         textXp: TextView
     ) {
-        Glide.with(requireContext()).load(this?.avatar).into(imageAvatar)
+        Glide.with(requireContext()).load(this?.avatar).placeholder(R.drawable.ilu_default_profile_picture).into(imageAvatar)
         textUsername.text = this?.username
         textXp.text = getString(R.string.xp_earned, this?.xp ?: 0)
     }

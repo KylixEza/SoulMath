@@ -1,5 +1,6 @@
 package com.ramiyon.soulmath.base
 
+import android.util.Log
 import com.ramiyon.soulmath.data.source.remote.api.response.BaseResponse
 import com.ramiyon.soulmath.data.util.RemoteResponse
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +13,7 @@ abstract class BaseRemoteResponse<RequestType> {
         try {
             val response = call()
             val data = response.data
+            Log.d("Base Remote Response", response.data.toString())
             if (response.status == "200") {
                 if(data is List<*>) {
                     if (response.count == 0)

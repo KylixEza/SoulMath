@@ -33,7 +33,7 @@ val networkModule = module {
 
     single {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.43.15:8080")
+            .baseUrl("https://api-ramiyon-soulmath-test.herokuapp.com")
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()

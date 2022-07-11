@@ -29,6 +29,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <ImageView
+        android:id="@+id/iv_leaderboard_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_leaderboard_information"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_header_leaderboard"
+        app:layout_constraintBottom_toBottomOf="@id/tv_header_leaderboard"/>
+
     <LinearLayout
         android:id="@+id/holder_top_three"
         android:layout_width="match_parent"
@@ -59,33 +71,37 @@
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <io.github.florent37.shapeofview.shapes.RoundRectView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cv_leaderboard_holder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="-32dp"
+        android:translationZ="-2dp"
+        android:foreground="@drawable/recycler_view_ripple"
+        app:cardCornerRadius="30dp"
         app:shape_roundRect_topLeftRadius="30dp"
         app:shape_roundRect_topRightRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_leaderboard"
-        tools:layout_editor_absoluteX="0dp"/>
+        app:layout_constraintTop_toBottomOf="@id/view_leaderboard"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_leaderboard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginHorizontal="24dp"
+        android:foreground="@drawable/recycler_view_ripple"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/cv_leaderboard_holder"
         app:layout_constraintBottom_toBottomOf="@id/cv_leaderboard_holder"
-        tools:listitem="@layout/item_list_leaderboard"/>
+        tools:listitem="@layout/item_list_leaderboard"
+        tools:targetApi="m" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/progress_bar_leaderboard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginHorizontal="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/cv_leaderboard_holder"

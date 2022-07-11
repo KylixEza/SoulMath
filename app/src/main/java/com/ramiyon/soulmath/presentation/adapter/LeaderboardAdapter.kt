@@ -22,7 +22,7 @@ class LeaderboardAdapter(
 
     override val binder: (Leaderboard, ItemListLeaderboardBinding) -> Unit = { data, view ->
         view.apply {
-            val rank = position?.plus(1)
+            val rank = position?.plus(4)
             view.buildLeaderboardItem(data, rank)
         }
     }
@@ -38,6 +38,7 @@ class LeaderboardAdapter(
             Glide.with(context)
                 .load(data.avatar)
                 .placeholder(R.drawable.ilu_default_profile_picture)
+                .circleCrop()
                 .into(ivAvatar)
             tvAccountName.text = data.username
             tvXpPoints.text = String.format("${data.xp} XP")

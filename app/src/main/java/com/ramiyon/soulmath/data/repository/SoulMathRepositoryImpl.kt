@@ -1,6 +1,7 @@
 package com.ramiyon.soulmath.data.repository
 
 import android.content.Context
+import android.util.Log
 import com.ramiyon.soulmath.base.DatabaseBoundWorker
 import com.ramiyon.soulmath.base.NetworkBoundRequest
 import com.ramiyon.soulmath.base.NetworkOnlyResource
@@ -23,6 +24,7 @@ import com.ramiyon.soulmath.util.toStudentBody
 import com.ramiyon.soulmath.util.toStudentEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -33,17 +35,7 @@ class SoulMathRepositoryImpl(
     private val localDataSource: LocalDataSource
 ): SoulMathRepository {
 
-    fun getCurrentStudentId(): String? {
-        var studentId: String? = null
-        runBlocking {
-            withContext(Dispatchers.Default) {
-                localDataSource.readPrefStudentId().collect {
-                    studentId = it
-                }
-            }
-        }
-        return studentId
-    }
+    suspend fun getCurrentStudentId(): String? = localDataSource.readPrefStudentId().first()
 
     override fun getOnBoardTitle(page: Int): String = getOnBoardContentByPage(page).first
 
@@ -65,6 +57,7 @@ class SoulMathRepositoryImpl(
 
             override suspend fun saveCallResult(data: StudentResponse?) {
                 if (data != null) {
+                    Log.d("save call sign up", data.toString())
                     localDataSource.insertStudent(data.toStudentEntity())
                     localDataSource.saveStudentId(data.studentId)
                 }
@@ -78,20 +71,10 @@ class SoulMathRepositoryImpl(
             }
 
             override suspend fun saveCallResult(data: StudentResponse?) {
-                var currentUser: StudentEntity? = null
-                getCurrentStudentId()?.let { localDataSource.getStudentDetail(it) }?.collect {
-                    currentUser = when(it) {
-                        is LocalAnswer.Success -> it.data
-                        is LocalAnswer.Error -> {
-                            null
-                        }
-                        is LocalAnswer.Empty -> return@collect
-                    }
-                }
-                if (currentUser != null) {
-                    localDataSource.updateStudent(data!!.toStudentEntity())
-                } else {
-                    localDataSource.insertStudent(data!!.toStudentEntity())
+                if (data != null) {
+                    Log.d("save call sign in", data.toString())
+                    localDataSource.insertStudent(data.toStudentEntity())
+                    localDataSource.saveStudentId(data.studentId)
                 }
             }
 
@@ -102,8 +85,8 @@ class SoulMathRepositoryImpl(
             override suspend fun createCall(): Flow<RemoteResponse<List<LeaderboardResponse>?>> =
                 remoteDataSource.fetchLeaderboard()
 
-            override fun mapTransform(data: List<LeaderboardResponse>?): Flow<List<Leaderboard>> =
-                flow { data?.map { it.toLeaderboard() } }
+            override fun mapTransform(data: List<LeaderboardResponse>?): List<Leaderboard> =
+                data?.map { it.toLeaderboard() }!!
 
         }.asFlow()
 
@@ -112,8 +95,8 @@ class SoulMathRepositoryImpl(
             override suspend fun createCall(): Flow<RemoteResponse<LeaderboardResponse?>> =
                 remoteDataSource.fetchStudentRank(getCurrentStudentId().toString())
 
-            override fun mapTransform(data: LeaderboardResponse?): Flow<Leaderboard> =
-                flow { data?.toLeaderboard() }
+            override fun mapTransform(data: LeaderboardResponse?): Leaderboard =
+                data?.toLeaderboard()!!
 
         }.asFlow()
 
@@ -122,7 +105,8 @@ class SoulMathRepositoryImpl(
         object : DatabaseBoundWorker<String?>(context) {
             override fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
-                    WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
+                    //TODO: Fix the student id param
+                    WorkerParams.STUDENT_ID.param to "",
                     WorkerParams.STUDENT_BODY.param to student.toStudentBody()
                 )
             }
@@ -145,7 +129,8 @@ class SoulMathRepositoryImpl(
         object : DatabaseBoundWorker<String?>(context) {
             override fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
-                    WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
+                    //TODO: Fix student id param
+                    WorkerParams.STUDENT_ID.param to "",
                     WorkerParams.STUDENT_BODY.param to student.toStudentBody()
                 )
             }
