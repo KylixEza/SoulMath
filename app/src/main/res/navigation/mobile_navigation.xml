@@ -5,34 +5,20 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/home_destination">
 
-    <fragment
+    <keep_state_fragment
         android:id="@+id/home_destination"
         android:name="com.ramiyon.soulmath.presentation.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_home_destination_to_leaderboard_destination"
-            app:popUpTo="@id/home_destination"
-            app:popUpToSaveState="true"
-            app:destination="@id/leaderboard_destination"
-            app:enterAnim="@anim/animate_zoom_enter"
-            app:exitAnim="@anim/animate_zoom_exit"
-            app:popEnterAnim="@anim/animate_fade_enter"
-            app:popExitAnim="@anim/animate_fade_exit" />
-        <action
-            android:id="@+id/action_home_destination_to_profile_destination"
-            app:destination="@id/profile_destination" />
-    </fragment>
+        tools:layout="@layout/fragment_home"/>
 
-
-    <fragment
+    <keep_state_fragment
         android:id="@+id/leaderboard_destination"
         android:name="com.ramiyon.soulmath.presentation.ui.leaderboard.LeaderboardFragment"
         android:label="fragment_leaderboard"
         tools:layout="@layout/fragment_leaderboard" />
 
 
-    <fragment
+    <keep_state_fragment
         android:id="@+id/profile_destination"
         android:name="com.ramiyon.soulmath.presentation.ui.profile.ProfileFragment"
         android:label="fragment_profile"

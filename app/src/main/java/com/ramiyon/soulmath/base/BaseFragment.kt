@@ -30,7 +30,9 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         onCreateViewBehaviour(inflater, container)
-        _binding = inflateViewBinding(container)
+        if(_binding == null) {
+            _binding = inflateViewBinding(container)
+        }
         return binding?.root
     }
 
@@ -49,9 +51,9 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
     }
 
     override fun onDestroyView() {
+       super.onDestroyView()
         onDestroyBehaviour()
         _binding = null
-        super.onDestroyView()
     }
 
 }

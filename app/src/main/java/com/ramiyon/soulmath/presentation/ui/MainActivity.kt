@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.findNavController
+import androidx.navigation.plusAssign
 import androidx.navigation.ui.setupWithNavController
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.databinding.ActivityMainBinding
+import com.ramiyon.soulmath.presentation.navigation.KeepStateNavigator
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +28,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpNavigation() {
         val navController = findNavController(R.id.main_navigation)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_navigation)!!
+        val navigator = KeepStateNavigator(this, navHostFragment.childFragmentManager, R.id.main_navigation)
+        navController.navigatorProvider += navigator
+        navController.setGraph(R.navigation.mobile_navigation)
         binding.mainBottomNav.setupWithNavController(navController)
     }
 }
