@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/profile_card_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginVertical="45dp"
+        android:background="@color/white"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_fake_avatar"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:visibility="invisible"
+                android:translationZ="2dp"
+                android:layout_marginBottom="-45dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="parent"
+                tools:src="@drawable/ilu_default_profile_picture"/>
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/iv_fake_avatar"
+                app:layout_constraintStart_toStartOf="@id/view_separator"
+                app:layout_constraintEnd_toEndOf="@id/view_separator"
+                tools:text="Eric Alexander"/>
+
+            <View
+                android:id="@+id/view_separator"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="16dp"
+                android:background="@color/soft_light_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_username"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_xp_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/view_separator"
+                app:layout_constraintStart_toStartOf="@id/view_separator"
+                app:layout_constraintTop_toBottomOf="@+id/view_separator"
+                tools:text="2300 XP" />
+
+            <ImageView
+                android:id="@+id/iv_leaderboard_star"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_leaderboard_star"
+                app:layout_constraintEnd_toStartOf="@id/tv_xp_points"
+                app:layout_constraintTop_toTopOf="@id/tv_xp_points"
+                app:layout_constraintBottom_toBottomOf="@id/tv_xp_points"/>
+            
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:translationZ="2dp"
+        android:layout_marginBottom="-45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/profile_card_container"
+        tools:src="@drawable/ilu_default_profile_picture"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
