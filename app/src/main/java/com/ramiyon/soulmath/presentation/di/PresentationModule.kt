@@ -19,7 +19,7 @@ val viewModelModule = module {
     viewModel { SplashViewModel(get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
-    viewModel { LeaderboardViewModel(get()) }
+    viewModel { LeaderboardViewModel(get(), get()) }
 }
 
 val adapterModule = module {

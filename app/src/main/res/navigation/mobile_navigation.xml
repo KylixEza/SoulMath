@@ -11,26 +11,18 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_home_destination_to_forum_destination"
-            app:destination="@id/forum_destination"
-            app:enterAnim="@anim/animate_slide_left_enter"
-            app:exitAnim="@anim/animate_slide_left_exit"
-            app:popEnterAnim="@anim/animate_swipe_right_enter"
-            app:popExitAnim="@anim/animate_swipe_left_exit" />
-        <action
             android:id="@+id/action_home_destination_to_leaderboard_destination"
-            app:destination="@id/leaderboard_destination" />
+            app:popUpTo="@id/home_destination"
+            app:popUpToSaveState="true"
+            app:destination="@id/leaderboard_destination"
+            app:enterAnim="@anim/animate_zoom_enter"
+            app:exitAnim="@anim/animate_zoom_exit"
+            app:popEnterAnim="@anim/animate_fade_enter"
+            app:popExitAnim="@anim/animate_fade_exit" />
         <action
             android:id="@+id/action_home_destination_to_profile_destination"
             app:destination="@id/profile_destination" />
     </fragment>
-
-
-    <fragment
-        android:id="@+id/forum_destination"
-        android:name="com.ramiyon.soulmath.presentation.ui.forum.ForumFragment"
-        android:label="fragment_forum"
-        tools:layout="@layout/fragment_forum" />
 
 
     <fragment

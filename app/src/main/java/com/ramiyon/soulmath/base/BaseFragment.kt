@@ -22,6 +22,7 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
     open fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) { }
     open fun onViewCreatedBehaviour() { }
     open fun constraintValidator(): ConstraintValidator? { return null }
+    open fun onDestroyBehaviour() { }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +49,7 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
     }
 
     override fun onDestroyView() {
+        onDestroyBehaviour()
         _binding = null
         super.onDestroyView()
     }

@@ -1,32 +1,23 @@
 package com.ramiyon.soulmath.presentation.ui.profile
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.base.BaseFragment
+import com.ramiyon.soulmath.databinding.FragmentProfileBinding
+import com.ramiyon.soulmath.util.ScreenOrientation
+import org.koin.androidx.navigation.koinNavGraphViewModel
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
-    companion object {
-        fun newInstance() = ProfileFragment()
+    private val viewModel: ProfileViewModel by koinNavGraphViewModel(R.id.mobile_navigation)
+
+    override fun inflateViewBinding(container: ViewGroup?): FragmentProfileBinding =
+        FragmentProfileBinding.inflate(layoutInflater, container, false)
+
+    override fun FragmentProfileBinding.binder() {
+
     }
 
-    private lateinit var viewModel: ProfileViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+    override fun determineScreenOrientation(): ScreenOrientation = ScreenOrientation.PORTRAIT
 
 }

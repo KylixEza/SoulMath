@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.gdsc.gdsctoast.GDSCToast.Companion.showAnyToast
@@ -21,12 +20,12 @@ import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.stateViewModel
 
 class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
 
     private val adapter by inject<LeaderboardAdapter>()
-    private val viewModel: LeaderboardViewModel by viewModel()
+    private val viewModel: LeaderboardViewModel by stateViewModel()
     private lateinit var dialogRankBinding: DialogRankBinding
 
     override fun inflateViewBinding(container: ViewGroup?): FragmentLeaderboardBinding =
@@ -38,14 +37,16 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = this@LeaderboardFragment.adapter
         }
+
         viewModel.fetchLeaderboard().observe(viewLifecycleOwner) {
-            when(it) {
-                is Resource.Success -> leaderboardResourceCallback.onResourceSuccess(it.data)
+            when (it) {
                 is Resource.Loading -> leaderboardResourceCallback.onResourceLoading()
-                is Resource.Empty -> leaderboardResourceCallback.onResourceEmpty()
+                is Resource.Success -> leaderboardResourceCallback.onResourceSuccess(it.data)
                 is Resource.Error -> leaderboardResourceCallback.onResourceError(it.message)
+                is Resource.Empty -> leaderboardResourceCallback.onResourceEmpty()
             }
         }
+
     }
 
     private val leaderboardResourceCallback = object : ResourceStateCallback<List<Leaderboard>?> {

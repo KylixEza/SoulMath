@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ramiyon.soulmath.R
+import org.koin.androidx.navigation.koinNavGraphViewModel
 
 class HomeFragment : Fragment() {
+
+    private val viewModel: HomeViewModel by koinNavGraphViewModel(R.id.mobile_navigation)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
