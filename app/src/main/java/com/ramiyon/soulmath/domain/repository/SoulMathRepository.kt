@@ -20,4 +20,5 @@ interface SoulMathRepository {
     fun signIn(email: String, password: String): Flow<Resource<Unit>>
     fun fetchLeaderboard(): Flow<Resource<List<Leaderboard>>>
     fun fetchStudentRank(): Flow<Resource<Leaderboard>>
+    fun getStudentDetail(): Flow<Resource<Student>>
 }

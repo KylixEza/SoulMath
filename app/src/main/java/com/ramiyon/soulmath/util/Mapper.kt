@@ -27,6 +27,10 @@ fun StudentEntity.toStudentBody() = StudentBody(
     studentId, address, avatar, username, email, phoneNumber, xp
 )
 
+fun StudentEntity.toStudent() = Student(
+    studentId, address, avatar, username, email, phoneNumber, xp
+)
+
 fun LeaderboardResponse.toLeaderboard() = Leaderboard(
     username, avatar, xp, rank
 )

@@ -3,6 +3,7 @@ package com.ramiyon.soulmath.data.repository
 import android.content.Context
 import android.util.Log
 import com.ramiyon.soulmath.base.DatabaseBoundWorker
+import com.ramiyon.soulmath.base.DatabaseOnlyResource
 import com.ramiyon.soulmath.base.NetworkBoundRequest
 import com.ramiyon.soulmath.base.NetworkOnlyResource
 import com.ramiyon.soulmath.data.source.dummy.getOnBoardContentByPage
@@ -18,10 +19,7 @@ import com.ramiyon.soulmath.data.worker.WorkerParams
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
-import com.ramiyon.soulmath.util.Resource
-import com.ramiyon.soulmath.util.toLeaderboard
-import com.ramiyon.soulmath.util.toStudentBody
-import com.ramiyon.soulmath.util.toStudentEntity
+import com.ramiyon.soulmath.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -98,6 +96,18 @@ class SoulMathRepositoryImpl(
             override fun mapTransform(data: LeaderboardResponse?): Leaderboard =
                 data?.toLeaderboard()!!
 
+        }.asFlow()
+
+    override fun getStudentDetail(): Flow<Resource<Student>> =
+        object : DatabaseOnlyResource<StudentEntity, Student>() {
+            override suspend fun loadFromDb(): Flow<LocalAnswer<StudentEntity>> {
+                val studentId = getCurrentStudentId()
+                return localDataSource.getStudentDetail(studentId!!)
+            }
+
+            override fun mapTransform(data: StudentEntity): Student {
+                return data.toStudent()
+            }
         }.asFlow()
 
 
