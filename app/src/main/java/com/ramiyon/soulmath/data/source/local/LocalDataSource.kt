@@ -71,8 +71,16 @@ class LocalDataSource(
             }
         }.doObservable()
 
-    suspend fun takeDailyXp(dailyXpId: String) = object : BaseDatabaseAnswer<Unit>() {
+    fun getSelectedDailyXp(dailyXpId: String) =
+        object : BaseDatabaseAnswer<DailyXpEntity>() {
+            override suspend fun callDatabase(): DailyXpEntity {
+                return dao.getSelectedDailyXp(dailyXpId).first()
+            }
+        }.doObservable()
+
+    suspend fun takeDailyXp(studentId: String, dailyXpId: String, givenXp: Int?) = object : BaseDatabaseAnswer<Unit>() {
             override suspend fun callDatabase() {
+                givenXp?.let { dao.updateStudentXp(studentId, it) }
                 dao.takeDailyXp(dailyXpId)
             }
         }.doSingleEvent()

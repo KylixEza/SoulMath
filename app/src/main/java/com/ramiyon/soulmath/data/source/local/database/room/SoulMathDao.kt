@@ -3,6 +3,7 @@ package com.ramiyon.soulmath.data.source.local.database.room
 import androidx.room.*
 import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
+import com.ramiyon.soulmath.domain.model.DailyXp
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -28,6 +29,9 @@ interface SoulMathDao {
 
     @Query("UPDATE dailyXp SET isTaken = 1 WHERE dailyXpId = :dailyXpId")
     suspend fun takeDailyXp(dailyXpId: String)
+
+    @Query("SELECT * FROM dailyXp WHERE dailyXpId = :dailyXpId")
+    suspend fun getSelectedDailyXp(dailyXpId: String): Flow<DailyXpEntity>
 
     @Query("UPDATE dailyXp SET isTaken = 0")
     suspend fun resetDailyXp()

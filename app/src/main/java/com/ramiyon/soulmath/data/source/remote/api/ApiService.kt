@@ -18,7 +18,7 @@ interface ApiService {
     suspend fun updateStudentProfile(@Path("studentId") studentId: String, @Body studentBody: StudentBody): BaseResponse<String>
 
     @PUT("/student/{studentId}/xp")
-    suspend fun updateStudentXp(@Path("studentId")studentId: String, @Body body: StudentBody): BaseResponse<String>
+    suspend fun updateStudentXp(@Path("studentId")studentId: String, @Field("xp") xp: Int): BaseResponse<String>
 
     @GET("/leaderboard")
     suspend fun fetchLeaderboard(): BaseResponse<List<LeaderboardResponse>>

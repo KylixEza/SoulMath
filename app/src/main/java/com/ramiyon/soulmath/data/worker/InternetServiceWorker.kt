@@ -52,9 +52,7 @@ class InternetServiceWorker(
         localDataSource.getStudentDetail(studentId).collect {
             result = when(it) {
                 is LocalAnswer.Success -> {
-                    remoteDataSource.increaseStudentXp(
-                        studentId, it.data.toStudentBody(), givenXp
-                    )
+                    remoteDataSource.updateStudentXp(it.data.studentId, it.data.xp)
                     Result.success()
                 }
                 is LocalAnswer.Error -> Result.retry()
