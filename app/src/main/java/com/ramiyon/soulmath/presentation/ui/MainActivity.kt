@@ -4,7 +4,9 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.NavHost
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.plusAssign
 import androidx.navigation.ui.setupWithNavController
 import com.ramiyon.soulmath.R

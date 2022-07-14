@@ -96,8 +96,8 @@ class SoulMathRepositoryImpl(
     override fun getStudentDetail(): Flow<Resource<Student>> =
         object : DatabaseOnlyResource<StudentEntity, Student>() {
             override suspend fun loadFromDb(): Flow<LocalAnswer<StudentEntity>> {
-                val studentId = getCurrentStudentId()
-                return localDataSource.getStudentDetail(studentId!!)
+                Log.e("get student detail", "getCurrentStudentId() = ${getCurrentStudentId()}")
+                return localDataSource.getStudentDetail(getCurrentStudentId().toString())
             }
 
             override fun mapTransform(data: StudentEntity): Student {
@@ -106,7 +106,7 @@ class SoulMathRepositoryImpl(
         }.asFlow()
 
 
-    fun updateStudentProfile(student: Student) =
+    override fun updateStudentProfile(student: Student) =
         object : DatabaseBoundWorker<String?>(context) {
             override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
@@ -128,7 +128,7 @@ class SoulMathRepositoryImpl(
 
         }.doWork()
 
-    fun increaseStudentXp(student: Student, givenXp: Int) =
+    override fun increaseStudentXp(student: Student, givenXp: Int) =
         object : DatabaseBoundWorker<String?>(context) {
             override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
@@ -150,7 +150,7 @@ class SoulMathRepositoryImpl(
 
         }.doWork()
 
-    fun decreaseStudentXp(student: Student, costXp: Int) =
+    override fun decreaseStudentXp(student: Student, costXp: Int) =
         object : DatabaseBoundWorker<String?>(context) {
             override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
@@ -171,7 +171,7 @@ class SoulMathRepositoryImpl(
             }
         }.doWork()
 
-    fun getDailyXpList() =
+    override fun getDailyXpList() =
         object : DatabaseOnlyResource<List<DailyXpEntity>, List<DailyXp>>() {
             override suspend fun loadFromDb(): Flow<LocalAnswer<List<DailyXpEntity>>> {
                 return localDataSource.getDailyXpList()
@@ -182,7 +182,7 @@ class SoulMathRepositoryImpl(
             }
         }.asFlow()
 
-    fun getCurrentDailyXp() =
+    override fun getCurrentDailyXp() =
         object : DatabaseOnlyResource<DailyXpEntity, DailyXp>() {
             override suspend fun loadFromDb(): Flow<LocalAnswer<DailyXpEntity>> {
                 return localDataSource.getCurrentDailyXp()
@@ -194,7 +194,7 @@ class SoulMathRepositoryImpl(
 
         }.asFlow()
 
-    fun takeDailyXp(dailyXpId: String) =
+    override fun takeDailyXp(dailyXpId: String) =
         object : DatabaseBoundWorker<String?>(context) {
             override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(

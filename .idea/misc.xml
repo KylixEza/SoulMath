@@ -7,6 +7,7 @@
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/dialog_box.xml" value="0.1" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/email_indicator_selector.xml" value="0.1905" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_arrow_next_blue.xml" value="0.187" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_check_in_no.xml" value="0.1865" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_circle_next.xml" value="0.213" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_default_ava.xml" value="0.1785" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_email_indicator.xml" value="0.1905" />
@@ -47,6 +48,7 @@
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/include_progress_report.xml" value="0.2" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/include_student_profile_card.xml" value="0.4654696132596685" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/include_xp_progress_report.xml" value="0.5" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/item_list_check_in.xml" value="0.67" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/item_list_last_material.xml" value="0.1837962962962963" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/item_list_leaderboard.xml" value="0.33" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/item_list_profile_add_ons.xml" value="0.33" />

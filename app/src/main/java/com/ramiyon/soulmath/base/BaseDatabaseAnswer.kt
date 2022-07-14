@@ -1,7 +1,11 @@
 package com.ramiyon.soulmath.base
 
 import com.ramiyon.soulmath.data.util.LocalAnswer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import java.sql.SQLException
 
 abstract class BaseDatabaseAnswer<RequestType> {
 
@@ -13,11 +17,10 @@ abstract class BaseDatabaseAnswer<RequestType> {
                     emit(LocalAnswer.Empty())
             }
             emit(LocalAnswer.Success(value))
-
-        } catch (e: Exception) {
-            emit(LocalAnswer.Error(e.toString()))
+        } catch (e: SQLException) {
+            emit(LocalAnswer.Error(e.message ?: "Unknown error"))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     private suspend fun singleValue(): LocalAnswer<RequestType> {
         try {
@@ -29,7 +32,7 @@ abstract class BaseDatabaseAnswer<RequestType> {
                 return LocalAnswer.Success(value)
             }
             return LocalAnswer.Success(value)
-        } catch (e: Exception) {
+        } catch (e: SQLException) {
             return LocalAnswer.Error(e.toString())
         }
     }

@@ -1,5 +1,6 @@
 package com.ramiyon.soulmath.domain.repository
 
+import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.util.Resource
@@ -21,4 +22,10 @@ interface SoulMathRepository {
     fun fetchLeaderboard(): Flow<Resource<List<Leaderboard>>>
     fun fetchStudentRank(): Flow<Resource<Leaderboard>>
     fun getStudentDetail(): Flow<Resource<Student>>
+    fun updateStudentProfile(student: Student): Flow<Resource<String?>>
+    fun increaseStudentXp(student: Student, givenXp: Int): Flow<Resource<String?>>
+    fun decreaseStudentXp(student: Student, costXp: Int): Flow<Resource<String?>>
+    fun getDailyXpList(): Flow<Resource<List<DailyXp>>>
+    fun getCurrentDailyXp(): Flow<Resource<DailyXp>>
+    fun takeDailyXp(dailyXpId: String): Flow<Resource<String?>>
 }

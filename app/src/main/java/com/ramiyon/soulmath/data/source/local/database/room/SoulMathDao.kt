@@ -21,17 +21,20 @@ interface SoulMathDao {
     @Query("UPDATE student SET xp = :xp WHERE studentId = :studentId")
     suspend fun updateStudentXp(studentId: String, xp: Int)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAllDailyXp(dailyXpEntity: DailyXpEntity)
+
     @Query("SELECT * FROM dailyXp")
-    suspend fun getDailyXpList(): Flow<List<DailyXpEntity>>
+    fun getDailyXpList(): Flow<List<DailyXpEntity>>
 
     @Query("SELECT * FROM dailyXp WHERE isTaken = 0 ORDER BY dailyXp ASC LIMIT 1")
-    suspend fun getCurrentDailyXp(): Flow<DailyXpEntity>
+    fun getCurrentDailyXp(): Flow<DailyXpEntity>
 
     @Query("UPDATE dailyXp SET isTaken = 1 WHERE dailyXpId = :dailyXpId")
     suspend fun takeDailyXp(dailyXpId: String)
 
     @Query("SELECT * FROM dailyXp WHERE dailyXpId = :dailyXpId")
-    suspend fun getSelectedDailyXp(dailyXpId: String): Flow<DailyXpEntity>
+    fun getSelectedDailyXp(dailyXpId: String): Flow<DailyXpEntity>
 
     @Query("UPDATE dailyXp SET isTaken = 0")
     suspend fun resetDailyXp()

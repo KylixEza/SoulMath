@@ -1,0 +1,46 @@
+{
+  "dailyXp": [
+    {
+      "dailyXpId": "DailyXp001",
+      "dailyXp": 5,
+      "day": 1,
+      "isTaken": false
+    },
+    {
+      "dailyXpId": "DailyXp002",
+      "dailyXp": 10,
+      "day": 2,
+      "isTaken": false
+    },
+    {
+      "dailyXpId": "DailyXp003",
+      "dailyXp": 15,
+      "day": 3,
+      "isTaken": false
+    },
+    {
+      "dailyXpId": "DailyXp004",
+      "dailyXp": 20,
+      "day": 4,
+      "isTaken": false
+    },
+    {
+      "dailyXpId": "DailyXp005",
+      "dailyXp": 25,
+      "day": 5,
+      "isTaken": false
+    },
+    {
+      "dailyXpId": "DailyXp006",
+      "dailyXp": 30,
+      "day": 6,
+      "isTaken": false
+    },
+    {
+      "dailyXpId": "DailyXp007",
+      "dailyXp": 35,
+      "day": 7,
+      "isTaken": false
+    }
+  ]
+}

@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 
-@Database(entities = [StudentEntity::class, DailyXpEntity::class], version = 1)
+@Database(entities = [StudentEntity::class, DailyXpEntity::class], version = 2)
 abstract class SoulMathDatabase: RoomDatabase() {
 
     abstract fun soulMathDao(): SoulMathDao

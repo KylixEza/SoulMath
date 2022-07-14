@@ -1,7 +1,6 @@
 package com.ramiyon.soulmath.presentation.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.ramiyon.soulmath.base.BaseRecyclerViewAdapter
 import com.ramiyon.soulmath.databinding.ItemListProfileAddOnsBinding
+import com.ramiyon.soulmath.presentation.diff_callback.ProfileAddOnDiffUtil
 import com.ramiyon.soulmath.util.ProfileAddOns
 
 class ProfileAddOnAdapter(
@@ -25,12 +25,14 @@ class ProfileAddOnAdapter(
             ProfileAddOns.PASSWORD -> binding.buildItemList(data)
             ProfileAddOns.CONTACT -> binding.buildItemList(data)
             ProfileAddOns.TERMS -> binding.buildItemList(data)
+            ProfileAddOns.SUPPORT -> binding.buildItemList(data)
             ProfileAddOns.LOGOUT -> binding.buildItemList(data)
         }
     }
 
-    override val diffUtilBuilder: (List<Triple<Int, String, ProfileAddOns>>, List<Triple<Int, String, ProfileAddOns>>) -> DiffUtil.Callback
-        get() = TODO("Not yet implemented")
+    override val diffUtilBuilder: (List<Triple<Int, String, ProfileAddOns>>, List<Triple<Int, String, ProfileAddOns>>) -> DiffUtil.Callback = { oldList, newList ->
+        ProfileAddOnDiffUtil(oldList, newList)
+    }
 
     private fun ItemListProfileAddOnsBinding.buildItemList(
         data: Triple<Int, String, ProfileAddOns>,
@@ -39,7 +41,7 @@ class ProfileAddOnAdapter(
             .load(data.first)
             .into(this.ivAddOnIcon)
         tvAddOnBehaviour.text = data.second
-        if(data.third == ProfileAddOns.FAVORITE)
+        if(data.third == ProfileAddOns.CONTACT)
             viewSeparator.visibility = View.VISIBLE
     }
 }

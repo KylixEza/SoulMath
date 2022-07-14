@@ -9,5 +9,7 @@ class ProfileViewModel(
 ) : ViewModel() {
 
     fun getStudentDetail() = useCase.getStudentDetail().asLiveData()
+    fun getDailyXpList() = useCase.getDailyXpList().asLiveData()
+    fun getProfileAddOns() = useCase.getProfileAddOns()
 
 }
