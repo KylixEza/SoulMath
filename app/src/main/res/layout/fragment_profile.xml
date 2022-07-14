@@ -9,7 +9,7 @@
     <io.github.florent37.shapeofview.shapes.RoundRectView
         android:id="@+id/profile_header_container"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="180dp"
         android:backgroundTint="@color/primary_blue"
         android:background="@color/primary_blue"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,8 +35,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:nestedScrollingEnabled="false"
         app:layout_constraintStart_toStartOf="@id/student_profiler_card_container"
         app:layout_constraintTop_toBottomOf="@id/student_profiler_card_container"
-        app:layout_constraintEnd_toEndOf="@id/student_profiler_card_container"/>
+        app:layout_constraintEnd_toEndOf="@id/student_profiler_card_container"
+        tools:listitem="@layout/item_list_profile_add_ons"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

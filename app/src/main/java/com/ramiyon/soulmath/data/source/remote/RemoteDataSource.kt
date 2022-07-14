@@ -86,10 +86,20 @@ class RemoteDataSource(
             }
         }.asFlow()
 
-    suspend fun updateStudentXp(studentId: String, body: StudentBody) =
+    suspend fun increaseStudentXp(studentId: String, body: StudentBody, givenXp: Int) =
         object : BaseRemoteResponse<String>() {
             override suspend fun call(): BaseResponse<String> {
+                body.xp + givenXp
                 return apiService.updateStudentXp(studentId, body)
             }
         }.asFlow()
+
+    suspend fun decreaseStudentXp(studentId: String, body: StudentBody, costXp: Int) =
+        object : BaseRemoteResponse<String>() {
+            override suspend fun call(): BaseResponse<String> {
+                body.xp - costXp
+                return apiService.updateStudentXp(studentId, body)
+            }
+        }.asFlow()
+
 }

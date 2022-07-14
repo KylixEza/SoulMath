@@ -2,15 +2,11 @@ package com.ramiyon.soulmath.data.worker
 
 import android.content.Context
 import androidx.work.CoroutineWorker
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
-import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.util.LocalAnswer
 import com.ramiyon.soulmath.util.toStudentBody
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -56,8 +52,8 @@ class InternetServiceWorker(
         localDataSource.getStudentDetail(studentId).collect {
             result = when(it) {
                 is LocalAnswer.Success -> {
-                    remoteDataSource.updateStudentXp(
-                        studentId, it.data.toStudentBody()
+                    remoteDataSource.increaseStudentXp(
+                        studentId, it.data.toStudentBody(), givenXp
                     )
                     Result.success()
                 }

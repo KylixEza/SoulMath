@@ -25,4 +25,6 @@ interface ApiService {
 
     @GET("/leaderboard/{studentId}")
     suspend fun fetchStudentRank(@Path("studentId") studentId: String): BaseResponse<LeaderboardResponse>
+
+
 }

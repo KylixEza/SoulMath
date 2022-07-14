@@ -14,6 +14,8 @@
     <color name="dark_gray">#FF5D5D5D</color>
     <color name="gray">#FF474748</color>
     <color name="sand_gray">#FF807A7A</color>
+    
+    <color name="neutral_600">#FF475569</color>
 
     <color name="text_remember_me">#FF474748</color>
     <color name="text_or_decision_login_method">#FF8A887B</color>

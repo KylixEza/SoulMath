@@ -20,12 +20,8 @@ import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import com.ramiyon.soulmath.util.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 class SoulMathRepositoryImpl(
     private val context: Context,
@@ -113,11 +109,9 @@ class SoulMathRepositoryImpl(
 
     fun updateStudentProfile(student: Student) =
         object : DatabaseBoundWorker<String?>(context) {
-            override fun putParamsForWorkManager(): MutableMap<String, *> {
+            override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
-                    //TODO: Fix the student id param
-                    WorkerParams.STUDENT_ID.param to "",
-                    WorkerParams.STUDENT_BODY.param to student.toStudentBody()
+                    WorkerParams.STUDENT_ID.param to getCurrentStudentId()
                 )
             }
 
@@ -135,13 +129,11 @@ class SoulMathRepositoryImpl(
 
         }.doWork()
 
-    fun updateStudentXp(student: Student) =
+    fun increaseStudentXp(student: Student, givenXp: Int) =
         object : DatabaseBoundWorker<String?>(context) {
-            override fun putParamsForWorkManager(): MutableMap<String, *> {
+            override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
-                    //TODO: Fix student id param
-                    WorkerParams.STUDENT_ID.param to "",
-                    WorkerParams.STUDENT_BODY.param to student.toStudentBody()
+                    WorkerParams.STUDENT_ID.param to getStudentDetail(),
                 )
             }
 
@@ -150,12 +142,35 @@ class SoulMathRepositoryImpl(
             }
 
             override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
-                return remoteDataSource.updateStudentXp(getCurrentStudentId()!!, student.toStudentBody())
+                return remoteDataSource.increaseStudentXp(getCurrentStudentId()!!, student.toStudentBody(), givenXp)
             }
 
             override suspend fun saveToDatabase(): LocalAnswer<Unit> {
-                return localDataSource.updateStudentXp(student.toStudentEntity())
+                return localDataSource.increaseStudentXp(student.toStudentEntity(), givenXp)
             }
 
         }.doWork()
+
+    fun decreaseStudentXp(student: Student, costXp: Int) =
+        object : DatabaseBoundWorker<String?>(context) {
+            override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
+                return mutableMapOf(
+                    WorkerParams.STUDENT_ID.param to getStudentDetail(),
+                )
+            }
+
+            override fun callWorkerCommand(): WorkerCommand {
+                return WorkerCommand.WORKER_COMMAND_UPDATE_XP
+            }
+
+            override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
+                return remoteDataSource.decreaseStudentXp(getCurrentStudentId()!!, student.toStudentBody(), costXp)
+            }
+
+            override suspend fun saveToDatabase(): LocalAnswer<Unit> {
+                return localDataSource.decreaseStudentXp(student.toStudentEntity(), costXp)
+            }
+        }.doWork()
+
+
 }

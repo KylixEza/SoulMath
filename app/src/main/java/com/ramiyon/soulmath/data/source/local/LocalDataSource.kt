@@ -1,6 +1,7 @@
 package com.ramiyon.soulmath.data.source.local
 
 import com.ramiyon.soulmath.base.BaseDatabaseAnswer
+import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.local.database.room.SoulMathDao
 import com.ramiyon.soulmath.data.source.local.datastore.SoulMathDataStore
@@ -33,10 +34,19 @@ class LocalDataSource(
             }
         }.doSingleEvent()
 
-    suspend fun updateStudentXp(studentEntity: StudentEntity) =
+    suspend fun increaseStudentXp(studentEntity: StudentEntity, givenXp: Int) =
         object : BaseDatabaseAnswer<Unit>() {
             override suspend fun callDatabase() {
-                dao.updateStudentXp(studentEntity.studentId, studentEntity.xp)
+                val newXp = studentEntity.xp + givenXp
+                dao.updateStudentXp(studentEntity.studentId, newXp)
+            }
+        }.doSingleEvent()
+
+    suspend fun decreaseStudentXp(studentEntity: StudentEntity, costXp: Int) =
+        object : BaseDatabaseAnswer<Unit>() {
+            override suspend fun callDatabase() {
+                val newXp = studentEntity.xp - costXp
+                dao.updateStudentXp(studentEntity.studentId, newXp)
             }
         }.doSingleEvent()
 
@@ -46,4 +56,30 @@ class LocalDataSource(
                 return dao.getStudentDetail(studentId).first()
             }
         }.doObservable()
+
+    fun getDailyXpList() =
+        object : BaseDatabaseAnswer<List<DailyXpEntity>>() {
+            override suspend fun callDatabase(): List<DailyXpEntity> {
+                return dao.getDailyXpList().first()
+            }
+        }.doObservable()
+
+    fun getCurrentDailyXp() =
+        object : BaseDatabaseAnswer<DailyXpEntity>() {
+            override suspend fun callDatabase(): DailyXpEntity {
+                return dao.getCurrentDailyXp().first()
+            }
+        }.doObservable()
+
+    suspend fun takeDailyXp(dailyXpId: String) = object : BaseDatabaseAnswer<Unit>() {
+            override suspend fun callDatabase() {
+                dao.takeDailyXp(dailyXpId)
+            }
+        }.doSingleEvent()
+
+    suspend fun resetDailyXp() = object : BaseDatabaseAnswer<Unit>() {
+        override suspend fun callDatabase() {
+            dao.resetDailyXp()
+        }
+    }.doSingleEvent()
 }

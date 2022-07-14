@@ -41,7 +41,7 @@ abstract class DatabaseBoundWorker<FromApi>(
                     .setInputData(data)
                     .build()
             val workManager = WorkManager.getInstance(context)
-            workManager.enqueue(oneTimeWorkRequest)
+            workManager.enqueueUniqueWork("Database Bound Worker", ExistingWorkPolicy.APPEND, oneTimeWorkRequest)
             workManager.getWorkInfoByIdLiveData(oneTimeWorkRequest.id).observeForever {
                 if (it.state == WorkInfo.State.FAILED) {
                     workManager.enqueue(oneTimeWorkRequest)
@@ -50,7 +50,7 @@ abstract class DatabaseBoundWorker<FromApi>(
         }
     }
 
-    abstract fun putParamsForWorkManager(): MutableMap<String, *>
+    abstract suspend fun putParamsForWorkManager(): MutableMap<String, *>
     abstract fun callWorkerCommand(): WorkerCommand
     fun doWork() = result
 
