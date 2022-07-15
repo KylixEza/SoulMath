@@ -2,6 +2,7 @@ package com.ramiyon.soulmath.data.source.local.database.room
 
 import androidx.room.*
 import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
+import com.ramiyon.soulmath.data.source.local.database.enitity.LeaderboardEntity
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.domain.model.DailyXp
 import kotlinx.coroutines.flow.Flow
@@ -38,4 +39,10 @@ interface SoulMathDao {
 
     @Query("UPDATE dailyXp SET isTaken = 0")
     suspend fun resetDailyXp()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllLeaderboard(entity: LeaderboardEntity)
+
+    @Query("SELECT * FROM leaderboard")
+    fun getLeaderboard(): Flow<List<LeaderboardEntity>>
 }

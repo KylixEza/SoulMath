@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface LeaderboardUseCase {
 
-    fun fetchLeaderboard(): Flow<Resource<List<Leaderboard>>>
+    fun fetchLeaderboard(shouldFetch: Boolean): Flow<Resource<List<Leaderboard>>>
     fun fetchStudentRank(): Flow<Resource<Leaderboard>>
 
 }

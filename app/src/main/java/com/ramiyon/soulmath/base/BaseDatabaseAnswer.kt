@@ -15,8 +15,11 @@ abstract class BaseDatabaseAnswer<RequestType> {
             if(value is List<*>) {
                 if(value.isEmpty())
                     emit(LocalAnswer.Empty())
+                else
+                    emit(LocalAnswer.Success(value))
+            } else {
+                emit(LocalAnswer.Success(value))
             }
-            emit(LocalAnswer.Success(value))
         } catch (e: SQLException) {
             emit(LocalAnswer.Error(e.message ?: "Unknown error"))
         }

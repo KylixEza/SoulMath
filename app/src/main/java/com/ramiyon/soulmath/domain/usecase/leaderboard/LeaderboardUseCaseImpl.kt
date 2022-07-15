@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 class LeaderboardUseCaseImpl(
     private val repository: SoulMathRepository
 ): LeaderboardUseCase {
-    override fun fetchLeaderboard(): Flow<Resource<List<Leaderboard>>> = repository.fetchLeaderboard()
+    override fun fetchLeaderboard(shouldFetch: Boolean): Flow<Resource<List<Leaderboard>>> = repository.fetchLeaderboard(shouldFetch)
     override fun fetchStudentRank(): Flow<Resource<Leaderboard>> = repository.fetchStudentRank()
 
 }

@@ -18,7 +18,7 @@ class LeaderboardViewModel(
     private val useCase: LeaderboardUseCase
 ) : ViewModel() {
 
-    fun fetchLeaderboard() = useCase.fetchLeaderboard().asLiveData()
+    fun fetchLeaderboard(shouldFetch: Boolean) = useCase.fetchLeaderboard(shouldFetch).asLiveData()
 
     fun saveStateLeaderboard(data: List<Leaderboard>?) {
         savedStateHandle["leaderboard"] = data

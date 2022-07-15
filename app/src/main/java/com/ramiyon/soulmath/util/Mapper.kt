@@ -1,6 +1,7 @@
 package com.ramiyon.soulmath.util
 
 import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
+import com.ramiyon.soulmath.data.source.local.database.enitity.LeaderboardEntity
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
@@ -34,7 +35,15 @@ fun StudentEntity.toStudent() = Student(
 )
 
 fun LeaderboardResponse.toLeaderboard() = Leaderboard(
-    username, avatar, xp, rank
+    studentId, username, avatar, xp, rank
+)
+
+fun LeaderboardResponse.toLeaderboardEntity() = LeaderboardEntity(
+    studentId, username, avatar, xp, rank
+)
+
+fun LeaderboardEntity.toLeaderboard() = Leaderboard(
+    studentId, username, avatar, xp, rank
 )
 
 fun DailyXpEntity.toDailyXp() = DailyXp(

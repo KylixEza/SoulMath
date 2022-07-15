@@ -2,6 +2,7 @@ package com.ramiyon.soulmath.data.source.local
 
 import com.ramiyon.soulmath.base.BaseDatabaseAnswer
 import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
+import com.ramiyon.soulmath.data.source.local.database.enitity.LeaderboardEntity
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.local.database.room.SoulMathDao
 import com.ramiyon.soulmath.data.source.local.datastore.SoulMathDataStore
@@ -90,4 +91,16 @@ class LocalDataSource(
             dao.resetDailyXp()
         }
     }.doSingleEvent()
+
+    suspend fun insertAllLeaderboard(leaderboard: LeaderboardEntity) = object : BaseDatabaseAnswer<Unit>() {
+        override suspend fun callDatabase() {
+            dao.insertAllLeaderboard(leaderboard)
+        }
+    }.doSingleEvent()
+
+    fun getLeaderboard() = object : BaseDatabaseAnswer<List<LeaderboardEntity>>() {
+        override suspend fun callDatabase(): List<LeaderboardEntity> {
+            return dao.getLeaderboard().first()
+        }
+    }.doObservable()
 }

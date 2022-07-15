@@ -3,6 +3,9 @@ package com.ramiyon.soulmath.data.source.remote.api.response.leaderboard
 import com.google.gson.annotations.SerializedName
 
 data class LeaderboardResponse(
+    @field:SerializedName("student_id")
+    val studentId: String,
+
     @field:SerializedName("username")
     val username: String,
 

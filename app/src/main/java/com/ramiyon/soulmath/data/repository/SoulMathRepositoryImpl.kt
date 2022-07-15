@@ -6,6 +6,7 @@ import com.ramiyon.soulmath.base.*
 import com.ramiyon.soulmath.data.source.dummy.getOnBoardContentByPage
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
 import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
+import com.ramiyon.soulmath.data.source.local.database.enitity.LeaderboardEntity
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
@@ -20,6 +21,7 @@ import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import com.ramiyon.soulmath.util.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 
 class SoulMathRepositoryImpl(
@@ -73,15 +75,56 @@ class SoulMathRepositoryImpl(
 
         }.asFlow()
 
-    override fun fetchLeaderboard(): Flow<Resource<List<Leaderboard>>> =
-        object : NetworkOnlyResource<List<Leaderboard>, List<LeaderboardResponse>?>() {
-            override suspend fun createCall(): Flow<RemoteResponse<List<LeaderboardResponse>?>> =
-                remoteDataSource.fetchLeaderboard()
+    override fun fetchLeaderboard(shouldFetch: Boolean): Flow<Resource<List<Leaderboard>>> =
+        object : NetworkBoundWorker<List<LeaderboardResponse>?, List<LeaderboardEntity>, List<Leaderboard>>(context) {
+            override suspend fun callApi(): Flow<RemoteResponse<List<LeaderboardResponse>?>> {
+                return remoteDataSource.fetchLeaderboard()
+            }
 
-            override fun mapTransform(data: List<LeaderboardResponse>?): List<Leaderboard> =
-                data?.map { it.toLeaderboard() }!!
+            override fun loadFromDatabase(): Flow<LocalAnswer<List<LeaderboardEntity>>> {
+                return localDataSource.getLeaderboard()
+            }
 
-        }.asFlow()
+            override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
+                return mutableMapOf(
+                    WorkerParams.STUDENT_ID.param to getStudentDetail()
+                )
+            }
+
+            override suspend fun saveToDatabase(data: List<LeaderboardResponse>?) {
+                data?.forEach {
+                    localDataSource.insertAllLeaderboard(it.toLeaderboardEntity())
+                }
+            }
+
+            override fun callWorkerCommand(): WorkerCommand {
+                return WorkerCommand.WORKER_COMMAND_UPDATE_LEADERBOARD
+            }
+
+            override fun mapApiToDomain(data: List<LeaderboardResponse>?): List<Leaderboard> {
+                return data?.map { it.toLeaderboard() } ?: listOf()
+            }
+
+            override fun mapDatabaseToDomain(data: List<LeaderboardEntity>?): List<Leaderboard> {
+                return data?.map { it.toLeaderboard() } ?: listOf()
+            }
+
+            override suspend fun shouldRefresh(): Boolean {
+                val list = mutableListOf<LeaderboardEntity>()
+                localDataSource.getLeaderboard().collect {
+                    when(it) {
+                        is LocalAnswer.Error -> {
+                            Log.d("shouldRefresh", "error")
+                        }
+                        is LocalAnswer.Empty -> { }
+                        is LocalAnswer.Success -> { list.addAll(it.data) }
+                    }
+                }
+                return list.isEmpty() || shouldFetch
+            }
+
+
+        }.doPeriodicWork()
 
     override fun fetchStudentRank(): Flow<Resource<Leaderboard>> =
        object : NetworkOnlyResource<Leaderboard, LeaderboardResponse?>() {
