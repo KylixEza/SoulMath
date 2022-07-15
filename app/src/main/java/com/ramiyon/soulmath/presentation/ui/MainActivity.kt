@@ -10,12 +10,15 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.plusAssign
 import androidx.navigation.ui.setupWithNavController
 import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.SoulMathLifecycleObserver
 import com.ramiyon.soulmath.databinding.ActivityMainBinding
 import com.ramiyon.soulmath.presentation.navigation.KeepStateNavigator
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val lifecycleObserver: SoulMathLifecycleObserver by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpNavigation()
+
+        lifecycle.addObserver(lifecycleObserver)
     }
 
     private fun setUpNavigation() {

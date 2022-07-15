@@ -45,4 +45,7 @@ interface SoulMathDao {
 
     @Query("SELECT * FROM leaderboard")
     fun getLeaderboard(): Flow<List<LeaderboardEntity>>
+
+    @Query("DELETE FROM leaderboard")
+    suspend fun resetLeaderboard()
 }

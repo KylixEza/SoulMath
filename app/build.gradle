@@ -18,10 +18,15 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
         release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -35,6 +40,15 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force "android.arch.lifecycle:extensions:1.1.1"
+            force "android.arch.lifecycle:compiler:1.1.1"
+        }
+    }
+
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -55,12 +69,18 @@ dependencies {
 
     //Lifecycle + KTX
     implementation "androidx.fragment:fragment-ktx:1.5.0"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
+    //noinspection LifecycleAnnotationProcessorWithJava8
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.5.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0"
 
     //ViewBinding Delegate
     implementation 'com.github.yogacp:android-viewbinding:1.0.3'
+
+    //Multidex
+    implementation "androidx.multidex:multidex:2.0.1"
 
     //Data Store
     implementation "androidx.datastore:datastore-preferences:1.0.0"

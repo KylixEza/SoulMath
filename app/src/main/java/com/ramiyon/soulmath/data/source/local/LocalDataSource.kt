@@ -103,4 +103,6 @@ class LocalDataSource(
             return dao.getLeaderboard().first()
         }
     }.doObservable()
+
+    suspend fun resetLeaderboard() = dao.resetLeaderboard()
 }

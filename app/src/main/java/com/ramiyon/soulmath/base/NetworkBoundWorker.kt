@@ -1,7 +1,6 @@
 package com.ramiyon.soulmath.base
 
 import android.content.Context
-import android.util.Log
 import androidx.work.*
 import com.ramiyon.soulmath.data.util.LocalAnswer
 import com.ramiyon.soulmath.data.util.RemoteResponse
