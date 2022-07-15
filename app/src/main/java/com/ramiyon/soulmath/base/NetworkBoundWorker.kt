@@ -1,6 +1,7 @@
 package com.ramiyon.soulmath.base
 
 import android.content.Context
+import android.util.Log
 import androidx.work.*
 import com.ramiyon.soulmath.data.util.LocalAnswer
 import com.ramiyon.soulmath.data.util.RemoteResponse
@@ -21,51 +22,61 @@ abstract class NetworkBoundWorker<Api, Database, Domain>(
 ) {
 
     private val result = flow {
-        when(val apiResult = callApi().first()) {
-            is RemoteResponse.Success -> {
-                saveToDatabase(apiResult.data)
-                val constraints: Constraints = Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .build()
-
-                val data = Data.Builder()
-                    .putString(workerCommand, callWorkerCommand().command)
-                    .putAll(putParamsForWorkManager())
-                    .build()
-
-                val periodicWorkRequest: PeriodicWorkRequest =
-                    PeriodicWorkRequestBuilder<InternetServiceWorker>(3, TimeUnit.MINUTES)
-                        .setConstraints(constraints)
-                        .setInputData(data)
+        if (shouldRefresh() || isFirstTime()) {
+            when(val apiResult = callApi().first()) {
+                is RemoteResponse.Success -> {
+                    saveToDatabase(apiResult.data)
+                    val constraints: Constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
                         .build()
 
-                val workManager = WorkManager.getInstance(context)
-                workManager.enqueueUniquePeriodicWork("Network Bound Worker", ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
-                workManager.getWorkInfoByIdLiveData(periodicWorkRequest.id).observeForever {
-                    if (it.state == WorkInfo.State.FAILED) {
-                        workManager.enqueueUniquePeriodicWork("Network Bound Worker", ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
-                    }
-                }
+                    val data = Data.Builder()
+                        .putString(workerCommand, callWorkerCommand().command)
+                        .putAll(putParamsForWorkManager())
+                        .build()
 
-                emit(Resource.Success(mapApiToDomain(apiResult.data)))
-            }
+                    val periodicWorkRequest: PeriodicWorkRequest =
+                        PeriodicWorkRequestBuilder<InternetServiceWorker>(3, TimeUnit.MINUTES)
+                            .setConstraints(constraints)
+                            .setInputData(data)
+                            .build()
 
-            is RemoteResponse.Empty -> {
-                emit(Resource.Empty())
-            }
-
-            is RemoteResponse.Error -> {
-                var data: Database? = null
-                CoroutineScope(Dispatchers.IO).launch {
-                    loadFromDatabase().collect {
-                        when(it) {
-                            is LocalAnswer.Success -> {
-                                data = it.data
-                            }
+                    val workManager = WorkManager.getInstance(context)
+                    workManager.enqueueUniquePeriodicWork("Network Bound Worker", ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
+                    workManager.getWorkInfoByIdLiveData(periodicWorkRequest.id).observeForever {
+                        if (it.state == WorkInfo.State.FAILED) {
+                            workManager.enqueueUniquePeriodicWork("Network Bound Worker", ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
                         }
                     }
-                }.join()
-                emit(Resource.Error(apiResult.errorMessage, mapDatabaseToDomain(data)))
+
+                    emit(Resource.Success(mapApiToDomain(apiResult.data)))
+                }
+
+                is RemoteResponse.Empty -> {
+                    emit(Resource.Empty())
+                }
+
+                is RemoteResponse.Error -> {
+                    var data: Database? = null
+                    CoroutineScope(Dispatchers.IO).launch {
+                        loadFromDatabase().collect {
+                            when(it) {
+                                is LocalAnswer.Success -> {
+                                    data = it.data
+                                }
+                            }
+                        }
+                    }.join()
+                    emit(Resource.Error(apiResult.errorMessage, mapDatabaseToDomain(data)))
+                }
+            }
+        } else {
+            loadFromDatabase().collect {
+                when(it) {
+                    is LocalAnswer.Success -> {
+                        emit(Resource.Success(mapDatabaseToDomain(it.data)))
+                    }
+                }
             }
         }
     }
@@ -78,6 +89,7 @@ abstract class NetworkBoundWorker<Api, Database, Domain>(
     abstract fun mapApiToDomain(data: Api): Domain
     abstract fun mapDatabaseToDomain(data: Database?): Domain
     abstract suspend fun shouldRefresh(): Boolean
+    abstract suspend fun isFirstTime(): Boolean
 
     fun doPeriodicWork() = result
 

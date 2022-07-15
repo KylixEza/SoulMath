@@ -20,9 +20,12 @@ import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import com.ramiyon.soulmath.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class SoulMathRepositoryImpl(
     private val context: Context,
@@ -87,7 +90,7 @@ class SoulMathRepositoryImpl(
 
             override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
-                    WorkerParams.STUDENT_ID.param to getStudentDetail()
+                    WorkerParams.STUDENT_ID.param to getCurrentStudentId()
                 )
             }
 
@@ -110,17 +113,23 @@ class SoulMathRepositoryImpl(
             }
 
             override suspend fun shouldRefresh(): Boolean {
+                return shouldFetch
+            }
+
+            override suspend fun isFirstTime(): Boolean {
                 val list = mutableListOf<LeaderboardEntity>()
-                localDataSource.getLeaderboard().collect {
-                    when(it) {
-                        is LocalAnswer.Error -> {
-                            Log.d("shouldRefresh", "error")
+                CoroutineScope(Dispatchers.IO).launch {
+                    localDataSource.getLeaderboard().collect {
+                        when(it) {
+                            is LocalAnswer.Error -> {
+                                Log.d("shouldRefresh", "error")
+                            }
+                            is LocalAnswer.Empty -> { }
+                            is LocalAnswer.Success -> { list.addAll(it.data) }
                         }
-                        is LocalAnswer.Empty -> { }
-                        is LocalAnswer.Success -> { list.addAll(it.data) }
                     }
-                }
-                return list.isEmpty() || shouldFetch
+                }.join()
+                return list.isEmpty()
             }
 
 
@@ -175,7 +184,7 @@ class SoulMathRepositoryImpl(
         object : DatabaseBoundWorker<String?>(context) {
             override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
-                    WorkerParams.STUDENT_ID.param to getStudentDetail(),
+                    WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
                 )
             }
 
@@ -197,7 +206,7 @@ class SoulMathRepositoryImpl(
         object : DatabaseBoundWorker<String?>(context) {
             override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
-                    WorkerParams.STUDENT_ID.param to getStudentDetail(),
+                    WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
                 )
             }
 
@@ -241,7 +250,7 @@ class SoulMathRepositoryImpl(
         object : DatabaseBoundWorker<String?>(context) {
             override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
-                    WorkerParams.STUDENT_ID.param to getStudentDetail(),
+                    WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
                 )
             }
 

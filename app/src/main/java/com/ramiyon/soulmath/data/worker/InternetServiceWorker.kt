@@ -6,7 +6,10 @@ import androidx.work.WorkerParameters
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
 import com.ramiyon.soulmath.data.util.LocalAnswer
+import com.ramiyon.soulmath.data.util.RemoteResponse
+import com.ramiyon.soulmath.util.toLeaderboardEntity
 import com.ramiyon.soulmath.util.toStudentBody
+import kotlinx.coroutines.flow.collect
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -23,8 +26,30 @@ class InternetServiceWorker(
         return when(command) {
             WorkerCommand.WORKER_COMMAND_UPDATE_PROFILE.command -> updateStudentProfile()
             WorkerCommand.WORKER_COMMAND_UPDATE_XP.command -> updateStudentXp()
+            WorkerCommand.WORKER_COMMAND_UPDATE_LEADERBOARD.command -> updateLeaderboard()
             else -> Result.retry()
         }
+    }
+
+    private suspend fun updateLeaderboard(): Result {
+        var result = Result.retry()
+        val studentId = inputData.keyValueMap[WorkerParams.STUDENT_ID.param] as String
+        remoteDataSource.fetchLeaderboard().collect {
+            when(it) {
+                is RemoteResponse.Success -> {
+                    it.data?.map { leaderboard ->
+                        result = when(localDataSource.insertAllLeaderboard(leaderboard.toLeaderboardEntity())) {
+                            is LocalAnswer.Success -> Result.success()
+                            is LocalAnswer.Empty -> Result.retry()
+                            is LocalAnswer.Error -> Result.failure()
+                        }
+                    }
+                }
+                is RemoteResponse.Empty -> result = Result.retry()
+                is RemoteResponse.Error -> result = Result.failure()
+            }
+        }
+        return result
     }
 
     private suspend fun updateStudentProfile(): Result {

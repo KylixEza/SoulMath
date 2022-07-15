@@ -38,11 +38,11 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
             adapter = this@LeaderboardFragment.adapter
         }
 
-        viewModel.fetchLeaderboard().observe(viewLifecycleOwner) {
+        viewModel.fetchLeaderboard(false).observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> leaderboardResourceCallback.onResourceLoading()
                 is Resource.Success -> leaderboardResourceCallback.onResourceSuccess(it.data)
-                is Resource.Error -> leaderboardResourceCallback.onResourceError(it.message)
+                is Resource.Error -> leaderboardResourceCallback.onResourceError(it.message, it.data)
                 is Resource.Empty -> leaderboardResourceCallback.onResourceEmpty()
             }
         }
@@ -103,19 +103,51 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
                         }
                         is Resource.Loading -> onResourceLoading()
                         is Resource.Empty -> return@observe
-                        is Resource.Error -> onResourceError(rankResource.message)
+                        is Resource.Error -> onResourceError(rankResource.message, data)
                     }
                 }
             }
         }
 
-        override fun onResourceError(message: String?) {
+        override fun onResourceError(message: String?, data: List<Leaderboard>?) {
             binding?.apply {
                 requireContext().apply { showAnyToast { it.apply {
                     text = message.toString()
                     toastType = ToastType.ERROR
                     toastShape = ToastShape.RECTANGLE
                 } } }
+                progressBarTopThree.visibility = View.INVISIBLE
+
+                val topThree = data?.take(3)
+                val remains = data?.drop(3)
+                holderTopThree.apply {
+                    visibility = View.VISIBLE
+                    includeLeaderboardTopThree.apply {
+                        when(topThree?.size) {
+                            1 -> {
+                                val firstPlace = topThree[0]
+                                firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
+                            }
+                            2 -> {
+                                val firstPlace = topThree[0]
+                                firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
+                                val secondPlace = topThree[1]
+                                secondPlace.topThreeBind(ivAvatarSecondRank, tvUsernameSecondRank, tvXpSecondRank)
+                            }
+                            3 -> {
+                                val firstPlace = topThree[0]
+                                firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
+                                val secondPlace = topThree[1]
+                                secondPlace.topThreeBind(ivAvatarSecondRank, tvUsernameSecondRank, tvXpSecondRank)
+                                val thirdPlace = topThree[2]
+                                thirdPlace.topThreeBind(ivAvatarThirdRank, tvUsernameThirdRank, tvXpThirdRank)
+                            }
+                        }
+                    }
+                }
+                progressBarLeaderboard.visibility = View.INVISIBLE
+                rvLeaderboard.visibility = View.VISIBLE
+                remains?.let { list -> adapter.submitData(list) }
             }
         }
 
