@@ -23,9 +23,7 @@ import com.ramiyon.soulmath.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 class SoulMathRepositoryImpl(
@@ -80,7 +78,7 @@ class SoulMathRepositoryImpl(
         }.asFlow()
 
     override fun fetchLeaderboard(shouldFetch: Boolean): Flow<Resource<List<Leaderboard>>> =
-        object : NetworkBoundWorker<List<LeaderboardResponse>?, List<LeaderboardEntity>, List<Leaderboard>>(context) {
+        object : NetworkBoundWorker<List<LeaderboardResponse>?, List<LeaderboardEntity>, List<Leaderboard>>() {
             override suspend fun callApi(): Flow<RemoteResponse<List<LeaderboardResponse>?>> {
                 return remoteDataSource.fetchLeaderboard()
             }
@@ -89,20 +87,10 @@ class SoulMathRepositoryImpl(
                 return localDataSource.getLeaderboard()
             }
 
-            override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
-                return mutableMapOf(
-                    WorkerParams.STUDENT_ID.param to getCurrentStudentId()
-                )
-            }
-
             override suspend fun saveToDatabase(data: List<LeaderboardResponse>?) {
                 data?.forEach {
                     localDataSource.insertAllLeaderboard(it.toLeaderboardEntity())
                 }
-            }
-
-            override fun callWorkerCommand(): WorkerCommand {
-                return WorkerCommand.WORKER_COMMAND_UPDATE_LEADERBOARD
             }
 
             override fun mapApiToDomain(data: List<LeaderboardResponse>?): List<Leaderboard> {
@@ -132,9 +120,7 @@ class SoulMathRepositoryImpl(
                 }.join()
                 return list.isEmpty()
             }
-
-
-        }.doPeriodicWork()
+        }.asFlow()
 
     override fun fetchStudentRank(): Flow<Resource<Leaderboard>> =
        object : NetworkOnlyResource<Leaderboard, LeaderboardResponse?>() {

@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.*
 import com.bumptech.glide.Glide
 import com.gdsc.gdsctoast.GDSCToast.Companion.showAnyToast
 import com.gdsc.gdsctoast.util.ToastShape
 import com.gdsc.gdsctoast.util.ToastType
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseFragment
+import com.ramiyon.soulmath.data.worker.LeaderboardWorker
 import com.ramiyon.soulmath.databinding.DialogRankBinding
 import com.ramiyon.soulmath.databinding.FragmentLeaderboardBinding
 import com.ramiyon.soulmath.domain.model.Leaderboard
@@ -20,12 +22,14 @@ import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
 import org.koin.android.ext.android.inject
+import org.koin.androidx.navigation.koinNavGraphViewModel
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
+import java.util.concurrent.TimeUnit
 
 class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
 
     private val adapter by inject<LeaderboardAdapter>()
-    private val viewModel: LeaderboardViewModel by stateViewModel()
+    private val viewModel: LeaderboardViewModel by koinNavGraphViewModel(R.id.mobile_navigation)
     private lateinit var dialogRankBinding: DialogRankBinding
 
     override fun inflateViewBinding(container: ViewGroup?): FragmentLeaderboardBinding =
@@ -47,6 +51,37 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
             }
         }
 
+        refresh.setOnRefreshListener {
+            viewModel.fetchLeaderboard(true).observe(viewLifecycleOwner) {
+                when (it) {
+                    is Resource.Loading -> leaderboardResourceCallback.onResourceLoading()
+                    is Resource.Success -> {
+                        leaderboardResourceCallback.onResourceSuccess(it.data)
+                        refresh.setRefreshing(false)
+                    }
+                    is Resource.Error -> leaderboardResourceCallback.onResourceError(it.message, it.data)
+                    is Resource.Empty -> leaderboardResourceCallback.onResourceEmpty()
+                }
+            }
+        }
+
+        ivLeaderboardInformation.setOnClickListener {
+            viewModel.fetchStudentRank().observe(viewLifecycleOwner) { rankResource ->
+                when(rankResource) {
+                    is Resource.Success -> {
+                        val dialog = requireContext().buildLeaderboardDialog(dialogRankBinding, rankResource.data)
+                        ivLeaderboardInformation.setOnClickListener {
+                            dialog.show()
+                        }
+
+                    }
+                    is Resource.Loading ->  { }
+                    is Resource.Empty -> return@observe
+                    is Resource.Error -> { }
+                }
+            }
+        }
+
     }
 
     private val leaderboardResourceCallback = object : ResourceStateCallback<List<Leaderboard>?> {
@@ -61,49 +96,52 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
 
         override fun onResourceSuccess(data: List<Leaderboard>?) {
             binding?.apply {
-                viewModel.fetchStudentRank().observe(viewLifecycleOwner) { rankResource ->
-                    when(rankResource) {
-                        is Resource.Success -> {
-                            val dialog = requireContext().buildLeaderboardDialog(dialogRankBinding, rankResource.data)
-                            ivLeaderboardInformation.setOnClickListener {
-                                dialog.show()
+                progressBarTopThree.visibility = View.INVISIBLE
+                val topThree = data?.take(3)
+                val remains = data?.drop(3)
+                holderTopThree.apply {
+                    visibility = View.VISIBLE
+                    includeLeaderboardTopThree.apply {
+                        when(topThree?.size) {
+                            1 -> {
+                                val firstPlace = topThree[0]
+                                firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
                             }
-                            progressBarTopThree.visibility = View.INVISIBLE
-
-                            val topThree = data?.take(3)
-                            val remains = data?.drop(3)
-                            holderTopThree.apply {
-                                visibility = View.VISIBLE
-                                includeLeaderboardTopThree.apply {
-                                    when(topThree?.size) {
-                                        1 -> {
-                                            val firstPlace = topThree[0]
-                                            firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
-                                        }
-                                        2 -> {
-                                            val firstPlace = topThree[0]
-                                            firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
-                                            val secondPlace = topThree[1]
-                                            secondPlace.topThreeBind(ivAvatarSecondRank, tvUsernameSecondRank, tvXpSecondRank)
-                                        }
-                                        3 -> {
-                                            val firstPlace = topThree[0]
-                                            firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
-                                            val secondPlace = topThree[1]
-                                            secondPlace.topThreeBind(ivAvatarSecondRank, tvUsernameSecondRank, tvXpSecondRank)
-                                            val thirdPlace = topThree[2]
-                                            thirdPlace.topThreeBind(ivAvatarThirdRank, tvUsernameThirdRank, tvXpThirdRank)
-                                        }
-                                    }
-                                }
+                            2 -> {
+                                val firstPlace = topThree[0]
+                                firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
+                                val secondPlace = topThree[1]
+                                secondPlace.topThreeBind(ivAvatarSecondRank, tvUsernameSecondRank, tvXpSecondRank)
                             }
-                            progressBarLeaderboard.visibility = View.INVISIBLE
-                            rvLeaderboard.visibility = View.VISIBLE
-                            remains?.let { list -> adapter.submitData(list) }
+                            3 -> {
+                                val firstPlace = topThree[0]
+                                firstPlace.topThreeBind(ivAvatarFirstRank, tvUsernameFirstRank, tvXpFirstRank)
+                                val secondPlace = topThree[1]
+                                secondPlace.topThreeBind(ivAvatarSecondRank, tvUsernameSecondRank, tvXpSecondRank)
+                                val thirdPlace = topThree[2]
+                                thirdPlace.topThreeBind(ivAvatarThirdRank, tvUsernameThirdRank, tvXpThirdRank)
+                            }
                         }
-                        is Resource.Loading -> onResourceLoading()
-                        is Resource.Empty -> return@observe
-                        is Resource.Error -> onResourceError(rankResource.message, data)
+                    }
+                }
+                progressBarLeaderboard.visibility = View.INVISIBLE
+                rvLeaderboard.visibility = View.VISIBLE
+                remains?.let { list -> adapter.submitData(list) }
+
+                val constraints: Constraints = Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+
+                val periodicWorkRequest: PeriodicWorkRequest =
+                    PeriodicWorkRequestBuilder<LeaderboardWorker>(1, TimeUnit.MINUTES)
+                        .setConstraints(constraints)
+                        .build()
+
+                val workManager = WorkManager.getInstance(requireContext())
+                workManager.enqueueUniquePeriodicWork(this@LeaderboardFragment::class.java.simpleName, ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
+                workManager.getWorkInfoByIdLiveData(periodicWorkRequest.id).observeForever {
+                    if (it.state == WorkInfo.State.FAILED) {
+                        workManager.enqueueUniquePeriodicWork(this@LeaderboardFragment::class.java.simpleName, ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
                     }
                 }
             }

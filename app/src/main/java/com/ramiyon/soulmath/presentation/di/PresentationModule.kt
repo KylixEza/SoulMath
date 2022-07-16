@@ -22,7 +22,7 @@ val viewModelModule = module {
     viewModel { SplashViewModel(get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
-    viewModel { LeaderboardViewModel(get(), get()) }
+    viewModel { LeaderboardViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
 }
 
