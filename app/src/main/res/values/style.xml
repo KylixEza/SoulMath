@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ScComponents">
+        ...
+        <attr name="angleStart" format="float" />
+        <attr name="angleSweep" format="float" />
+        <attr name="progressColor" format="color"/>
+        <attr name="progressSize" format="dimension"/>
+        <attr name="strokeColor" format="color"/>
+        <attr name="strokeSize" format="dimension"/>
+    </declare-styleable>
+</resources>

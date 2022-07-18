@@ -42,11 +42,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                 val email = edtEmail.editText?.text.toString()
                 val password = edtPassword.editText?.text.toString()
                 val username = edtUsername.editText?.text.toString()
-                val address = edtAddress.editText?.text.toString()
                 val phoneNumber = edtPhoneNumber.editText?.text.toString()
 
                 val user = Student(
-                    address = address, email = email, username = username, phoneNumber = phoneNumber
+                    address = "", email = email, username = username, phoneNumber = phoneNumber
                 )
 
                 viewModel.signUp(

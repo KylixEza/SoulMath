@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <net.vrgsoft.arcprogress.ArcProgressBar
+        android:id="@+id/apb_first_sub_module"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:arc_text_color="@android:color/transparent"
+        app:arc_thickness="16dp"
+        app:arc_progress_start_color="@color/primary_700"
+        app:arc_progress_end_color="@color/primary_700"
+        app:arc_unfinished_color="@color/primary_50"/>
+
+    <ImageView
+        android:id="@+id/iv_first_sub_module_first_crown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/ic_crowned"
+        app:layout_constraintBottom_toBottomOf="@id/apb_first_sub_module"
+        app:layout_constraintStart_toStartOf="@id/apb_first_sub_module"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ dependencyResolutionManagement {
         mavenCentral()
         jcenter()
         maven { url 'https://jitpack.io' }
+        maven { url 'https://repo.aws.10clouds.com:8081/artifactory/gradle-dev-local/' }
     }
 }
 rootProject.name = "SoulMath"

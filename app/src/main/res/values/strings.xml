@@ -11,6 +11,7 @@
     <string name="next">Berikutnya</string>
     <string name="login">Masuk</string>
     <string name="email">Email</string>
+    <string name="your_password">Your Password</string>
     <string name="password">Password</string>
     <string name="remember_me">Ingat saya</string>
     <string name="forget_password">Lupa password?</string>
