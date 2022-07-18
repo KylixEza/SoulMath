@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <net.vrgsoft.arcprogress.ArcProgressBar
-        android:id="@+id/apb_first_sub_module"
+        android:id="@+id/apb_sub_module"
         android:layout_width="110dp"
         android:layout_height="110dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,14 +18,53 @@
         app:arc_unfinished_color="@color/primary_50"/>
 
     <ImageView
-        android:id="@+id/iv_first_sub_module_first_crown"
+        android:id="@+id/iv_sub_module_first_crown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:src="@drawable/ic_crowned"
-        app:layout_constraintBottom_toBottomOf="@id/apb_first_sub_module"
-        app:layout_constraintStart_toStartOf="@id/apb_first_sub_module"/>
+        android:src="@drawable/ic_uncrowned"
+        app:layout_constraintBottom_toBottomOf="@id/apb_sub_module"
+        app:layout_constraintStart_toStartOf="@id/apb_sub_module"/>
 
+    <ImageView
+        android:id="@+id/iv_sub_module_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/apb_sub_module"
+        app:layout_constraintEnd_toEndOf="@id/apb_sub_module"
+        app:layout_constraintTop_toTopOf="@id/apb_sub_module"
+        app:layout_constraintBottom_toBottomOf="@id/apb_sub_module"
+        tools:src="@drawable/ic_example_sub_module_identifier"/>
 
+    <ImageView
+        android:id="@+id/iv_sub_module_second_crown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-18dp"
+        android:src="@drawable/ic_uncrowned"
+        app:layout_constraintStart_toStartOf="@id/iv_sub_module_icon"
+        app:layout_constraintEnd_toEndOf="@id/iv_sub_module_icon"
+        app:layout_constraintTop_toBottomOf="@id/iv_sub_module_icon"/>
+
+    <ImageView
+        android:id="@+id/iv_sub_module_third_crown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_uncrowned"
+        app:layout_constraintEnd_toEndOf="@id/apb_sub_module"
+        app:layout_constraintBottom_toBottomOf="@id/apb_sub_module"/>
+
+    <TextView
+        android:id="@+id/tv_title_sub_module"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/neutral_900"
+        app:layout_constraintStart_toStartOf="@id/apb_sub_module"
+        app:layout_constraintEnd_toEndOf="@id/apb_sub_module"
+        app:layout_constraintTop_toBottomOf="@id/apb_sub_module"
+        tools:text="Satu Angka"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
