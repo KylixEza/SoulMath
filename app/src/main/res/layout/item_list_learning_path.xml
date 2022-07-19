@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_module_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_module_header"/>
+
+    <com.ramiyon.soulmath.presentation.custom.rounded_progress_bar.SoulMathRoundedProgressBar
+        android:id="@+id/pb_module"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="36dp"
+        android:rotation="180"
+        app:arc_progress_start_color="@color/primary_700"
+        app:arc_progress_end_color="@color/primary_700"
+        app:arc_unfinished_color="@color/primary_50"
+        app:arc_thickness="16dp"
+        app:arc_progress="66"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_module_header"/>
+
+    <ImageView
+        android:id="@+id/iv_module_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/pb_module"
+        app:layout_constraintEnd_toEndOf="@id/pb_module"
+        app:layout_constraintTop_toTopOf="@id/pb_module"
+        app:layout_constraintBottom_toBottomOf="@id/pb_module"
+        tools:src="@drawable/ic_example_sub_module_identifier"/>
+
+    <TextView
+        android:id="@+id/tv_module_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/material"
+        android:textColor="@color/neutral_900"
+        android:fontFamily="@font/poppins_semibold"
+        app:layout_constraintStart_toStartOf="@id/pb_module"
+        app:layout_constraintTop_toBottomOf="@id/pb_module"
+        app:layout_constraintEnd_toEndOf="@id/pb_module"/>
+
+    <ImageView
+        android:id="@+id/iv_sub_module_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/ic_sub_module_path"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/first_sub_module_container"/>
+
+    <FrameLayout
+        android:id="@+id/first_sub_module_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/iv_sub_module_path"
+        app:layout_constraintTop_toBottomOf="@id/tv_module_title"
+        app:layout_constraintEnd_toStartOf="@id/iv_sub_module_path">
+        <include
+            android:id="@+id/first_sub_module"
+            layout="@layout/include_sub_module_progress_bar"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/second_sub_module_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/iv_sub_module_path"
+        app:layout_constraintTop_toBottomOf="@id/iv_sub_module_path"
+        app:layout_constraintBottom_toBottomOf="@id/iv_sub_module_path"
+        app:layout_constraintEnd_toEndOf="@id/iv_sub_module_path">
+        <include
+            android:id="@+id/second_sub_module"
+            layout="@layout/include_sub_module_progress_bar"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/third_sub_module_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/iv_sub_module_path"
+        app:layout_constraintEnd_toEndOf="@id/iv_sub_module_path"
+        app:layout_constraintTop_toBottomOf="@id/tv_module_title">
+        <include
+            android:id="@+id/third_sub_module"
+            layout="@layout/include_sub_module_progress_bar"/>
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
