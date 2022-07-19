@@ -1,12 +1,20 @@
 package com.ramiyon.soulmath.presentation.ui.material.dashboard
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.base.BaseActivity
+import com.ramiyon.soulmath.databinding.ActivityMaterialDashboardBinding
+import com.ramiyon.soulmath.util.ScreenOrientation
 
-class MaterialDashboardActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_material_dashboard)
+class MaterialDashboardActivity : BaseActivity<ActivityMaterialDashboardBinding>() {
+    override fun inflateViewBinding(): ActivityMaterialDashboardBinding {
+        return ActivityMaterialDashboardBinding.inflate(layoutInflater)
     }
+
+    override fun determineScreenOrientation(): ScreenOrientation? {
+        return ScreenOrientation.PORTRAIT
+    }
+
+    override fun ActivityMaterialDashboardBinding?.binder() {
+
+    }
+
 }

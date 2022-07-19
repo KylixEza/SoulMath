@@ -1,12 +1,20 @@
 package com.ramiyon.soulmath.presentation.ui.material.onboard
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.base.BaseActivity
+import com.ramiyon.soulmath.databinding.ActivityMaterialOnBoardBinding
+import com.ramiyon.soulmath.util.ScreenOrientation
 
-class MaterialOnBoardActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_material_on_board)
+class MaterialOnBoardActivity : BaseActivity<ActivityMaterialOnBoardBinding>() {
+    override fun inflateViewBinding(): ActivityMaterialOnBoardBinding {
+        return ActivityMaterialOnBoardBinding.inflate(layoutInflater)
     }
+
+    override fun determineScreenOrientation(): ScreenOrientation? {
+        return ScreenOrientation.PORTRAIT
+    }
+
+    override fun ActivityMaterialOnBoardBinding?.binder() {
+
+    }
+
 }

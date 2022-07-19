@@ -1,12 +1,20 @@
 package com.ramiyon.soulmath.presentation.ui.material.reward
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.base.BaseActivity
+import com.ramiyon.soulmath.databinding.ActivityMaterialRewardBinding
+import com.ramiyon.soulmath.util.ScreenOrientation
 
-class MaterialRewardActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_material_reward)
+class MaterialRewardActivity : BaseActivity<ActivityMaterialRewardBinding>() {
+    override fun inflateViewBinding(): ActivityMaterialRewardBinding {
+        return ActivityMaterialRewardBinding.inflate(layoutInflater)
     }
+
+    override fun determineScreenOrientation(): ScreenOrientation? {
+        return ScreenOrientation.PORTRAIT
+    }
+
+    override fun ActivityMaterialRewardBinding?.binder() {
+
+    }
+
 }
