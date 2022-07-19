@@ -1,32 +1,22 @@
 package com.ramiyon.soulmath.presentation.ui.material.onboard.screens.third
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.base.BaseFragment
+import com.ramiyon.soulmath.databinding.FragmentMaterialOnBoardThirdScreenBinding
+import com.ramiyon.soulmath.util.ScreenOrientation
 
-class MaterialOnBoardThirdScreenFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = MaterialOnBoardThirdScreenFragment()
+class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardThirdScreenBinding>() {
+    override fun inflateViewBinding(container: ViewGroup?): FragmentMaterialOnBoardThirdScreenBinding {
+        return FragmentMaterialOnBoardThirdScreenBinding.inflate(layoutInflater, container, false)
     }
 
-    private lateinit var viewModel: MaterialOnBoardThirdScreenViewModel
+    override fun FragmentMaterialOnBoardThirdScreenBinding.binder() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_material_on_board_third_screen, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MaterialOnBoardThirdScreenViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun determineScreenOrientation(): ScreenOrientation {
+        return ScreenOrientation.PORTRAIT
     }
+
 
 }
