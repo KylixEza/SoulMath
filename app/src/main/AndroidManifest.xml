@@ -3,7 +3,7 @@
     package="com.ramiyon.soulmath">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".SoulMath"
@@ -13,6 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SoulMath">
+        <activity
+            android:name=".MaterialVideoPlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MaterialRewardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MaterialDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MaterialOnBoardActivity"
+            android:exported="false" />
         <activity
             android:name="com.ramiyon.soulmath.presentation.ui.auth.AuthActivity"
             android:exported="false" />
@@ -27,8 +39,7 @@
         </activity>
         <activity
             android:name=".presentation.ui.MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
