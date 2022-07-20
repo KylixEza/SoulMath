@@ -1,5 +1,6 @@
 package com.ramiyon.soulmath.presentation.ui.material.onboard.screens.second
 
+import android.graphics.Paint
 import android.view.ViewGroup
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentMaterialOnBoardSecondScreenBinding
@@ -12,7 +13,7 @@ class MaterialOnBoardSecondScreenFragment : BaseFragment<FragmentMaterialOnBoard
     }
 
     override fun FragmentMaterialOnBoardSecondScreenBinding.binder() {
-
+        tvLearningPurpose.paintFlags = Paint.UNDERLINE_TEXT_FLAG
     }
 
     override fun determineScreenOrientation(): ScreenOrientation {

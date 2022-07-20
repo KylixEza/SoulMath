@@ -1,13 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.ui.material.onboard.screens.second.MaterialOnBoardSecondScreenFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+    <ImageView
+        android:id="@+id/iv_gif_material_second_onboard"
+        android:layout_width="286dp"
+        android:layout_height="286dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-</FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/card_view_material_onboard"
+        app:layout_constraintTop_toBottomOf="@id/iv_gif_material_second_onboard"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tv_material_second_onboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginHorizontal="84dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Tahukah kamu materi apa yang akan kita pelajari kali ini?"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next_material_second_onboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="136dp"
+            android:layout_marginTop="84dp"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="12dp"
+            android:layout_gravity="center"
+            android:text="@string/next"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppins_semibold"
+            android:backgroundTint="@color/secondary_blue"
+            android:drawableEnd="@drawable/ic_circle_next"
+            android:drawablePadding="16dp"
+            app:layout_constraintStart_toStartOf="@id/tv_material_second_onboard"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_material_second_onboard"
+            app:cornerRadius="10dp">
+        </com.google.android.material.button.MaterialButton>
+
+        <TextView
+            android:id="@+id/tv_learning_purpose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:text="@string/learning_purpose"
+            app:layout_constraintStart_toStartOf="@id/btn_next_material_second_onboard"
+            app:layout_constraintEnd_toEndOf="@id/btn_next_material_second_onboard"
+            app:layout_constraintTop_toBottomOf="@id/btn_next_material_second_onboard"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

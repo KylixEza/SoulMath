@@ -11,16 +11,13 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
-        <androidx.cardview.widget.CardView
+        <FrameLayout
             android:id="@+id/profile_header_container"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:translationZ="-2dp"
-            android:backgroundTint="@color/primary_blue"
-            android:background="@color/primary_blue"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shape_roundRect_bottomLeftRadius="34dp"
-            app:shape_roundRect_bottomRightRadius="34dp"/>
+            android:background="@drawable/card_view_profile"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/tv_header_profile"
