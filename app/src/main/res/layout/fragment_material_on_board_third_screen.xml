@@ -1,13 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.ui.material.onboard.screens.third.MaterialOnBoardThirdScreenFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+    <ImageView
+        android:id="@+id/iv_upper_image_third_onboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="58dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/iv_example_material_third_onboard"/>
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/iv_lower_image_third_onboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/iv_upper_image_third_onboard"
+        app:layout_constraintTop_toBottomOf="@id/iv_upper_image_third_onboard"
+        app:layout_constraintEnd_toEndOf="@id/iv_upper_image_third_onboard"
+        tools:src="@drawable/iv_example_material_third_onboard"/>
+
+    <TextView
+        android:id="@+id/tv_material_third_onboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginHorizontal="84dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_lower_image_third_onboard"
+        tools:text="Di atas ini adalah contoh dari angka yang akan kita pelajari hari ini!"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_next_material_third_onboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="136dp"
+        android:layout_marginTop="84dp"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="12dp"
+        android:layout_gravity="center"
+        android:text="@string/next"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins_semibold"
+        android:backgroundTint="@color/secondary_blue"
+        android:drawableEnd="@drawable/ic_circle_next"
+        android:drawablePadding="16dp"
+        app:layout_constraintStart_toStartOf="@id/tv_material_third_onboard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tv_material_third_onboard"
+        app:cornerRadius="10dp">
+    </com.google.android.material.button.MaterialButton>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
