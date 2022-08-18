@@ -1,5 +1,7 @@
 package com.ramiyon.soulmath.domain.di
 
+import com.ramiyon.soulmath.domain.usecase.home.HomeUseCase
+import com.ramiyon.soulmath.domain.usecase.home.HomeUseCaseImpl
 import com.ramiyon.soulmath.domain.usecase.leaderboard.LeaderboardUseCaseImpl
 import com.ramiyon.soulmath.domain.usecase.leaderboard.LeaderboardUseCase
 import com.ramiyon.soulmath.domain.usecase.login.LoginUseCase
@@ -21,4 +23,5 @@ val useCaseModule = module {
     single<RegisterUseCase> { RegisterUseCaseImpl(get()) }
     single<LeaderboardUseCase> { LeaderboardUseCaseImpl(get()) }
     single<ProfileUseCase> { ProfileUseCaseImpl(get()) }
+    single<HomeUseCase> { HomeUseCaseImpl(get()) }
 }

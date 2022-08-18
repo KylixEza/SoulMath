@@ -2,6 +2,7 @@ package com.ramiyon.soulmath.presentation.di
 
 import com.ramiyon.soulmath.presentation.adapter.DailyXpAdapter
 import com.ramiyon.soulmath.presentation.adapter.LeaderboardAdapter
+import com.ramiyon.soulmath.presentation.adapter.LearningJourneyAdapter
 import com.ramiyon.soulmath.presentation.adapter.ProfileAddOnAdapter
 import com.ramiyon.soulmath.presentation.ui.auth.login.LoginViewModel
 import com.ramiyon.soulmath.presentation.ui.auth.register.RegisterViewModel
@@ -36,4 +37,5 @@ val adapterModule = module {
     factory { LeaderboardAdapter(androidContext()) }
     factory { DailyXpAdapter(androidContext()) }
     factory { ProfileAddOnAdapter(androidContext()) }
+    factory { LearningJourneyAdapter(androidContext()) }
 }

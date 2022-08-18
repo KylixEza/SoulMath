@@ -2,6 +2,7 @@ package com.ramiyon.soulmath.data.source.remote.api
 
 import com.ramiyon.soulmath.data.source.remote.api.response.BaseResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.LearningJourneyResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import retrofit2.http.*
@@ -25,6 +26,9 @@ interface ApiService {
 
     @GET("/leaderboard/{studentId}")
     suspend fun fetchStudentRank(@Path("studentId") studentId: String): BaseResponse<LeaderboardResponse>
+
+    @GET("/{studentId}/learning-journey")
+    suspend fun fetchLearningJourney(@Path("studentId") studentId: String): BaseResponse<List<LearningJourneyResponse>>
 
     
 

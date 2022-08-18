@@ -3,6 +3,7 @@ package com.ramiyon.soulmath.base
 import android.util.Log
 import com.ramiyon.soulmath.data.util.RemoteResponse
 import com.ramiyon.soulmath.util.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 abstract class NetworkOnlyResource<ResultType, RequestType> {
@@ -17,7 +18,7 @@ abstract class NetworkOnlyResource<ResultType, RequestType> {
             is RemoteResponse.Empty -> emit(Resource.Empty())
             is RemoteResponse.Error -> emit(Resource.Error<ResultType>(apiResponse.errorMessage))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     protected abstract suspend fun createCall(): Flow<RemoteResponse<RequestType>>
 

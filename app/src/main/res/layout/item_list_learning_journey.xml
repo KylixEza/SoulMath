@@ -16,7 +16,7 @@
         tools:src="@drawable/ic_module_header"/>
 
     <com.ramiyon.soulmath.presentation.custom.rounded_progress_bar.SoulMathRoundedProgressBar
-        android:id="@+id/pb_module"
+        android:id="@+id/pb_material"
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_marginTop="36dp"
@@ -34,10 +34,10 @@
         android:id="@+id/iv_module_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/pb_module"
-        app:layout_constraintEnd_toEndOf="@id/pb_module"
-        app:layout_constraintTop_toTopOf="@id/pb_module"
-        app:layout_constraintBottom_toBottomOf="@id/pb_module"
+        app:layout_constraintStart_toStartOf="@id/pb_material"
+        app:layout_constraintEnd_toEndOf="@id/pb_material"
+        app:layout_constraintTop_toTopOf="@id/pb_material"
+        app:layout_constraintBottom_toBottomOf="@id/pb_material"
         tools:src="@drawable/ic_example_sub_module_identifier"/>
 
     <TextView
@@ -48,9 +48,9 @@
         android:text="@string/material"
         android:textColor="@color/neutral_900"
         android:fontFamily="@font/poppins_semibold"
-        app:layout_constraintStart_toStartOf="@id/pb_module"
-        app:layout_constraintTop_toBottomOf="@id/pb_module"
-        app:layout_constraintEnd_toEndOf="@id/pb_module"/>
+        app:layout_constraintStart_toStartOf="@id/pb_material"
+        app:layout_constraintTop_toBottomOf="@id/pb_material"
+        app:layout_constraintEnd_toEndOf="@id/pb_material"/>
 
     <ImageView
         android:id="@+id/iv_sub_module_path"

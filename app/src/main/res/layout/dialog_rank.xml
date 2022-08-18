@@ -59,7 +59,7 @@
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_profile"
-            app:drawableStartCompat="@drawable/ic_leaderboard_star"
+            app:drawableStartCompat="@drawable/ic_leaderboard_star_24"
             tools:text="2300 XP" />
 
         <TextView

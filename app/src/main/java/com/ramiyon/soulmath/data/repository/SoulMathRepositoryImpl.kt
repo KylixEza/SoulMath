@@ -10,6 +10,7 @@ import com.ramiyon.soulmath.data.source.local.database.enitity.LeaderboardEntity
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.LearningJourneyResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.data.util.LocalAnswer
 import com.ramiyon.soulmath.data.util.RemoteResponse
@@ -18,6 +19,7 @@ import com.ramiyon.soulmath.data.worker.WorkerParams
 import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
+import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import com.ramiyon.soulmath.util.*
 import kotlinx.coroutines.CoroutineScope
@@ -209,6 +211,18 @@ class SoulMathRepositoryImpl(
                 return localDataSource.decreaseStudentXp(student.toStudentEntity(), costXp)
             }
         }.doWork()
+
+    override fun fetchLearningJourney(): Flow<Resource<List<LearningJourney>>> =
+        object : NetworkOnlyResource<List<LearningJourney>, List<LearningJourneyResponse>?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<List<LearningJourneyResponse>?>> {
+                return remoteDataSource.fetchLearningJourney(getCurrentStudentId()!!)
+            }
+
+            override fun mapTransform(data: List<LearningJourneyResponse>?): List<LearningJourney> {
+                return data?.map { it.toLearningJourney() }!!
+            }
+        }.asFlow()
+
 
     override fun getDailyXpList() =
         object : DatabaseOnlyResource<List<DailyXpEntity>, List<DailyXp>>() {

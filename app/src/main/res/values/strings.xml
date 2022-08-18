@@ -43,4 +43,7 @@
     <string name="other_information">Info lainnya</string>
     <string name="material">Materi</string>
     <string name="learning_purpose">Baca Tujuan Pembelajaran</string>
+    <string name="ready_to_study_today">Sudah siap belajar hari ini?</string>
+    <string name="daily_bonus">Bonus harian</string>
+    <string name="collect">Kumpulkan</string>
 </resources>

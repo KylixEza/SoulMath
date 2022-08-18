@@ -4,11 +4,19 @@ import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
 import com.ramiyon.soulmath.data.source.local.database.enitity.LeaderboardEntity
 import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.GameDifficultyLearningJourneyResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.GameLearningJourneyResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.LearningJourneyResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.MaterialLearningJourneyResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
+import com.ramiyon.soulmath.domain.model.learning_journey.GameDifficultyLearningJourney
+import com.ramiyon.soulmath.domain.model.learning_journey.GameLearningJourney
+import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
+import com.ramiyon.soulmath.domain.model.learning_journey.MaterialLearningJourney
 
 fun Student.toStudentBody() = StudentBody(
     studentId, address, avatar, username, email, phoneNumber, xp
@@ -48,4 +56,22 @@ fun LeaderboardEntity.toLeaderboard() = Leaderboard(
 
 fun DailyXpEntity.toDailyXp() = DailyXp(
     dailyXpId, dailyXp, day, isTaken
+)
+
+fun LearningJourneyResponse.toLearningJourney() = LearningJourney(
+    moduleId, moduleTitle, moduleImage, moduleIconLocked, moduleIconUnlocked, isModuleUnlocked,
+    materialLearningJourneyResponse.toMaterialLearningJourney(), gameLearningJourneyResponses.map { it.toGameLearningJourney() }
+)
+
+private fun MaterialLearningJourneyResponse.toMaterialLearningJourney() = MaterialLearningJourney(
+    moduleId, materialPercentage, currentMaterialId
+)
+
+private fun GameLearningJourneyResponse.toGameLearningJourney() = GameLearningJourney(
+    moduleId, subModuleId, subModuleTitle, gameIds.toGameDifficultyLearningJourney(), isGameUnlocked, gamePercentage,
+    isDifficultiesUnlocked.toGameDifficultyLearningJourney(), isDifficultiesCrowned.toGameDifficultyLearningJourney()
+)
+
+private fun<T> GameDifficultyLearningJourneyResponse<T>.toGameDifficultyLearningJourney() = GameDifficultyLearningJourney(
+    easy, medium, hard
 )
