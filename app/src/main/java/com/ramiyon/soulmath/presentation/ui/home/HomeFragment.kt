@@ -8,6 +8,7 @@ import com.gdsc.gdsctoast.util.ToastType
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentHomeBinding
+import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
@@ -31,6 +32,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
+
         viewModel.fetchLearningJourney().observe(viewLifecycleOwner) {
             when(it) {
                 is Resource.Loading -> learningJourneyResourceCallback.onResourceLoading()
@@ -48,6 +50,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 is Resource.Empty -> studentResourceCallback.onResourceEmpty()
             }
         }
+
+        viewModel.getCurrentDailyXp().observe(viewLifecycleOwner) {
+            when(it) {
+                is Resource.Loading -> dailyXpResourceCallback.onResourceLoading()
+                is Resource.Success -> dailyXpResourceCallback.onResourceSuccess(it.data!!)
+                is Resource.Error -> dailyXpResourceCallback.onResourceError(it.message, null)
+                is Resource.Empty -> dailyXpResourceCallback.onResourceEmpty()
+            }
+        }
+
     }
 
     override fun determineScreenOrientation(): ScreenOrientation {
@@ -76,6 +88,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     visibility = visible
                     text = data.xp.toString()
                 }
+            }
+        }
+
+        override fun onResourceError(message: String?, data: List<Leaderboard>?) {
+            binding?.apply {
+                requireContext().apply { showAnyToast { it.apply {
+                    text = message.toString()
+                    toastType = ToastType.ERROR
+                    toastShape = ToastShape.RECTANGLE
+                } } }
+            }
+        }
+
+        override fun onResourceEmpty() {
+
+        }
+    }
+
+    private val dailyXpResourceCallback = object : ResourceStateCallback<DailyXp> {
+        override fun onResourceLoading() {
+            binding?.apply {
+                progressIncludeTakeDailyXp.visibility = visible
+                containerTakeDailyXp.visibility = invisible
+            }
+        }
+
+        override fun onResourceSuccess(data: DailyXp) {
+            binding?.apply {
+                progressIncludeTakeDailyXp.visibility = invisible
+                containerTakeDailyXp.visibility = visible
+                includeTakeDailyXp.tvDailyBonusXp.text = data.dailyXp.toString()
             }
         }
 

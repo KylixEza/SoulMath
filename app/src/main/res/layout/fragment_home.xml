@@ -117,15 +117,18 @@
             app:layout_constraintTop_toBottomOf="@id/cv_student_xp_container"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <include
-            android:id="@+id/include_take_daily_xp"
+        <FrameLayout
+            android:id="@+id/container_take_daily_xp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            layout="@layout/include_take_daily_xp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_ready_to_study_today"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent">
+            <include
+                android:id="@+id/include_take_daily_xp"
+                layout="@layout/include_take_daily_xp"/>
+        </FrameLayout>
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/progress_include_take_daily_xp"
@@ -147,7 +150,7 @@
             android:nestedScrollingEnabled="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/include_take_daily_xp"
+            app:layout_constraintTop_toBottomOf="@id/container_take_daily_xp"
             tools:listitem="@layout/item_list_learning_journey"/>
 
         <com.facebook.shimmer.ShimmerFrameLayout
@@ -158,7 +161,7 @@
             android:nestedScrollingEnabled="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/include_take_daily_xp">
+            app:layout_constraintTop_toBottomOf="@id/container_take_daily_xp">
             <include layout="@layout/item_list_learning_journey"/>
         </com.facebook.shimmer.ShimmerFrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
