@@ -43,6 +43,22 @@
                     app:layout_constraintBottom_toBottomOf="@id/iv_student_xp"
                     tools:text="1000 XP"/>
 
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/progress_tv_student_xp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/iv_student_xp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_student_xp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        tools:text="1000 XP"/>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
                 <ImageView
                     android:id="@+id/iv_student_xp"
                     android:layout_width="24dp"
@@ -70,6 +86,24 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Hi, Eric Alexander"/>
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/progress_tv_greeting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            app:shimmer_auto_start="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                tools:text="Hi, Eric Alexander"/>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <TextView
             android:id="@+id/tv_ready_to_study_today"
             android:layout_width="wrap_content"
@@ -93,15 +127,39 @@
             app:layout_constraintTop_toBottomOf="@id/tv_ready_to_study_today"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/progress_include_take_daily_xp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_ready_to_study_today"
+            app:layout_constraintEnd_toEndOf="parent">
+            <include
+                layout="@layout/include_take_daily_xp"/>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_learning_journey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="12dp"
             android:nestedScrollingEnabled="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/include_take_daily_xp"
             tools:listitem="@layout/item_list_learning_journey"/>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/progress_rv_learning_journey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/include_take_daily_xp">
+            <include layout="@layout/item_list_learning_journey"/>
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
