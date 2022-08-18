@@ -6,6 +6,7 @@ import com.ramiyon.soulmath.presentation.adapter.LearningJourneyAdapter
 import com.ramiyon.soulmath.presentation.adapter.ProfileAddOnAdapter
 import com.ramiyon.soulmath.presentation.ui.auth.login.LoginViewModel
 import com.ramiyon.soulmath.presentation.ui.auth.register.RegisterViewModel
+import com.ramiyon.soulmath.presentation.ui.home.HomeViewModel
 import com.ramiyon.soulmath.presentation.ui.leaderboard.LeaderboardViewModel
 import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.first.MaterialOnBoardFirstScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.second.MaterialOnBoardSecondScreenViewModel
@@ -26,6 +27,7 @@ val viewModelModule = module {
     viewModel { SplashViewModel(get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
+    viewModel { HomeViewModel(get()) }
     viewModel { LeaderboardViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
     viewModel { MaterialOnBoardFirstScreenViewModel(get()) }
