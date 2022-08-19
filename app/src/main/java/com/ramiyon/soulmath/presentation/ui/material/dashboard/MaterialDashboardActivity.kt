@@ -13,7 +13,7 @@ class MaterialDashboardActivity : BaseActivity<ActivityMaterialDashboardBinding>
         return ScreenOrientation.PORTRAIT
     }
 
-    override fun ActivityMaterialDashboardBinding?.binder() {
+    override fun ActivityMaterialDashboardBinding.binder() {
 
     }
 

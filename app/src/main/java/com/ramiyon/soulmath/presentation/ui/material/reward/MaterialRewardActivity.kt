@@ -13,7 +13,7 @@ class MaterialRewardActivity : BaseActivity<ActivityMaterialRewardBinding>() {
         return ScreenOrientation.PORTRAIT
     }
 
-    override fun ActivityMaterialRewardBinding?.binder() {
+    override fun ActivityMaterialRewardBinding.binder() {
 
     }
 

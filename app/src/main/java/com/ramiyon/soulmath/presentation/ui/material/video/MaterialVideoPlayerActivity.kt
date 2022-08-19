@@ -13,7 +13,7 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
         return ScreenOrientation.PORTRAIT
     }
 
-    override fun ActivityMaterialVideoPlayerBinding?.binder() {
+    override fun ActivityMaterialVideoPlayerBinding.binder() {
 
     }
 

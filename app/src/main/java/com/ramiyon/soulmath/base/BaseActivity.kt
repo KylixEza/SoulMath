@@ -11,7 +11,7 @@ abstract class BaseActivity<VB: ViewBinding>: AppCompatActivity() {
 
     abstract fun inflateViewBinding(): VB
     abstract fun determineScreenOrientation(): ScreenOrientation?
-    abstract fun VB?.binder()
+    abstract fun VB.binder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
