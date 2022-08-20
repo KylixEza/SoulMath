@@ -9,6 +9,9 @@ import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.third.Mater
 import com.ramiyon.soulmath.util.ScreenOrientation
 
 class MaterialOnBoardActivity : BaseActivity<ActivityMaterialOnBoardBinding>() {
+
+    private lateinit var args: MaterialOnBoardActivityArgs
+
     override fun inflateViewBinding(): ActivityMaterialOnBoardBinding {
         return ActivityMaterialOnBoardBinding.inflate(layoutInflater)
     }
@@ -16,13 +19,16 @@ class MaterialOnBoardActivity : BaseActivity<ActivityMaterialOnBoardBinding>() {
     override fun determineScreenOrientation(): ScreenOrientation? = null
 
     override fun ActivityMaterialOnBoardBinding.binder() {
+
+        val materialId = args.materialId
+
         val adapter = OnBoardingViewPagerAdapter(
             supportFragmentManager,
             lifecycle
         )
 
         val fragments = listOf(
-            MaterialOnBoardFirstScreenFragment(),
+            MaterialOnBoardFirstScreenFragment.getInstance(materialId),
             MaterialOnBoardSecondScreenFragment(),
             MaterialOnBoardThirdScreenFragment()
         )

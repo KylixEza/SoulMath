@@ -9,7 +9,11 @@
         android:id="@+id/home_destination"
         android:name="com.ramiyon.soulmath.presentation.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_destination_to_materialOnBoardActivity"
+            app:destination="@id/materialOnBoardActivity" />
+    </keep_state_fragment>
 
     <keep_state_fragment
         android:id="@+id/leaderboard_destination"
@@ -23,6 +27,15 @@
         android:name="com.ramiyon.soulmath.presentation.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <activity
+        android:id="@+id/materialOnBoardActivity"
+        android:name="com.ramiyon.soulmath.presentation.ui.material.onboard.MaterialOnBoardActivity"
+        android:label="activity_material_on_board"
+        tools:layout="@layout/activity_material_on_board" >
+        <argument
+            android:name="materialId"
+            app:argType="string" />
+    </activity>
 
 
 </navigation>
