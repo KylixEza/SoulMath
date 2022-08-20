@@ -9,9 +9,10 @@ object MaterialOnBoardContent {
         MaterialOnBoard(materialId = "", page = 3, upperImage = 0, lowerImage = 0, description = "Di atas ini adalah contoh dari angka yang akan kita pelajari hari ini!"),
     )
 
-    fun getMaterialOnBoardContentById(materialId: String, page: Int) = getMaterialOnBoardContent().filter {
-        it.materialId == materialId && it.page == page
-    }
+    fun getMaterialOnBoardContentById(materialId: String, page: Int) =
+        getMaterialOnBoardContent().first {
+            it.materialId == materialId && it.page == page
+        }
 
     private fun getMaterialLearningPurpose() = listOf(
         Pair("materialId", "Melalui media video siswa mampu mengenali angka dengan tepat."),
@@ -20,7 +21,7 @@ object MaterialOnBoardContent {
         Pair("materialId", "Dengan mengerjakan latihan soal, siswa mampu menuliskan angka dengan tepat."),
     )
 
-    fun getMaterialLearningPurposeById(materialId: String) = getMaterialLearningPurpose().filter {
+    fun getMaterialLearningPurposeById(materialId: String) = getMaterialLearningPurpose().first {
        it.first == materialId
     }
 }

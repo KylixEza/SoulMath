@@ -6,6 +6,8 @@ import com.ramiyon.soulmath.domain.usecase.leaderboard.LeaderboardUseCaseImpl
 import com.ramiyon.soulmath.domain.usecase.leaderboard.LeaderboardUseCase
 import com.ramiyon.soulmath.domain.usecase.login.LoginUseCase
 import com.ramiyon.soulmath.domain.usecase.login.LoginUseCaseImpl
+import com.ramiyon.soulmath.domain.usecase.material.onboard.MaterialOnBoardUseCase
+import com.ramiyon.soulmath.domain.usecase.material.onboard.MaterialOnBoardUseCaseImpl
 import com.ramiyon.soulmath.domain.usecase.onboard.OnBoardUseCase
 import com.ramiyon.soulmath.domain.usecase.onboard.OnBoardUseCaseImpl
 import com.ramiyon.soulmath.domain.usecase.profile.ProfileUseCase
@@ -24,4 +26,5 @@ val useCaseModule = module {
     single<LeaderboardUseCase> { LeaderboardUseCaseImpl(get()) }
     single<ProfileUseCase> { ProfileUseCaseImpl(get()) }
     single<HomeUseCase> { HomeUseCaseImpl(get()) }
+    single<MaterialOnBoardUseCase> { MaterialOnBoardUseCaseImpl() }
 }
