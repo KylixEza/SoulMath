@@ -70,6 +70,8 @@
             android:textSize="14sp"
             android:textColor="@color/black"
             android:text="@string/learning_purpose"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintStart_toStartOf="@id/btn_next_material_second_onboard"
             app:layout_constraintEnd_toEndOf="@id/btn_next_material_second_onboard"
             app:layout_constraintTop_toBottomOf="@id/btn_next_material_second_onboard"/>

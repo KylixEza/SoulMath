@@ -29,7 +29,7 @@ class MaterialOnBoardActivity : BaseActivity<ActivityMaterialOnBoardBinding>() {
 
         val fragments = listOf(
             MaterialOnBoardFirstScreenFragment.getInstance(materialId),
-            MaterialOnBoardSecondScreenFragment(),
+            MaterialOnBoardSecondScreenFragment.getInstance(materialId),
             MaterialOnBoardThirdScreenFragment()
         )
 

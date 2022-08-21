@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.ActivityMaterialOnBoardBinding
 import com.ramiyon.soulmath.databinding.FragmentMaterialOnBoardFirstScreenBinding
-import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_ID
+import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
 import com.ramiyon.soulmath.util.ScreenOrientation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -20,7 +20,7 @@ class MaterialOnBoardFirstScreenFragment : BaseFragment<FragmentMaterialOnBoardF
     companion object {
         fun getInstance(moduleId: String) = MaterialOnBoardFirstScreenFragment().apply {
             arguments = Bundle().apply {
-                putString(ARG_MODULE_ID, moduleId)
+                putString(ARG_MATERIAL_ID, moduleId)
             }
         }
     }
@@ -28,7 +28,7 @@ class MaterialOnBoardFirstScreenFragment : BaseFragment<FragmentMaterialOnBoardF
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            materialId = it.getString(ARG_MODULE_ID)
+            materialId = it.getString(ARG_MATERIAL_ID)
         }
     }
 
