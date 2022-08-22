@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.ramiyon.soulmath.presentation.validator.ConstraintValidator
@@ -23,6 +24,7 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
     open fun onViewCreatedBehaviour() { }
     open fun constraintValidator(): ConstraintValidator? { return null }
     open fun onDestroyBehaviour() { }
+    open fun onBackPressedBehaviour() { }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +50,14 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
             binder()
             constraintValidator()?.validate()
         }
+
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressedBehaviour()
+            }
+        }
+
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, onBackPressedCallback)
     }
 
     override fun onDestroyView() {
