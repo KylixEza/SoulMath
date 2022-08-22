@@ -9,6 +9,7 @@ import com.ramiyon.soulmath.presentation.ui.material.dashboard.MaterialDashboard
 import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.first.MaterialOnBoardFirstScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.second.MaterialOnBoardSecondScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.third.MaterialOnBoardThirdScreenViewModel
+import com.ramiyon.soulmath.presentation.ui.material.video.MaterialVideoPlayerViewModel
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.first.FirstScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.second.SecondScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.third.ThirdScreenViewModel
@@ -32,6 +33,7 @@ val viewModelModule = module {
     viewModel { MaterialOnBoardSecondScreenViewModel(get()) }
     viewModel { MaterialOnBoardThirdScreenViewModel(get()) }
     viewModel { MaterialDashboardViewModel(get()) }
+    viewModel { MaterialVideoPlayerViewModel(get()) }
 }
 
 val adapterModule = module {
