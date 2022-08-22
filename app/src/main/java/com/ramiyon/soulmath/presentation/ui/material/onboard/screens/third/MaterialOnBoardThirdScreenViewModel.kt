@@ -6,6 +6,5 @@ import com.ramiyon.soulmath.domain.usecase.material.onboard.MaterialOnBoardUseCa
 class MaterialOnBoardThirdScreenViewModel(
     private val useCase: MaterialOnBoardUseCase
 ) : ViewModel() {
-
-    private fun getMaterialOnBoardThirdScreen(materialId: String) = useCase.getMaterialOnBoardContentById(materialId, 3)
+    fun getMaterialOnBoardThirdScreen(materialId: String) = useCase.getMaterialOnBoardContentById(materialId, 3)
 }

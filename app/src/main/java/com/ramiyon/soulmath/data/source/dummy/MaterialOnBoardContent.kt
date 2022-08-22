@@ -1,7 +1,7 @@
 package com.ramiyon.soulmath.data.source.dummy
 
-import com.ramiyon.soulmath.domain.model.MaterialLearningPurpose
-import com.ramiyon.soulmath.domain.model.MaterialOnBoard
+import com.ramiyon.soulmath.domain.model.material.MaterialLearningPurpose
+import com.ramiyon.soulmath.domain.model.material.MaterialOnBoard
 
 object MaterialOnBoardContent {
     private fun getMaterialOnBoardContent() = listOf(

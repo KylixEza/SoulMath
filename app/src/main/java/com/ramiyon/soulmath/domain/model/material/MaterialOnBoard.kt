@@ -1,4 +1,4 @@
-package com.ramiyon.soulmath.domain.model
+package com.ramiyon.soulmath.domain.model.material
 
 data class MaterialOnBoard(
     val materialId: String,

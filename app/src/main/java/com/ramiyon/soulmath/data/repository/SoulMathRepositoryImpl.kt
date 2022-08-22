@@ -11,6 +11,8 @@ import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.LearningJourneyResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialDetailResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.data.util.LocalAnswer
 import com.ramiyon.soulmath.data.util.RemoteResponse
@@ -20,6 +22,8 @@ import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
+import com.ramiyon.soulmath.domain.model.material.Material
+import com.ramiyon.soulmath.domain.model.material.MaterialDetail
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import com.ramiyon.soulmath.util.*
 import kotlinx.coroutines.CoroutineScope
@@ -291,4 +295,24 @@ class SoulMathRepositoryImpl(
 
     override suspend fun resetLeaderboard() = localDataSource.resetLeaderboard()
 
+    override fun fetchMaterials(moduleId: String): Flow<Resource<List<Material>>> =
+        object : NetworkOnlyResource<List<Material>, List<MaterialResponse>?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<List<MaterialResponse>?>> {
+                return remoteDataSource.fetchMaterials(moduleId, getCurrentStudentId()!!)
+            }
+            override fun mapTransform(data: List<MaterialResponse>?): List<Material> {
+                return data?.map { it.toMaterial() }!!
+            }
+        }.asFlow()
+
+    override fun fetchMaterialDetail(materialId: String): Flow<Resource<MaterialDetail>> =
+        object : NetworkOnlyResource<MaterialDetail, MaterialDetailResponse?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<MaterialDetailResponse?>> {
+                return remoteDataSource.fetchMaterialDetail(materialId, getCurrentStudentId()!!)
+            }
+
+            override fun mapTransform(data: MaterialDetailResponse?): MaterialDetail {
+                return data?.toMaterialDetail()!!
+            }
+        }.asFlow()
 }

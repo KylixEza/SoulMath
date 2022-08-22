@@ -3,6 +3,9 @@ package com.ramiyon.soulmath.data.source.remote.api
 import com.ramiyon.soulmath.data.source.remote.api.response.BaseResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.LearningJourneyResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialDetailResponse
+import com.ramiyon.soulmath.domain.model.material.MaterialDetail
+import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import retrofit2.http.*
@@ -30,6 +33,15 @@ interface ApiService {
     @GET("/{studentId}/learning-journey")
     suspend fun fetchLearningJourney(@Path("studentId") studentId: String): BaseResponse<List<LearningJourneyResponse>>
 
-    
+    @GET("/module/{moduleId}/materials/{studentId}")
+    suspend fun fetchMaterials(
+        @Path("moduleId") moduleId: String,
+        @Path("studentId") studentId: String
+    ): BaseResponse<List<MaterialResponse>>
 
+    @GET("/material/{materialId}/{studentId}")
+    suspend fun fetchMaterialDetail(
+        @Path("materialId") materialId: String,
+        @Path("studentId") studentId: String
+    ): BaseResponse<MaterialDetailResponse>
 }

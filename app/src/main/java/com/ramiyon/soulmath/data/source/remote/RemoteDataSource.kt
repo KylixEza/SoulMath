@@ -5,6 +5,9 @@ import com.ramiyon.soulmath.data.source.remote.api.ApiService
 import com.ramiyon.soulmath.data.source.remote.api.response.BaseResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.LearningJourneyResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialDetailResponse
+import com.ramiyon.soulmath.domain.model.material.MaterialDetail
+import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.data.util.FirebaseResponse
@@ -114,6 +117,20 @@ class RemoteDataSource(
         object : BaseRemoteResponse<List<LearningJourneyResponse>>() {
             override suspend fun call(): BaseResponse<List<LearningJourneyResponse>> {
                 return apiService.fetchLearningJourney(studentId)
+            }
+        }.asFlow()
+
+    suspend fun fetchMaterials(moduleId: String, studentId: String) =
+        object : BaseRemoteResponse<List<MaterialResponse>>() {
+            override suspend fun call(): BaseResponse<List<MaterialResponse>> {
+                return apiService.fetchMaterials(moduleId, studentId)
+            }
+        }.asFlow()
+
+    suspend fun fetchMaterialDetail(materialId: String, studentId: String) =
+        object : BaseRemoteResponse<MaterialDetailResponse>() {
+            override suspend fun call(): BaseResponse<MaterialDetailResponse> {
+                return apiService.fetchMaterialDetail(materialId, studentId)
             }
         }.asFlow()
 

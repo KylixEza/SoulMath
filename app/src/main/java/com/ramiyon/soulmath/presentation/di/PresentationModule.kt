@@ -5,6 +5,7 @@ import com.ramiyon.soulmath.presentation.ui.auth.login.LoginViewModel
 import com.ramiyon.soulmath.presentation.ui.auth.register.RegisterViewModel
 import com.ramiyon.soulmath.presentation.ui.home.HomeViewModel
 import com.ramiyon.soulmath.presentation.ui.leaderboard.LeaderboardViewModel
+import com.ramiyon.soulmath.presentation.ui.material.dashboard.MaterialDashboardViewModel
 import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.first.MaterialOnBoardFirstScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.second.MaterialOnBoardSecondScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.third.MaterialOnBoardThirdScreenViewModel
@@ -30,6 +31,7 @@ val viewModelModule = module {
     viewModel { MaterialOnBoardFirstScreenViewModel(get()) }
     viewModel { MaterialOnBoardSecondScreenViewModel(get()) }
     viewModel { MaterialOnBoardThirdScreenViewModel(get()) }
+    viewModel { MaterialDashboardViewModel(get()) }
 }
 
 val adapterModule = module {
@@ -38,4 +40,5 @@ val adapterModule = module {
     factory { ProfileAddOnAdapter(androidContext()) }
     factory { LearningJourneyAdapter(androidContext()) }
     factory { LearningPurposeAdapter() }
+    factory { MaterialAdapter(androidContext()) }
 }

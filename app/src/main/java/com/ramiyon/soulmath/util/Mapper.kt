@@ -8,6 +8,8 @@ import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.Gam
 import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.GameLearningJourneyResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.LearningJourneyResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.MaterialLearningJourneyResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialDetailResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.domain.model.DailyXp
@@ -17,6 +19,8 @@ import com.ramiyon.soulmath.domain.model.learning_journey.GameDifficultyLearning
 import com.ramiyon.soulmath.domain.model.learning_journey.GameLearningJourney
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.domain.model.learning_journey.MaterialLearningJourney
+import com.ramiyon.soulmath.domain.model.material.Material
+import com.ramiyon.soulmath.domain.model.material.MaterialDetail
 
 fun Student.toStudentBody() = StudentBody(
     studentId, address, avatar, username, email, phoneNumber, xp
@@ -65,6 +69,14 @@ fun LearningJourneyResponse.toLearningJourney() = LearningJourney(
 
 private fun MaterialLearningJourneyResponse.toMaterialLearningJourney() = MaterialLearningJourney(
     moduleId, materialPercentage, currentMaterialId
+)
+
+fun MaterialResponse.toMaterial() = Material(
+    subModuleId, materialId, materialImage, subModuleTitle, videoUrl, xpEarned, isUnlocked
+)
+
+fun MaterialDetailResponse.toMaterialDetail() = MaterialDetail(
+    videoUrl, xpEarned, isFavorite
 )
 
 private fun GameLearningJourneyResponse.toGameLearningJourney() = GameLearningJourney(

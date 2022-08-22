@@ -1,9 +1,11 @@
 package com.ramiyon.soulmath.domain.repository
 
+import com.ramiyon.soulmath.domain.model.material.MaterialDetail
 import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
+import com.ramiyon.soulmath.domain.model.material.Material
 import com.ramiyon.soulmath.util.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -27,6 +29,9 @@ interface SoulMathRepository {
     fun increaseStudentXp(student: Student, givenXp: Int): Flow<Resource<String?>>
     fun decreaseStudentXp(student: Student, costXp: Int): Flow<Resource<String?>>
     fun fetchLearningJourney(): Flow<Resource<List<LearningJourney>>>
+    fun fetchMaterials(moduleId: String): Flow<Resource<List<Material>>>
+    fun fetchMaterialDetail(materialId: String): Flow<Resource<MaterialDetail>>
+
     fun getDailyXpList(): Flow<Resource<List<DailyXp>>>
     fun getCurrentDailyXp(): Flow<Resource<DailyXp>>
     fun takeDailyXp(dailyXpId: String): Flow<Resource<String?>>

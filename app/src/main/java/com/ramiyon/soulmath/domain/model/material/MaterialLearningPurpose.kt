@@ -1,4 +1,4 @@
-package com.ramiyon.soulmath.domain.model
+package com.ramiyon.soulmath.domain.model.material
 
 data class MaterialLearningPurpose(
     val materialId: String,
