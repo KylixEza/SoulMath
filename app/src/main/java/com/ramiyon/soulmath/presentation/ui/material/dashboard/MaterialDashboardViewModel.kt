@@ -9,6 +9,4 @@ class MaterialDashboardViewModel(
 ): ViewModel() {
 
     fun fetchMaterials(moduleId: String) = useCase.fetchMaterials(moduleId).asLiveData()
-    fun fetchMaterialDetail(materialId: String) = useCase.fetchMaterialDetail(materialId).asLiveData()
-
 }

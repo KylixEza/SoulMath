@@ -35,6 +35,8 @@
         <argument
             android:name="materialId"
             app:argType="string" />
+        <argument android:name="moduleId"
+            app:argType="string" />
     </activity>
 
 

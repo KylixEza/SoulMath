@@ -21,6 +21,7 @@ class MaterialOnBoardActivity : BaseActivity<ActivityMaterialOnBoardBinding>() {
     override fun ActivityMaterialOnBoardBinding.binder() {
 
         val materialId = args.materialId
+        val moduleId = args.moduleId
 
         val adapter = OnBoardingViewPagerAdapter(
             supportFragmentManager,
@@ -30,7 +31,7 @@ class MaterialOnBoardActivity : BaseActivity<ActivityMaterialOnBoardBinding>() {
         val fragments = listOf(
             MaterialOnBoardFirstScreenFragment.getInstance(materialId),
             MaterialOnBoardSecondScreenFragment.getInstance(materialId),
-            MaterialOnBoardThirdScreenFragment()
+            MaterialOnBoardThirdScreenFragment.getInstance(materialId, moduleId)
         )
 
         adapter.apply {

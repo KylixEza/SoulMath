@@ -3,6 +3,7 @@ package com.ramiyon.soulmath.presentation.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
@@ -28,6 +29,10 @@ class MaterialAdapter(
                 .load(if(position?.mod(2) == 0) R.drawable.ic_material_dashboard_path_left_to_right
                 else R.drawable.ic_material_dashboard_path_right_to_left)
                 .into(ivMaterialPath)
+
+            if(position?.plus(1) == size) {
+                ivMaterialPath.visibility = View.INVISIBLE
+            }
         }
     }
 
