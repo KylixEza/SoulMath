@@ -91,7 +91,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
 
-        override fun onResourceError(message: String?, data: List<Leaderboard>?) {
+        override fun onResourceError(message: String?, data: Student?) {
             binding?.apply {
                 requireContext().apply { showAnyToast { it.apply {
                     text = message.toString()
@@ -122,7 +122,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
 
-        override fun onResourceError(message: String?, data: List<Leaderboard>?) {
+        override fun onResourceError(message: String?, data: DailyXp?) {
             binding?.apply {
                 requireContext().apply { showAnyToast { it.apply {
                     text = message.toString()
@@ -154,7 +154,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
 
-        override fun onResourceError(message: String?, data: List<Leaderboard>?) {
+        override fun onResourceError(message: String?, data: List<LearningJourney>?) {
             binding?.apply {
                 requireContext().apply { showAnyToast { it.apply {
                     text = message.toString()

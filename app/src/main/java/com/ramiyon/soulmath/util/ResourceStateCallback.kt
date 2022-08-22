@@ -7,7 +7,7 @@ interface ResourceStateCallback<T> {
 
     fun onResourceLoading()
     fun onResourceSuccess(data: T)
-    fun onResourceError(message: String?, data: List<Leaderboard>?)
+    fun onResourceError(message: String?, data: T?)
     fun onResourceEmpty()
 
     val visible
