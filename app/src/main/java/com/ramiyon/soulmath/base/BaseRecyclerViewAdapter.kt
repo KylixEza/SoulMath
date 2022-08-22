@@ -19,6 +19,7 @@ abstract class BaseRecyclerViewAdapter<VB: ViewBinding, ListType>
     protected abstract val diffUtilBuilder: (List<ListType>, List<ListType>) -> DiffUtil.Callback
 
     var position: Int? = null
+    val size get() = itemList.size
 
     fun submitData(data: List<ListType>) {
         val diffCallback = diffUtilBuilder(itemList, data)
