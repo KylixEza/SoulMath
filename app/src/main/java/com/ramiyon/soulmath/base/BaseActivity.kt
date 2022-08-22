@@ -7,7 +7,8 @@ import com.ramiyon.soulmath.util.ScreenOrientation
 
 abstract class BaseActivity<VB: ViewBinding>: AppCompatActivity() {
 
-    private lateinit var viewBinding: VB
+    private lateinit var _binding: VB
+    val binding get() = _binding
 
     abstract fun inflateViewBinding(): VB
     abstract fun determineScreenOrientation(): ScreenOrientation?
@@ -15,8 +16,8 @@ abstract class BaseActivity<VB: ViewBinding>: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = inflateViewBinding()
-        setContentView(viewBinding.root)
+        _binding = inflateViewBinding()
+        setContentView(binding.root)
 
         val screenOrientation = determineScreenOrientation()
 
@@ -29,7 +30,7 @@ abstract class BaseActivity<VB: ViewBinding>: AppCompatActivity() {
             android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
 
-        viewBinding.apply {
+        binding.apply {
             binder()
         }
 
