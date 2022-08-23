@@ -9,6 +9,7 @@ import com.ramiyon.soulmath.presentation.ui.material.dashboard.MaterialDashboard
 import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.first.MaterialOnBoardFirstScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.second.MaterialOnBoardSecondScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.third.MaterialOnBoardThirdScreenViewModel
+import com.ramiyon.soulmath.presentation.ui.material.reward.MaterialRewardViewModel
 import com.ramiyon.soulmath.presentation.ui.material.video.MaterialVideoPlayerViewModel
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.first.FirstScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.second.SecondScreenViewModel
@@ -34,13 +35,14 @@ val viewModelModule = module {
     viewModel { MaterialOnBoardThirdScreenViewModel(get()) }
     viewModel { MaterialDashboardViewModel(get()) }
     viewModel { MaterialVideoPlayerViewModel(get()) }
+    viewModel { MaterialRewardViewModel(get()) }
 }
 
 val adapterModule = module {
-    factory { LeaderboardAdapter(androidContext()) }
-    factory { DailyXpAdapter(androidContext()) }
-    factory { ProfileAddOnAdapter(androidContext()) }
-    factory { LearningJourneyAdapter(androidContext()) }
+    factory { LeaderboardAdapter() }
+    factory { DailyXpAdapter() }
+    factory { ProfileAddOnAdapter() }
+    factory { LearningJourneyAdapter() }
     factory { LearningPurposeAdapter() }
-    factory { MaterialAdapter(androidContext()) }
+    factory { MaterialAdapter() }
 }

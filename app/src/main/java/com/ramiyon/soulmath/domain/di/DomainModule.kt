@@ -10,6 +10,8 @@ import com.ramiyon.soulmath.domain.usecase.material.dashboard.MaterialDashboardU
 import com.ramiyon.soulmath.domain.usecase.material.dashboard.MaterialDashboardUseCaseImpl
 import com.ramiyon.soulmath.domain.usecase.material.onboard.MaterialOnBoardUseCase
 import com.ramiyon.soulmath.domain.usecase.material.onboard.MaterialOnBoardUseCaseImpl
+import com.ramiyon.soulmath.domain.usecase.material.reward.MaterialRewardUseCase
+import com.ramiyon.soulmath.domain.usecase.material.reward.MaterialRewardUseCaseImpl
 import com.ramiyon.soulmath.domain.usecase.material.video.MaterialVideoPlayerUseCase
 import com.ramiyon.soulmath.domain.usecase.material.video.MaterialVideoPlayerUseCaseImpl
 import com.ramiyon.soulmath.domain.usecase.onboard.OnBoardUseCase
@@ -33,4 +35,5 @@ val useCaseModule = module {
     single<MaterialOnBoardUseCase> { MaterialOnBoardUseCaseImpl() }
     single<MaterialDashboardUseCase> { MaterialDashboardUseCaseImpl(get()) }
     single<MaterialVideoPlayerUseCase> { MaterialVideoPlayerUseCaseImpl(get()) }
+    single<MaterialRewardUseCase> { MaterialRewardUseCaseImpl(get()) }
 }

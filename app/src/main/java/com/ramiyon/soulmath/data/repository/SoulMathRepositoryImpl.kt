@@ -173,8 +173,19 @@ class SoulMathRepositoryImpl(
 
         }.doWork()
 
-    override fun increaseStudentXp(student: Student, givenXp: Int) =
-        object : DatabaseBoundWorker<String?>(context) {
+    override fun increaseStudentXp(givenXp: Int) = object : DatabaseBoundWorker<String?>(context) {
+
+            private suspend fun getStudent(): Student? {
+                var student: Student? = null
+                localDataSource.getStudentDetail(getCurrentStudentId()!!).collect {
+                    student = when(it) {
+                        is LocalAnswer.Success -> it.data.toStudent()
+                        else -> null
+                    }
+                }
+                return student
+            }
+
             override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
                     WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
@@ -186,17 +197,32 @@ class SoulMathRepositoryImpl(
             }
 
             override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
-                return remoteDataSource.increaseStudentXp(getCurrentStudentId()!!, student.toStudentBody(), givenXp)
+                val student = getStudent()
+                return remoteDataSource.increaseStudentXp(getCurrentStudentId()!!, student!!.toStudentBody(), givenXp)
             }
 
             override suspend fun saveToDatabase(): LocalAnswer<Unit> {
-                return localDataSource.increaseStudentXp(student.toStudentEntity(), givenXp)
+                val student = getStudent()
+                return localDataSource.increaseStudentXp(student!!.toStudentEntity(), givenXp)
             }
 
         }.doWork()
 
-    override fun decreaseStudentXp(student: Student, costXp: Int) =
+
+    override fun decreaseStudentXp(costXp: Int) =
         object : DatabaseBoundWorker<String?>(context) {
+
+            private suspend fun getStudent(): Student? {
+                var student: Student? = null
+                localDataSource.getStudentDetail(getCurrentStudentId()!!).collect {
+                    student = when(it) {
+                        is LocalAnswer.Success -> it.data.toStudent()
+                        else -> null
+                    }
+                }
+                return student
+            }
+
             override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
                 return mutableMapOf(
                     WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
@@ -208,11 +234,13 @@ class SoulMathRepositoryImpl(
             }
 
             override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
-                return remoteDataSource.decreaseStudentXp(getCurrentStudentId()!!, student.toStudentBody(), costXp)
+                val student = getStudent()
+                return remoteDataSource.decreaseStudentXp(getCurrentStudentId()!!, student!!.toStudentBody(), costXp)
             }
 
             override suspend fun saveToDatabase(): LocalAnswer<Unit> {
-                return localDataSource.decreaseStudentXp(student.toStudentEntity(), costXp)
+                val student = getStudent()
+                return localDataSource.decreaseStudentXp(student!!.toStudentEntity(), costXp)
             }
         }.doWork()
 

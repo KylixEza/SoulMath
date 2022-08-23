@@ -26,8 +26,8 @@ interface SoulMathRepository {
     fun fetchStudentRank(): Flow<Resource<Leaderboard>>
     fun getStudentDetail(): Flow<Resource<Student>>
     fun updateStudentProfile(student: Student): Flow<Resource<String?>>
-    fun increaseStudentXp(student: Student, givenXp: Int): Flow<Resource<String?>>
-    fun decreaseStudentXp(student: Student, costXp: Int): Flow<Resource<String?>>
+    fun increaseStudentXp(givenXp: Int): Flow<Resource<String?>>
+    fun decreaseStudentXp(costXp: Int): Flow<Resource<String?>>
     fun fetchLearningJourney(): Flow<Resource<List<LearningJourney>>>
     fun fetchMaterials(moduleId: String): Flow<Resource<List<Material>>>
     fun fetchMaterialDetail(materialId: String): Flow<Resource<MaterialDetail>>
