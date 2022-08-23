@@ -7,5 +7,5 @@ import com.ramiyon.soulmath.domain.usecase.material.reward.MaterialRewardUseCase
 class MaterialRewardViewModel(
     private val useCase: MaterialRewardUseCase
 ): ViewModel() {
-    private fun increaseStudentXp(givenXp: Int) = useCase.increaseStudentXp(givenXp).asLiveData()
+    fun increaseStudentXp(givenXp: Int) = useCase.increaseStudentXp(givenXp).asLiveData()
 }

@@ -1,19 +1,24 @@
 package com.ramiyon.soulmath.presentation.ui.material.video
 
+import android.content.Intent
 import android.graphics.Color
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.util.Util
 import com.ramiyon.soulmath.base.BaseActivity
 import com.ramiyon.soulmath.databinding.ActivityMaterialVideoPlayerBinding
 import com.ramiyon.soulmath.domain.model.material.MaterialDetail
+import com.ramiyon.soulmath.presentation.ui.material.reward.MaterialRewardActivity
 import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
+import com.ramiyon.soulmath.util.Constanta.ARG_XP
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
@@ -61,6 +66,12 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
         override fun onResourceSuccess(data: MaterialDetail) {
             material = data
             initializePlayer(data.videoUrl)
+
+            if (exoPlayer?.playbackState == Player.STATE_ENDED) {
+                val intent = Intent(this@MaterialVideoPlayerActivity, MaterialRewardActivity::class.java)
+                intent.putExtra(ARG_XP, data.xpEarned)
+                startActivity(intent)
+            }
         }
 
         override fun onResourceError(message: String?, data: MaterialDetail?) {
