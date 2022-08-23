@@ -72,8 +72,7 @@
                 android:backgroundTint="@color/secondary_blue"
                 android:drawableEnd="@drawable/ic_circle_next"
                 android:drawablePadding="16dp"
-                app:cornerRadius="28dp">
-            </com.google.android.material.button.MaterialButton>
+                app:cornerRadius="10dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
