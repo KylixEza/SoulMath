@@ -2,6 +2,7 @@ package com.ramiyon.soulmath.presentation.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +13,10 @@ import com.ramiyon.soulmath.base.BaseRecyclerViewAdapter
 import com.ramiyon.soulmath.databinding.ItemListMaterialDashboardBinding
 import com.ramiyon.soulmath.domain.model.material.Material
 import com.ramiyon.soulmath.presentation.diff_callback.MaterialDiffUtil
+import com.ramiyon.soulmath.presentation.ui.material.video.MaterialVideoPlayerActivity
+import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
 
-class MaterialAdapter(
-    private val context: Context
-): BaseRecyclerViewAdapter<ItemListMaterialDashboardBinding, Material>() {
+class MaterialAdapter: BaseRecyclerViewAdapter<ItemListMaterialDashboardBinding, Material>() {
     override fun inflateViewBinding(parent: ViewGroup): ItemListMaterialDashboardBinding {
         return ItemListMaterialDashboardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     }
@@ -23,15 +24,21 @@ class MaterialAdapter(
     @SuppressLint("SetTextI18n")
     override val binder: (Material, ItemListMaterialDashboardBinding) -> Unit = { item, binding ->
         binding.apply {
-            Glide.with(context).load(item.materialImage).into(ivMaterial)
+            Glide.with(itemView!!.context).load(item.materialImage).into(ivMaterial)
             tvMaterialSubModule.text = "Lihat Video ${item.subModuleTitle}"
-            Glide.with(context)
+            Glide.with(itemView!!.context)
                 .load(if(position?.mod(2) == 0) R.drawable.ic_material_dashboard_path_left_to_right
                 else R.drawable.ic_material_dashboard_path_right_to_left)
                 .into(ivMaterialPath)
 
             if(position?.plus(1) == size) {
                 ivMaterialPath.visibility = View.INVISIBLE
+            }
+
+            itemView?.setOnClickListener {
+                val intent = Intent(itemView?.context, MaterialVideoPlayerActivity::class.java)
+                intent.putExtra(ARG_MATERIAL_ID, item.materialId)
+                itemView?.context?.startActivity(intent)
             }
         }
     }
