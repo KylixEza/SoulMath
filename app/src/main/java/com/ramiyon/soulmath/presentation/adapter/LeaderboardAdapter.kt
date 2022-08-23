@@ -13,9 +13,7 @@ import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.presentation.diff_callback.LeaderboardDiffUtil
 
-class LeaderboardAdapter(
-    private val context: Context
-): BaseRecyclerViewAdapter<ItemListLeaderboardBinding, Leaderboard>() {
+class LeaderboardAdapter: BaseRecyclerViewAdapter<ItemListLeaderboardBinding, Leaderboard>() {
 
     override fun inflateViewBinding(parent: ViewGroup): ItemListLeaderboardBinding =
         ItemListLeaderboardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -35,7 +33,7 @@ class LeaderboardAdapter(
         this.apply {
             tvRank.text = rank.toString()
             ivRank.visibility = View.INVISIBLE
-            Glide.with(context)
+            Glide.with(itemView!!.context)
                 .load(data.avatar)
                 .placeholder(R.drawable.ilu_default_profile_picture)
                 .circleCrop()

@@ -1,6 +1,5 @@
 package com.ramiyon.soulmath.presentation.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +10,7 @@ import com.ramiyon.soulmath.databinding.ItemListProfileAddOnsBinding
 import com.ramiyon.soulmath.presentation.diff_callback.ProfileAddOnDiffUtil
 import com.ramiyon.soulmath.util.ProfileAddOns
 
-class ProfileAddOnAdapter(
-    private val context: Context
-): BaseRecyclerViewAdapter<ItemListProfileAddOnsBinding, Triple<Int, String, ProfileAddOns>>() {
+class ProfileAddOnAdapter: BaseRecyclerViewAdapter<ItemListProfileAddOnsBinding, Triple<Int, String, ProfileAddOns>>() {
     override fun inflateViewBinding(parent: ViewGroup): ItemListProfileAddOnsBinding {
         return ItemListProfileAddOnsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     }
@@ -37,7 +34,7 @@ class ProfileAddOnAdapter(
     private fun ItemListProfileAddOnsBinding.buildItemList(
         data: Triple<Int, String, ProfileAddOns>,
     ) {
-        Glide.with(context)
+        Glide.with(itemView!!.context)
             .load(data.first)
             .into(this.ivAddOnIcon)
         tvAddOnBehaviour.text = data.second

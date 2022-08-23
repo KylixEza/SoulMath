@@ -1,5 +1,6 @@
 package com.ramiyon.soulmath.base
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,7 @@ abstract class BaseRecyclerViewAdapter<VB: ViewBinding, ListType>
 
     var position: Int? = null
     val size get() = itemList.size
+    var itemView: View? = null
 
     fun submitData(data: List<ListType>) {
         val diffCallback = diffUtilBuilder(itemList, data)
@@ -35,6 +37,7 @@ abstract class BaseRecyclerViewAdapter<VB: ViewBinding, ListType>
 
     inner class BaseViewHolder(val view: VB): RecyclerView.ViewHolder(view.root) {
         fun bind(item: ListType) {
+            this@BaseRecyclerViewAdapter.itemView = itemView
             binder(item, view)
         }
     }
