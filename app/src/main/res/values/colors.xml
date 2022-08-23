@@ -21,6 +21,7 @@
 
     <color name="primary_50">#FFC9F0FF</color>
     <color name="primary_700">#FF2489F4</color>
+    <color name="primary_900">#FF0050A5</color>
     
     <color name="text_remember_me">#FF474748</color>
     <color name="text_or_decision_login_method">#FF8A887B</color>
