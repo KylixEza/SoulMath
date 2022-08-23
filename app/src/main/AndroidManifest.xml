@@ -14,16 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SoulMath">
         <activity
-            android:name=".MaterialVideoPlayerActivity"
+            android:name=".presentation.ui.material.video.MaterialVideoPlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".MaterialRewardActivity"
+            android:name=".presentation.ui.material.reward.MaterialRewardActivity"
             android:exported="false" />
         <activity
-            android:name=".MaterialDashboardActivity"
+            android:name=".presentation.ui.material.dashboard.MaterialDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".MaterialOnBoardActivity"
+            android:name=".presentation.ui.material.onboard.MaterialOnBoardActivity"
             android:exported="false" />
         <activity
             android:name="com.ramiyon.soulmath.presentation.ui.auth.AuthActivity"
