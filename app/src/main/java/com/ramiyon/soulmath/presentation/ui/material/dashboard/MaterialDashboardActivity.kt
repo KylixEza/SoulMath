@@ -41,12 +41,12 @@ class MaterialDashboardActivity : BaseActivity<ActivityMaterialDashboardBinding>
                 is Resource.Loading -> materialsCallback.onResourceLoading()
                 is Resource.Success -> materialsCallback.onResourceSuccess(it.data!!)
                 is Resource.Error -> materialsCallback.onResourceError(it.message!!, null)
-                is Resource.Empty -> materialsCallback.onResourceEmpty()
+                is Resource.Empty -> materialsCallback.onNeverFetched()
             }
         }
     }
 
-    private val materialsCallback = object : ResourceStateCallback<List<Material>> {
+    private val materialsCallback = object : ResourceStateCallback<List<Material>>() {
 
         override fun onResourceLoading() {
             binding.apply {
@@ -70,8 +70,5 @@ class MaterialDashboardActivity : BaseActivity<ActivityMaterialDashboardBinding>
                 toastShape = ToastShape.RECTANGLE
             } } }
         }
-
-        override fun onResourceEmpty() {}
     }
-
 }

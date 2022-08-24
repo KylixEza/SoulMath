@@ -23,7 +23,6 @@ import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
 import org.koin.android.ext.android.inject
 import org.koin.androidx.navigation.koinNavGraphViewModel
-import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import java.util.concurrent.TimeUnit
 
 class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
@@ -84,7 +83,7 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
 
     }
 
-    private val leaderboardResourceCallback = object : ResourceStateCallback<List<Leaderboard>?> {
+    private val leaderboardResourceCallback = object : ResourceStateCallback<List<Leaderboard>?>() {
         override fun onResourceLoading() {
             binding?.apply {
                 holderTopThree.visibility = View.INVISIBLE

@@ -66,7 +66,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         return ScreenOrientation.PORTRAIT
     }
 
-    private val studentResourceCallback = object : ResourceStateCallback<Student> {
+    private val studentResourceCallback = object : ResourceStateCallback<Student>() {
         override fun onResourceLoading() {
             binding?.apply {
                 progressTvGreeting.visibility = visible
@@ -100,13 +100,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 } } }
             }
         }
-
-        override fun onResourceEmpty() {
-
-        }
     }
 
-    private val dailyXpResourceCallback = object : ResourceStateCallback<DailyXp> {
+    private val dailyXpResourceCallback = object : ResourceStateCallback<DailyXp>() {
         override fun onResourceLoading() {
             binding?.apply {
                 progressIncludeTakeDailyXp.visibility = visible
@@ -131,14 +127,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 } } }
             }
         }
-
-        override fun onResourceEmpty() {
-
-        }
-
     }
 
-    private val learningJourneyResourceCallback = object : ResourceStateCallback<List<LearningJourney>> {
+    private val learningJourneyResourceCallback = object : ResourceStateCallback<List<LearningJourney>>() {
         override fun onResourceLoading() {
             binding?.apply {
                 progressRvLearningJourney.visibility = visible
@@ -162,10 +153,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     toastShape = ToastShape.RECTANGLE
                 } } }
             }
-        }
-
-        override fun onResourceEmpty() {
-
         }
     }
 }

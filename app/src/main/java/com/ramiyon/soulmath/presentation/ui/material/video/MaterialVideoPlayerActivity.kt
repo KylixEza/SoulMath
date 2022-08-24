@@ -11,7 +11,6 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.util.Util
 import com.ramiyon.soulmath.base.BaseActivity
 import com.ramiyon.soulmath.databinding.ActivityMaterialVideoPlayerBinding
@@ -58,7 +57,7 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
         }
     }
 
-    private val videoPlayerResourceCallback = object : ResourceStateCallback<MaterialDetail> {
+    private val videoPlayerResourceCallback = object : ResourceStateCallback<MaterialDetail>() {
         override fun onResourceLoading() {
 
         }
@@ -77,11 +76,6 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
         override fun onResourceError(message: String?, data: MaterialDetail?) {
 
         }
-
-        override fun onResourceEmpty() {
-
-        }
-
     }
 
     private fun initializePlayer(streamUrl: String?) {
