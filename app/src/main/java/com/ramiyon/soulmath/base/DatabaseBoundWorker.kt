@@ -4,9 +4,6 @@ import android.content.Context
 import androidx.work.*
 import com.ramiyon.soulmath.data.util.LocalAnswer
 import com.ramiyon.soulmath.data.util.RemoteResponse
-import com.ramiyon.soulmath.data.worker.InternetServiceWorker
-import com.ramiyon.soulmath.data.worker.WorkerCommand
-import com.ramiyon.soulmath.data.worker.workerCommand
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.isNetworkConnected
 import kotlinx.coroutines.flow.Flow
@@ -31,12 +28,11 @@ abstract class DatabaseBoundWorker<FromApi>(
                 .build()
 
             val data = Data.Builder()
-                .putString(workerCommand, callWorkerCommand().command)
                 .putAll(putParamsForWorkManager())
                 .build()
 
             val oneTimeWorkRequest: OneTimeWorkRequest =
-                OneTimeWorkRequest.Builder(InternetServiceWorker::class.java)
+                buildOneTimeWorker()
                     .setConstraints(constraints)
                     .setInputData(data)
                     .build()
@@ -51,10 +47,10 @@ abstract class DatabaseBoundWorker<FromApi>(
     }
 
     abstract suspend fun putParamsForWorkManager(): MutableMap<String, *>
-    abstract fun callWorkerCommand(): WorkerCommand
     fun doWork() = result
 
     abstract suspend fun uploadToServer(): Flow<RemoteResponse<FromApi>>
     abstract suspend fun saveToDatabase(): LocalAnswer<Unit>
+    abstract fun buildOneTimeWorker(): OneTimeWorkRequest.Builder
 
 }

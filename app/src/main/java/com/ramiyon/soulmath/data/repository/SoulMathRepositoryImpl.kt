@@ -2,6 +2,7 @@ package com.ramiyon.soulmath.data.repository
 
 import android.content.Context
 import android.util.Log
+import androidx.work.OneTimeWorkRequest
 import com.ramiyon.soulmath.base.*
 import com.ramiyon.soulmath.data.source.dummy.getOnBoardContentByPage
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
@@ -16,7 +17,8 @@ import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialRes
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.data.util.LocalAnswer
 import com.ramiyon.soulmath.data.util.RemoteResponse
-import com.ramiyon.soulmath.data.worker.WorkerCommand
+import com.ramiyon.soulmath.data.worker.StudentProfileWorker
+import com.ramiyon.soulmath.data.worker.StudentXpWorker
 import com.ramiyon.soulmath.data.worker.WorkerParams
 import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard
@@ -159,16 +161,16 @@ class SoulMathRepositoryImpl(
                 )
             }
 
-            override fun callWorkerCommand(): WorkerCommand {
-                return WorkerCommand.WORKER_COMMAND_UPDATE_PROFILE
-            }
-
             override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
                 return remoteDataSource.updateStudentProfile(getCurrentStudentId()!!, student.toStudentBody())
             }
 
             override suspend fun saveToDatabase(): LocalAnswer<Unit> {
                 return localDataSource.updateStudent(student.toStudentEntity())
+            }
+
+            override fun buildOneTimeWorker(): OneTimeWorkRequest.Builder {
+                return OneTimeWorkRequest.Builder(StudentProfileWorker::class.java)
             }
 
         }.doWork()
@@ -192,10 +194,6 @@ class SoulMathRepositoryImpl(
                 )
             }
 
-            override fun callWorkerCommand(): WorkerCommand {
-                return WorkerCommand.WORKER_COMMAND_UPDATE_XP
-            }
-
             override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
                 val student = getStudent()
                 return remoteDataSource.increaseStudentXp(getCurrentStudentId()!!, student!!.toStudentBody(), givenXp)
@@ -206,7 +204,11 @@ class SoulMathRepositoryImpl(
                 return localDataSource.increaseStudentXp(student!!.toStudentEntity(), givenXp)
             }
 
-        }.doWork()
+        override fun buildOneTimeWorker(): OneTimeWorkRequest.Builder {
+            return OneTimeWorkRequest.Builder(StudentXpWorker::class.java)
+        }
+
+    }.doWork()
 
 
     override fun decreaseStudentXp(costXp: Int) =
@@ -229,10 +231,6 @@ class SoulMathRepositoryImpl(
                 )
             }
 
-            override fun callWorkerCommand(): WorkerCommand {
-                return WorkerCommand.WORKER_COMMAND_UPDATE_XP
-            }
-
             override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
                 val student = getStudent()
                 return remoteDataSource.decreaseStudentXp(getCurrentStudentId()!!, student!!.toStudentBody(), costXp)
@@ -241,6 +239,10 @@ class SoulMathRepositoryImpl(
             override suspend fun saveToDatabase(): LocalAnswer<Unit> {
                 val student = getStudent()
                 return localDataSource.decreaseStudentXp(student!!.toStudentEntity(), costXp)
+            }
+
+            override fun buildOneTimeWorker(): OneTimeWorkRequest.Builder {
+                return OneTimeWorkRequest.Builder(StudentXpWorker::class.java)
             }
         }.doWork()
 
@@ -287,10 +289,6 @@ class SoulMathRepositoryImpl(
                 )
             }
 
-            override fun callWorkerCommand(): WorkerCommand {
-                return WorkerCommand.WORKER_COMMAND_UPDATE_XP
-            }
-
             override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
                 var todayXp: Int? = null
                 var studentXp: Int? = null
@@ -317,6 +315,10 @@ class SoulMathRepositoryImpl(
                     }
                 }
                 return localDataSource.takeDailyXp(getCurrentStudentId()!!, dailyXpId, todayXp)
+            }
+
+            override fun buildOneTimeWorker(): OneTimeWorkRequest.Builder {
+                return OneTimeWorkRequest.Builder(StudentXpWorker::class.java)
             }
 
         }.doWork()
