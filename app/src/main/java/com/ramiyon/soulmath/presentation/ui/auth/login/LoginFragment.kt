@@ -79,6 +79,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 }
             }
 
+            sbRememberMe.isChecked = true
+
             sbRememberMe.setOnCheckedChangeListener { _, isChecked ->
                 isRememberMe = isChecked
             }

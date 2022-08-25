@@ -11,4 +11,5 @@ class HomeViewModel(
     fun fetchLearningJourney() = useCase.fetchLearningJourney().asLiveData(Dispatchers.IO)
     fun getStudentDetail() = useCase.getStudentDetail().asLiveData(Dispatchers.IO)
     fun getCurrentDailyXp() = useCase.getCurrentDailyXp().asLiveData(Dispatchers.IO)
+    fun takeDailyXp(dailyXpId: String) = useCase.takeDailyXp(dailyXpId).asLiveData(Dispatchers.IO)
 }

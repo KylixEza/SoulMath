@@ -9,7 +9,6 @@ import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentHomeBinding
 import com.ramiyon.soulmath.domain.model.DailyXp
-import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.presentation.adapter.LearningJourneyAdapter
@@ -33,23 +32,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
 
-        viewModel.fetchLearningJourney().observe(viewLifecycleOwner) {
+        /*viewModel.fetchLearningJourney().observe(viewLifecycleOwner) {
             when(it) {
                 is Resource.Loading -> learningJourneyResourceCallback.onResourceLoading()
                 is Resource.Success -> learningJourneyResourceCallback.onResourceSuccess(it.data!!)
                 is Resource.Error -> learningJourneyResourceCallback.onResourceError(it.message, null)
                 is Resource.Empty -> learningJourneyResourceCallback.onResourceEmpty()
             }
-        }
+        }*/
 
-        viewModel.getStudentDetail().observe(viewLifecycleOwner) {
+        /*viewModel.getStudentDetail().observe(viewLifecycleOwner) {
             when(it) {
                 is Resource.Loading -> studentResourceCallback.onResourceLoading()
                 is Resource.Success -> studentResourceCallback.onResourceSuccess(it.data!!)
                 is Resource.Error -> studentResourceCallback.onResourceError(it.message, null)
                 is Resource.Empty -> studentResourceCallback.onResourceEmpty()
             }
-        }
+        }*/
 
         viewModel.getCurrentDailyXp().observe(viewLifecycleOwner) {
             when(it) {
@@ -115,6 +114,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 progressIncludeTakeDailyXp.visibility = invisible
                 containerTakeDailyXp.visibility = visible
                 includeTakeDailyXp.tvDailyBonusXp.text = data.dailyXp.toString()
+
+                if(!data.isTaken) {
+                    includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
+                        viewModel.takeDailyXp(data.dailyXpId).observe(viewLifecycleOwner) {
+                            when(it) {
+                                is Resource.Success -> {
+                                    requireActivity().showAnyToast {
+                                        it.apply {
+                                            text = "XP hari ini berhasil diambil!"
+                                            toastType = ToastType.SUCCESS
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 

@@ -10,4 +10,5 @@ interface HomeUseCase {
     fun fetchLearningJourney(): Flow<Resource<List<LearningJourney>>>
     fun getStudentDetail(): Flow<Resource<Student>>
     fun getCurrentDailyXp(): Flow<Resource<DailyXp>>
+    fun takeDailyXp(dailyXpId: String): Flow<Resource<String?>>
 }

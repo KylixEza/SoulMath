@@ -13,4 +13,5 @@ class HomeUseCaseImpl(
     override fun fetchLearningJourney(): Flow<Resource<List<LearningJourney>>> = repository.fetchLearningJourney()
     override fun getStudentDetail(): Flow<Resource<Student>> = repository.getStudentDetail()
     override fun getCurrentDailyXp(): Flow<Resource<DailyXp>> = repository.getCurrentDailyXp()
+    override fun takeDailyXp(dailyXpId: String): Flow<Resource<String?>> = repository.takeDailyXp(dailyXpId)
 }
