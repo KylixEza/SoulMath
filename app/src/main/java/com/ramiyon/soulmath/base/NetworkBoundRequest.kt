@@ -13,7 +13,7 @@ abstract class NetworkBoundRequest<RequestType> {
         when (val remoteResponse = createCall().first()) {
             is RemoteResponse.Success<RequestType> -> {
                 saveCallResult(remoteResponse.data)
-                emit(Resource.Success(remoteResponse.data))
+                emit(Resource.Success(Unit))
             }
             is RemoteResponse.Error -> {
                 emit(
@@ -22,8 +22,9 @@ abstract class NetworkBoundRequest<RequestType> {
                     )
                 )
             }
+            is RemoteResponse.Empty -> emit(Resource.Empty())
         }
-    } as Flow<Resource<Unit>>
+    }
 
     protected open suspend fun preRequest(){}
 
