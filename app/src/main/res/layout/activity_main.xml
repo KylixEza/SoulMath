@@ -28,11 +28,8 @@
         android:id="@+id/main_bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.App.BottomNavigationView"
         android:background="@drawable/bottom_navigation_style"
         app:backgroundTint="@color/white"
-        app:itemTextAppearanceActive="@style/Widget.BottomNavigationView"
-        app:itemTextAppearanceInactive="@style/Widget.BottomNavigationView"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu"/>
