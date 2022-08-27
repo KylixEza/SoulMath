@@ -1,5 +1,6 @@
 package com.ramiyon.soulmath.domain.repository
 
+import com.ramiyon.soulmath.base.DatabaseOnlyResource
 import com.ramiyon.soulmath.domain.model.material.MaterialDetail
 import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard
@@ -34,6 +35,7 @@ interface SoulMathRepository {
 
     fun getDailyXpList(): Flow<Resource<List<DailyXp>>>
     fun getCurrentDailyXp(): Flow<Resource<DailyXp>>
-    fun takeDailyXp(dailyXpId: String): Flow<Resource<String?>>
+    fun takeDailyXp(dailyXpId: String): Flow<Resource<Unit>>
+    fun isTodayTaken(): Flow<Resource<Boolean>>
     suspend fun resetLeaderboard()
 }

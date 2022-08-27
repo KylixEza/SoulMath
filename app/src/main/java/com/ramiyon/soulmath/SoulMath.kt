@@ -29,6 +29,7 @@ class SoulMath: Application() {
                     viewModelModule,
                     adapterModule,
                     lifecycleModule,
+                    networkConnectivityModule
                 )
             )
         }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.work.OneTimeWorkRequest
 import com.ramiyon.soulmath.base.*
+import com.ramiyon.soulmath.data.connectivity.NetworkConnectivityObserver
 import com.ramiyon.soulmath.data.source.dummy.getOnBoardContentByPage
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
 import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
@@ -132,8 +133,11 @@ class SoulMathRepositoryImpl(
 
     override fun fetchStudentRank(): Flow<Resource<Leaderboard>> =
        object : NetworkOnlyResource<Leaderboard, LeaderboardResponse?>() {
-            override suspend fun createCall(): Flow<RemoteResponse<LeaderboardResponse?>> =
-                remoteDataSource.fetchStudentRank(getCurrentStudentId().toString())
+            override suspend fun createCall(): Flow<RemoteResponse<LeaderboardResponse?>> {
+                Log.d("UID ", getCurrentStudentId()!!)
+                return remoteDataSource.fetchStudentRank(getCurrentStudentId().toString())
+            }
+
 
             override fun mapTransform(data: LeaderboardResponse?): Leaderboard =
                 data?.toLeaderboard()!!
@@ -269,6 +273,17 @@ class SoulMathRepositoryImpl(
             }
         }.asFlow()
 
+    override fun isTodayTaken() =
+        object : DatabaseOnlyResource<Boolean, Boolean>() {
+            override suspend fun loadFromDb(): Flow<LocalAnswer<Boolean>> {
+                return localDataSource.isTodayTaken()
+            }
+
+            override fun mapTransform(data: Boolean): Boolean {
+                return data
+            }
+        }.asFlow()
+
     override fun getCurrentDailyXp() =
         object : DatabaseOnlyResource<DailyXpEntity, DailyXp>() {
             override suspend fun loadFromDb(): Flow<LocalAnswer<DailyXpEntity>> {
@@ -281,47 +296,41 @@ class SoulMathRepositoryImpl(
 
         }.asFlow()
 
-    override fun takeDailyXp(dailyXpId: String) =
-        object : DatabaseBoundWorker<String?>(context) {
-            override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
-                return mutableMapOf(
-                    WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
-                )
-            }
+    override fun takeDailyXp(dailyXpId: String): Flow<Resource<Unit>> =
+        object : NetworkBoundRequest<String?>() {
 
-            override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
-                var todayXp: Int? = null
-                var studentXp: Int? = null
+            private suspend fun getTodayXp(): Int {
+                var todayXp = 0
                 localDataSource.getSelectedDailyXp(dailyXpId).collect {
                     if (it is LocalAnswer.Success) {
                         todayXp = it.data.dailyXp
                     }
                 }
+                return todayXp
+            }
+
+            private suspend fun getStudentXp(): Int {
+                var studentXp = 0
                 localDataSource.getStudentDetail(getCurrentStudentId()!!).collect {
                     if (it is LocalAnswer.Success) {
                         studentXp = it.data.xp
                     }
                 }
-
-                val newXp = studentXp?.let { todayXp?.plus(it) }
-                return remoteDataSource.updateStudentXp(getCurrentStudentId()!!, newXp!!)
+                return studentXp
             }
 
-            override suspend fun saveToDatabase(): LocalAnswer<Unit> {
-                var todayXp: Int? = null
-                localDataSource.getSelectedDailyXp(dailyXpId).collect {
-                    if (it is LocalAnswer.Success) {
-                        todayXp = it.data.dailyXp
-                    }
-                }
-                return localDataSource.takeDailyXp(getCurrentStudentId()!!, dailyXpId, todayXp)
+            override suspend fun createCall(): Flow<RemoteResponse<String?>> {
+                val newXp = getStudentXp().plus(getTodayXp())
+                Log.d("TakeDailyXp createCall", newXp.toString())
+                return remoteDataSource.updateStudentXp(getCurrentStudentId()!!, newXp)
             }
 
-            override fun buildOneTimeWorker(): OneTimeWorkRequest.Builder {
-                return OneTimeWorkRequest.Builder(StudentXpWorker::class.java)
+            override suspend fun saveCallResult(data: String?) {
+                val newXp = getStudentXp().plus(getTodayXp())
+                localDataSource.takeDailyXp(getCurrentStudentId()!!, dailyXpId, newXp)
             }
+        }.asFlow()
 
-        }.doWork()
 
     override suspend fun resetLeaderboard() = localDataSource.resetLeaderboard()
 
