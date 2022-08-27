@@ -15,4 +15,5 @@ class HomeUseCaseImpl(
     override fun getCurrentDailyXp(): Flow<Resource<DailyXp>> = repository.getCurrentDailyXp()
     override fun takeDailyXp(dailyXpId: String): Flow<Resource<Unit>> = repository.takeDailyXp(dailyXpId)
     override fun isTodayTaken(): Flow<Resource<Boolean>> = repository.isTodayTaken()
+    override fun getTodayTakenXp(): Flow<Resource<DailyXp>> = repository.getTodayTakenXp()
 }

@@ -71,10 +71,14 @@ class LocalDataSource(
     fun isTodayTaken() =
         object : BaseDatabaseAnswer<Boolean>() {
             override suspend fun callDatabase(): Boolean {
-                val calendar = Calendar.getInstance()
-                val formatter = SimpleDateFormat("yyyy-MM-dd")
-                val today = formatter.format(calendar.time)
-                return dao.isTodayTaken(today).first()
+                return dao.isTodayTaken(getTodayDate()).first()
+            }
+        }.doObservable()
+
+    fun getTodayTakenXp() =
+        object : BaseDatabaseAnswer<DailyXpEntity>() {
+            override suspend fun callDatabase(): DailyXpEntity {
+                return dao.getTodayTakenXp(getTodayDate()).first()
             }
         }.doObservable()
 
@@ -96,10 +100,7 @@ class LocalDataSource(
             @SuppressLint("SimpleDateFormat")
             override suspend fun callDatabase() {
                 updatedXp?.let { dao.updateStudentXp(studentId, it) }
-                val calendar = Calendar.getInstance()
-                val formatter = SimpleDateFormat("yyyy-MM-dd")
-                val dayTaken = formatter.format(calendar.time)
-                dao.takeDailyXp(dailyXpId, dayTaken)
+                dao.takeDailyXp(dailyXpId, getTodayDate())
             }
         }.doSingleEvent()
 
@@ -122,4 +123,10 @@ class LocalDataSource(
     }.doObservable()
 
     suspend fun resetLeaderboard() = dao.resetLeaderboard()
+
+    private fun getTodayDate(): String {
+        val calendar = Calendar.getInstance()
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        return formatter.format(calendar.time)
+    }
 }

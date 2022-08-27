@@ -119,9 +119,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 viewModel.isTodayTaken().observe(viewLifecycleOwner) {
                     if (it is Resource.Success) {
                         if(it.data!!) {
-                            includeTakeDailyXp.tvDailyBonusXp.text = data.dailyXp.toString()
+                            viewModel.getTodayTakenXp().observe(viewLifecycleOwner) { resourceTodayTakenXp ->
+                                if(resourceTodayTakenXp is Resource.Success) {
+                                    includeTakeDailyXp.tvDailyBonusXp.text =
+                                        resourceTodayTakenXp.data?.dailyXp.toString()
+                                }
+                            }
                             includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
                         } else {
+                            includeTakeDailyXp.tvDailyBonusXp.text = data.dailyXp.toString()
                             includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
                                 viewModel.takeDailyXp(data.dailyXpId).observe(viewLifecycleOwner) {
                                     when(it) {

@@ -37,5 +37,6 @@ interface SoulMathRepository {
     fun getCurrentDailyXp(): Flow<Resource<DailyXp>>
     fun takeDailyXp(dailyXpId: String): Flow<Resource<Unit>>
     fun isTodayTaken(): Flow<Resource<Boolean>>
+    fun getTodayTakenXp(): Flow<Resource<DailyXp>>
     suspend fun resetLeaderboard()
 }

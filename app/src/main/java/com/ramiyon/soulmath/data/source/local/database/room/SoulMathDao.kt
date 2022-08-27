@@ -33,6 +33,9 @@ interface SoulMathDao {
     @Query("SELECT EXISTS(SELECT * FROM dailyXp WHERE dayTaken = :today)")
     fun isTodayTaken(today: String): Flow<Boolean>
 
+    @Query("SELECT * FROM dailyXp WHERE dayTaken = :today")
+    fun getTodayTakenXp(today: String): Flow<DailyXpEntity>
+
     /** Used in home fragment **/
     @Query("SELECT * FROM dailyXp WHERE isTaken = 0 ORDER BY dailyXp ASC LIMIT 1")
     fun getCurrentDailyXp(): Flow<DailyXpEntity>
