@@ -36,7 +36,24 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     override fun FragmentLoginBinding.binder() {
         activity?.apply {
             lottieBinding = DialogLottieBinding.inflate(layoutInflater)
-            isRememberMe = false
+
+            isRememberMe = sbRememberMe.isChecked
+
+            sbRememberMe.setOnCheckedChangeListener { _, isChecked ->
+                isRememberMe = isChecked
+            }
+
+            tilEmail.setOnFocusChangeListener { view, hasFocus ->
+                if(hasFocus) {
+                    var focusIcon = requireContext().resources.getDrawable(R.drawable.ic_email_indicator_focused, null)
+                    focusIcon = DrawableCompat.wrap(focusIcon)
+                    tilEmail.startIconDrawable = focusIcon
+                } else {
+                    var defaultIcon = requireContext().resources.getDrawable(R.drawable.ic_email_indicator_non_focused, null)
+                    defaultIcon = DrawableCompat.wrap(defaultIcon)
+                    tilEmail.startIconDrawable = defaultIcon
+                }
+            }
 
             val lottieDialog = buildLottieDialog(lottieBinding, "loading_blue_paper_airplane.json")
             btnLogin.setOnClickListener {
@@ -56,9 +73,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                             ) {
                                 if (Constanta.SOURCE == Constanta.SOURCE_LOGOUT)
                                     startActivity(Intent(requireContext(), MainActivity::class.java))
-                                else
+                                else {
+                                    viewModel.savePrefRememberMe(isRememberMe)
                                     view?.findNavController()?.navigate(LoginFragmentDirections.actionLoginDestinationToMainDestination())
-                                viewModel.savePrefRememberMe(isRememberMe)
+                                }
                                 activity?.finish()
                             }
                         }
@@ -76,24 +94,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                             lottieDialog.dismiss()
                         }
                     }
-                }
-            }
-
-            sbRememberMe.isChecked = true
-
-            sbRememberMe.setOnCheckedChangeListener { _, isChecked ->
-                isRememberMe = isChecked
-            }
-
-            tilEmail.setOnFocusChangeListener { view, hasFocus ->
-                if(hasFocus) {
-                    var focusIcon = requireContext().resources.getDrawable(R.drawable.ic_email_indicator_focused, null)
-                    focusIcon = DrawableCompat.wrap(focusIcon)
-                    tilEmail.startIconDrawable = focusIcon
-                } else {
-                    var defaultIcon = requireContext().resources.getDrawable(R.drawable.ic_email_indicator_non_focused, null)
-                    defaultIcon = DrawableCompat.wrap(defaultIcon)
-                    tilEmail.startIconDrawable = defaultIcon
                 }
             }
 
