@@ -59,7 +59,7 @@ fun LeaderboardEntity.toLeaderboard() = Leaderboard(
 )
 
 fun DailyXpEntity.toDailyXp() = DailyXp(
-    dailyXpId, dailyXp, day, isTaken
+    dailyXpId, dailyXp, day, dayTaken, isTaken
 )
 
 fun LearningJourneyResponse.toLearningJourney() = LearningJourney(

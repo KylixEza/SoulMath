@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "dailyXp")
-data class DailyXpEntity(
+data class  DailyXpEntity(
     @PrimaryKey
     @ColumnInfo(name = "dailyXpId")
     val dailyXpId: String,
@@ -15,6 +15,9 @@ data class DailyXpEntity(
 
     @ColumnInfo(name = "day")
     val day: Int,
+
+    @ColumnInfo(name = "dayTaken")
+    val dayTaken: String?,
 
     @ColumnInfo(name = "isTaken")
     val isTaken: Boolean

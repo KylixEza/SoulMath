@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.data.connectivity.NetworkConnectivityObserver
 import com.ramiyon.soulmath.data.repository.SoulMathRepositoryImpl
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
 import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
@@ -90,6 +91,7 @@ val databaseModule = module {
                                 item.getString("dailyXpId"),
                                 item.getInt("dailyXp"),
                                 item.getInt("day"),
+                                item.getString("dayTaken"),
                                 item.getBoolean("isTaken")
                             )
                         )
@@ -128,4 +130,8 @@ val repositoryModule = module {
     single<SoulMathRepository> {
         SoulMathRepositoryImpl(androidApplication(), get(), get())
     }
+}
+
+val networkConnectivityModule = module {
+    single { NetworkConnectivityObserver(androidApplication()) }
 }
