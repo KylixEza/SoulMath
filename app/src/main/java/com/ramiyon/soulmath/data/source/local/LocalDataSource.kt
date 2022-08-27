@@ -1,5 +1,6 @@
 package com.ramiyon.soulmath.data.source.local
 
+import android.annotation.SuppressLint
 import com.ramiyon.soulmath.base.BaseDatabaseAnswer
 import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
 import com.ramiyon.soulmath.data.source.local.database.enitity.LeaderboardEntity
@@ -7,6 +8,8 @@ import com.ramiyon.soulmath.data.source.local.database.enitity.StudentEntity
 import com.ramiyon.soulmath.data.source.local.database.room.SoulMathDao
 import com.ramiyon.soulmath.data.source.local.datastore.SoulMathDataStore
 import kotlinx.coroutines.flow.first
+import java.text.SimpleDateFormat
+import java.util.*
 
 class LocalDataSource(
     private val dao: SoulMathDao,
@@ -65,6 +68,16 @@ class LocalDataSource(
             }
         }.doObservable()
 
+    fun isTodayTaken() =
+        object : BaseDatabaseAnswer<Boolean>() {
+            override suspend fun callDatabase(): Boolean {
+                val calendar = Calendar.getInstance()
+                val formatter = SimpleDateFormat("yyyy-MM-dd")
+                val today = formatter.format(calendar.time)
+                return dao.isTodayTaken(today).first()
+            }
+        }.doObservable()
+
     fun getCurrentDailyXp() =
         object : BaseDatabaseAnswer<DailyXpEntity>() {
             override suspend fun callDatabase(): DailyXpEntity {
@@ -79,10 +92,14 @@ class LocalDataSource(
             }
         }.doObservable()
 
-    suspend fun takeDailyXp(studentId: String, dailyXpId: String, givenXp: Int?) = object : BaseDatabaseAnswer<Unit>() {
+    suspend fun takeDailyXp(studentId: String, dailyXpId: String, updatedXp: Int?) = object : BaseDatabaseAnswer<Unit>() {
+            @SuppressLint("SimpleDateFormat")
             override suspend fun callDatabase() {
-                givenXp?.let { dao.updateStudentXp(studentId, it) }
-                dao.takeDailyXp(dailyXpId)
+                updatedXp?.let { dao.updateStudentXp(studentId, it) }
+                val calendar = Calendar.getInstance()
+                val formatter = SimpleDateFormat("yyyy-MM-dd")
+                val dayTaken = formatter.format(calendar.time)
+                dao.takeDailyXp(dailyXpId, dayTaken)
             }
         }.doSingleEvent()
 
