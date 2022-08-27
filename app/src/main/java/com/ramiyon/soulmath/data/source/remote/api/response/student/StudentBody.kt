@@ -22,5 +22,5 @@ data class StudentBody(
 	val phoneNumber: String = "",
 
 	@field:SerializedName("xp")
-	val xp: Int = 0
+    var xp: Int = 0
 )

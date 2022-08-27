@@ -94,7 +94,8 @@ class RemoteDataSource(
         object : BaseRemoteResponse<String>() {
             override suspend fun call(): BaseResponse<String> {
                 val newXp = body.xp + givenXp
-                return apiService.updateStudentXp(studentId, newXp)
+                body.xp = newXp
+                return apiService.updateStudentXp(studentId, body)
             }
         }.asFlow()
 
@@ -102,14 +103,17 @@ class RemoteDataSource(
         object : BaseRemoteResponse<String>() {
             override suspend fun call(): BaseResponse<String> {
                 val newXp = body.xp - costXp
-                return apiService.updateStudentXp(studentId, newXp)
+                body.xp = newXp
+                return apiService.updateStudentXp(studentId, body)
             }
         }.asFlow()
 
     suspend fun updateStudentXp(studentId: String, xp: Int) =
         object : BaseRemoteResponse<String>() {
             override suspend fun call(): BaseResponse<String> {
-                return apiService.updateStudentXp(studentId, xp)
+                val body = StudentBody()
+                body.xp = xp
+                return apiService.updateStudentXp(studentId, body)
             }
         }.asFlow()
 
