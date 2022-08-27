@@ -1,6 +1,8 @@
 package com.ramiyon.soulmath.presentation.ui.home
 
+import android.util.Log
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdsc.gdsctoast.GDSCToast.Companion.showAnyToast
 import com.gdsc.gdsctoast.util.ToastShape
@@ -41,14 +43,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }*/
 
-        /*viewModel.getStudentDetail().observe(viewLifecycleOwner) {
+        viewModel.getStudentDetail().observe(viewLifecycleOwner) {
             when(it) {
                 is Resource.Loading -> studentResourceCallback.onResourceLoading()
                 is Resource.Success -> studentResourceCallback.onResourceSuccess(it.data!!)
                 is Resource.Error -> studentResourceCallback.onResourceError(it.message, null)
                 is Resource.Empty -> studentResourceCallback.onResourceEmpty()
             }
-        }*/
+        }
 
         viewModel.getCurrentDailyXp().observe(viewLifecycleOwner) {
             when(it) {
@@ -113,25 +115,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             binding?.apply {
                 progressIncludeTakeDailyXp.visibility = invisible
                 containerTakeDailyXp.visibility = visible
-                includeTakeDailyXp.tvDailyBonusXp.text = data.dailyXp.toString()
 
-                if(!data.isTaken) {
-                    includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
-                        viewModel.takeDailyXp(data.dailyXpId).observe(viewLifecycleOwner) {
-                            when(it) {
-                                is Resource.Success -> {
-                                    requireActivity().showAnyToast {
-                                        it.apply {
-                                            text = "XP hari ini berhasil diambil!"
-                                            toastType = ToastType.SUCCESS
+                viewModel.isTodayTaken().observe(viewLifecycleOwner) {
+                    if (it is Resource.Success) {
+                        if(it.data!!) {
+                            includeTakeDailyXp.tvDailyBonusXp.text = data.dailyXp.toString()
+                            includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
+                        } else {
+                            includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
+                                viewModel.takeDailyXp(data.dailyXpId).observe(viewLifecycleOwner) {
+                                    when(it) {
+                                        is Resource.Success -> {
+                                            requireActivity().showAnyToast {
+                                                it.apply {
+                                                    text = "XP hari ini berhasil diambil!"
+                                                    toastType = ToastType.SUCCESS
+                                                }
+                                            }
+                                        }
+                                        else ->  {
+                                            Log.d("VM: Take Daily XP", "${it.message}")
+                                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                    }
                 }
-            }
+
         }
 
         override fun onResourceError(message: String?, data: DailyXp?) {
