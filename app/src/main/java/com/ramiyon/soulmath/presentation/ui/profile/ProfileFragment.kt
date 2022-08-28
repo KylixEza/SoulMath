@@ -50,13 +50,23 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             }
         }
 
-        viewModel.getDailyXpList().observe(viewLifecycleOwner) {
-            when(it) {
+        viewModel.getDailyXpList().observe(viewLifecycleOwner) { resource ->
+            when(resource) {
                 is Resource.Empty -> { }
                 is Resource.Error -> { }
                 is Resource.Loading -> { }
                 is Resource.Success -> {
-                    it.data?.let { it1 -> dailyXpAdapter.submitData(it1) }
+                    resource.data?.apply {
+                        dailyXpAdapter.submitData(this)
+                        val isNotTakenAlready = this.none { it.isTaken }
+                        if (isNotTakenAlready) {
+                            tvCheckInCountGreet.text = "Kamu belum check in lho hari ini, yuk check in"
+                        } else {
+                            val countDays = this.filter { it.isTaken }
+                            tvCheckInCountGreet.text = "Selamat, kamu telah berhasil check in ${countDays.size} hari beruntun"
+                        }
+                    }
+
                 }
             }
         }
