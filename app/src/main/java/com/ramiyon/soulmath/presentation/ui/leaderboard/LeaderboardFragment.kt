@@ -1,5 +1,6 @@
 package com.ramiyon.soulmath.presentation.ui.leaderboard
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -30,6 +31,10 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
     private val adapter by inject<LeaderboardAdapter>()
     private val viewModel: LeaderboardViewModel by koinNavGraphViewModel(R.id.mobile_navigation)
     private lateinit var dialogRankBinding: DialogRankBinding
+
+    override fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) {
+        requireActivity().window.statusBarColor = resources.getColor(R.color.primary_700)
+    }
 
     override fun inflateViewBinding(container: ViewGroup?): FragmentLeaderboardBinding =
         FragmentLeaderboardBinding.inflate(layoutInflater, container, false)

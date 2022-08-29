@@ -1,9 +1,12 @@
 package com.ramiyon.soulmath.presentation.ui.profile
 
 import android.annotation.SuppressLint
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentProfileBinding
 import com.ramiyon.soulmath.presentation.adapter.DailyXpAdapter
@@ -18,6 +21,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private val viewModel: ProfileViewModel by viewModel()
     private val dailyXpAdapter: DailyXpAdapter by inject()
     private val profileAddOnAdapter: ProfileAddOnAdapter by inject()
+
+    override fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) {
+        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        requireActivity().window.statusBarColor = resources.getColor(R.color.primary_700)
+    }
 
     override fun inflateViewBinding(container: ViewGroup?): FragmentProfileBinding =
         FragmentProfileBinding.inflate(layoutInflater, container, false)

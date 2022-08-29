@@ -1,8 +1,12 @@
 package com.ramiyon.soulmath.presentation.ui.home
 
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdsc.gdsctoast.GDSCToast.Companion.showAnyToast
 import com.gdsc.gdsctoast.util.ToastShape
@@ -19,14 +23,21 @@ import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
 import org.koin.android.ext.android.inject
 import org.koin.androidx.navigation.koinNavGraphViewModel
+import kotlin.properties.Delegates
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val viewModel: HomeViewModel by koinNavGraphViewModel(R.id.mobile_navigation)
+    private var isTaken by Delegates.notNull<Boolean>()
     private val adapter: LearningJourneyAdapter by inject()
 
     override fun inflateViewBinding(container: ViewGroup?): FragmentHomeBinding =
         FragmentHomeBinding.inflate(layoutInflater, container, false)
+
+    override fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) {
+        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        requireActivity().window.statusBarColor = resources.getColor(R.color.primary_700)
+    }
 
     override fun FragmentHomeBinding.binder() {
         rvLearningJourney.apply {
@@ -118,7 +129,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                 viewModel.isTodayTaken().observe(viewLifecycleOwner) {
                     if (it is Resource.Success) {
-                        if(it.data!!) {
+                        isTaken = it.data!!
+                        if(isTaken) {
                             viewModel.getTodayTakenXp().observe(viewLifecycleOwner) { resourceTodayTakenXp ->
                                 if(resourceTodayTakenXp is Resource.Success) {
                                     includeTakeDailyXp.tvDailyBonusXp.text =
@@ -126,6 +138,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                                 }
                             }
                             includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
+                            isTaken = true
                         } else {
                             includeTakeDailyXp.tvDailyBonusXp.text = data.dailyXp.toString()
                             includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
@@ -138,6 +151,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                                                     toastType = ToastType.SUCCESS
                                                 }
                                             }
+                                            includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
                                         }
                                         else ->  {
                                             Log.d("VM: Take Daily XP", "${it.message}")
@@ -148,8 +162,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                             }
                         }
                     }
-                    }
                 }
+            }
 
         }
 

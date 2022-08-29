@@ -13,5 +13,5 @@ class HomeViewModel(
     fun getCurrentDailyXp() = useCase.getCurrentDailyXp().asLiveData(Dispatchers.IO)
     fun takeDailyXp(dailyXpId: String) = useCase.takeDailyXp(dailyXpId).asLiveData(Dispatchers.IO)
     fun isTodayTaken() = useCase.isTodayTaken().asLiveData(Dispatchers.IO)
-    fun getTodayTakenXp() = useCase.getTodayTakenXp().asLiveData(Dispatchers.IO)
+    fun getTodayTakenXp() = useCase.getTodayTakenXp().asLiveData(Dispatchers.Main)
 }
