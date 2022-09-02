@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
@@ -45,14 +46,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
 
-        /*viewModel.fetchLearningJourney().observe(viewLifecycleOwner) {
+        viewModel.fetchLearningJourney().observe(viewLifecycleOwner) {
             when(it) {
                 is Resource.Loading -> learningJourneyResourceCallback.onResourceLoading()
                 is Resource.Success -> learningJourneyResourceCallback.onResourceSuccess(it.data!!)
                 is Resource.Error -> learningJourneyResourceCallback.onResourceError(it.message, null)
                 is Resource.Empty -> learningJourneyResourceCallback.onResourceEmpty()
             }
-        }*/
+        }
 
         viewModel.getStudentDetail().observe(viewLifecycleOwner) {
             when(it) {
@@ -126,6 +127,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             binding?.apply {
                 progressIncludeTakeDailyXp.visibility = invisible
                 containerTakeDailyXp.visibility = visible
+
+                includeTakeDailyXp.tvTakeDailyXp.animation = AnimationUtils.loadAnimation(
+                    requireContext(), R.anim.wiggle_animation
+                )
 
                 viewModel.isTodayTaken().observe(viewLifecycleOwner) {
                     if (it is Resource.Success) {
