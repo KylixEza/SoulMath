@@ -152,6 +152,7 @@ dependencies {
     implementation 'com.baoyz.pullrefreshlayout:library:1.2.0'
     implementation 'com.github.VRGsoftUA:ArcProgressBar:1.0.0'
     implementation 'com.mikhaellopez:circularprogressbar:3.1.0'
+    implementation 'com.github.allan1st:JellyRefreshLayout:2.0'
 
     //Lottie
     implementation "com.airbnb.android:lottie:4.2.2"
