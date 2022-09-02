@@ -22,6 +22,8 @@ import com.ramiyon.soulmath.presentation.common.buildLeaderboardDialog
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.navigation.koinNavGraphViewModel
 import java.util.concurrent.TimeUnit
@@ -55,13 +57,14 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
             }
         }
 
-        refresh.setOnRefreshListener {
+        refresh.setPullToRefreshListener {
             viewModel.fetchLeaderboard(true).observe(viewLifecycleOwner) {
                 when (it) {
                     is Resource.Loading -> leaderboardResourceCallback.onResourceLoading()
+
                     is Resource.Success -> {
                         leaderboardResourceCallback.onResourceSuccess(it.data)
-                        refresh.setRefreshing(false)
+                        refresh.isRefreshing = false
                     }
                     is Resource.Error -> leaderboardResourceCallback.onResourceError(it.message, it.data)
                     is Resource.Empty -> leaderboardResourceCallback.onResourceEmpty()
