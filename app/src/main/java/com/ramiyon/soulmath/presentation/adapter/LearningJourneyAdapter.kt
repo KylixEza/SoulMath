@@ -1,6 +1,5 @@
 package com.ramiyon.soulmath.presentation.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +9,7 @@ import com.ramiyon.soulmath.base.BaseRecyclerViewAdapter
 import com.ramiyon.soulmath.databinding.ItemListLearningJourneyBinding
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.presentation.diff_callback.LearningJourneyDiffUtil
+import com.ramiyon.soulmath.util.callGlide
 
 class LearningJourneyAdapter: BaseRecyclerViewAdapter<ItemListLearningJourneyBinding, LearningJourney>() {
     override fun inflateViewBinding(parent: ViewGroup): ItemListLearningJourneyBinding {
@@ -18,11 +18,11 @@ class LearningJourneyAdapter: BaseRecyclerViewAdapter<ItemListLearningJourneyBin
 
     override val binder: (LearningJourney, ItemListLearningJourneyBinding) -> Unit = { item, binding ->
         binding.apply {
-            Glide.with(itemView!!.context).load(item.moduleImage).into(ivModuleHeader)
+            callGlide(itemView!!.context, item.moduleImage, ivModuleHeader)
             if(item.isModuleUnlocked)
-                Glide.with(itemView!!.context).load(item.moduleIconUnlocked).into(ivModuleIcon)
+                callGlide(itemView!!.context, item.moduleIconUnlocked, ivModuleIcon)
             else
-                Glide.with(itemView!!.context).load(item.moduleIconLocked).into(ivModuleIcon)
+                callGlide(itemView!!.context, item.moduleIconUnlocked, ivModuleIcon)
 
             pbMaterial.progress = item.materialLearningJourneyResponse.materialPercentage.toInt()
 
