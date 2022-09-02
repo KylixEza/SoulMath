@@ -19,8 +19,8 @@
 
     <ImageView
         android:id="@+id/iv_sub_module_first_crown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="24dp"
         android:src="@drawable/ic_uncrowned"
         app:layout_constraintBottom_toBottomOf="@id/apb_sub_module"
@@ -28,8 +28,9 @@
 
     <ImageView
         android:id="@+id/iv_sub_module_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="@id/apb_sub_module"
         app:layout_constraintEnd_toEndOf="@id/apb_sub_module"
         app:layout_constraintTop_toTopOf="@id/apb_sub_module"
@@ -38,8 +39,8 @@
 
     <ImageView
         android:id="@+id/iv_sub_module_second_crown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginTop="-18dp"
         android:src="@drawable/ic_uncrowned"
         app:layout_constraintStart_toStartOf="@id/iv_sub_module_icon"
@@ -48,8 +49,8 @@
 
     <ImageView
         android:id="@+id/iv_sub_module_third_crown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/ic_uncrowned"
         app:layout_constraintEnd_toEndOf="@id/apb_sub_module"

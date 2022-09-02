@@ -8,8 +8,9 @@
 
     <ImageView
         android:id="@+id/iv_module_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="190dp"
+        android:layout_height="78dp"
+        android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,15 +26,16 @@
         app:arc_progress_end_color="@color/primary_700"
         app:arc_unfinished_color="@color/primary_50"
         app:arc_thickness="16dp"
-        app:arc_progress="66"
+        app:arc_progress="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_module_header"/>
 
     <ImageView
         android:id="@+id/iv_module_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="@id/pb_material"
         app:layout_constraintEnd_toEndOf="@id/pb_material"
         app:layout_constraintTop_toTopOf="@id/pb_material"
