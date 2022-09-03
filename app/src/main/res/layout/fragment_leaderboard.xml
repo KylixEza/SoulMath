@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<uk.co.imallan.jellyrefresh.JellyRefreshLayout
+<com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="Sabar ya anjing"
-    android:textColor="@color/white"
-    app:jellyColor="@color/primary_700"
-    app:pullHeight="128dp"
-    app:triggerHeight="96dp"
-    app:headerHeight="56dp"
+    app:srl_direction="top"
     tools:context=".presentation.ui.leaderboard.LeaderboardFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -133,4 +128,4 @@
         </com.facebook.shimmer.ShimmerFrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</uk.co.imallan.jellyrefresh.JellyRefreshLayout>
+</com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>

@@ -22,6 +22,7 @@ import com.ramiyon.soulmath.presentation.common.buildLeaderboardDialog
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
+import io.github.florent37.shapeofview.shapes.CircleView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -48,6 +49,9 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
             adapter = this@LeaderboardFragment.adapter
         }
 
+        refresh.setProgressBackgroundColor(R.color.primary_700)
+        refresh.setColorSchemeResources(R.color.white)
+
         viewModel.fetchLeaderboard(false).observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> leaderboardResourceCallback.onResourceLoading()
@@ -57,10 +61,11 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
             }
         }
 
-        refresh.setPullToRefreshListener {
+        refresh.setOnRefreshListener {
             viewModel.fetchLeaderboard(true).observe(viewLifecycleOwner) {
                 when (it) {
-                    is Resource.Loading -> leaderboardResourceCallback.onResourceLoading()
+                    is Resource.Loading -> {
+                    }
 
                     is Resource.Success -> {
                         leaderboardResourceCallback.onResourceSuccess(it.data)
