@@ -1,10 +1,12 @@
 package com.ramiyon.soulmath.presentation.ui.leaderboard
 
+import android.app.Dialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.*
 import com.bumptech.glide.Glide
@@ -19,11 +21,12 @@ import com.ramiyon.soulmath.databinding.FragmentLeaderboardBinding
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.presentation.adapter.LeaderboardAdapter
 import com.ramiyon.soulmath.presentation.common.buildLeaderboardDialog
+import com.ramiyon.soulmath.presentation.common.setLeaderboardDialogData
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
-import io.github.florent37.shapeofview.shapes.CircleView
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.navigation.koinNavGraphViewModel
@@ -34,6 +37,7 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
     private val adapter by inject<LeaderboardAdapter>()
     private val viewModel: LeaderboardViewModel by koinNavGraphViewModel(R.id.mobile_navigation)
     private lateinit var dialogRankBinding: DialogRankBinding
+    private lateinit var dialog: Dialog
 
     override fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) {
         requireActivity().window.statusBarColor = resources.getColor(R.color.primary_700)
@@ -51,7 +55,11 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
 
         refresh.setProgressBackgroundColor(R.color.primary_700)
         refresh.setColorSchemeResources(R.color.white)
-
+        dialog = requireContext().buildLeaderboardDialog(viewLifecycleOwner ,dialogRankBinding, null)
+        ivLeaderboardInformation.setOnClickListener {
+            dialog.show()
+        }
+        
         viewModel.fetchLeaderboard(false).observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> leaderboardResourceCallback.onResourceLoading()
@@ -64,8 +72,7 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
         refresh.setOnRefreshListener {
             viewModel.fetchLeaderboard(true).observe(viewLifecycleOwner) {
                 when (it) {
-                    is Resource.Loading -> {
-                    }
+                    is Resource.Loading -> leaderboardResourceCallback.onResourceLoading()
 
                     is Resource.Success -> {
                         leaderboardResourceCallback.onResourceSuccess(it.data)
@@ -76,24 +83,6 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
                 }
             }
         }
-
-        ivLeaderboardInformation.setOnClickListener {
-            viewModel.fetchStudentRank().observe(viewLifecycleOwner) { rankResource ->
-                when(rankResource) {
-                    is Resource.Success -> {
-                        val dialog = requireContext().buildLeaderboardDialog(dialogRankBinding, rankResource.data)
-                        ivLeaderboardInformation.setOnClickListener {
-                            dialog.show()
-                        }
-
-                    }
-                    is Resource.Loading ->  { }
-                    is Resource.Empty -> return@observe
-                    is Resource.Error -> { }
-                }
-            }
-        }
-
     }
 
     private val leaderboardResourceCallback = object : ResourceStateCallback<List<Leaderboard>?>() {
@@ -139,6 +128,15 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
                 progressBarLeaderboard.visibility = View.INVISIBLE
                 rvLeaderboard.visibility = View.VISIBLE
                 remains?.let { list -> adapter.submitData(list) }
+    
+                viewModel.fetchStudentRank().observe(viewLifecycleOwner) { rankResource ->
+                    when(rankResource) {
+                        is Resource.Success -> setLeaderboardDialogData(rankResource.data)
+                        is Resource.Loading ->  { }
+                        is Resource.Empty -> return@observe
+                        is Resource.Error -> { }
+                    }
+                }
 
                 val constraints: Constraints = Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
