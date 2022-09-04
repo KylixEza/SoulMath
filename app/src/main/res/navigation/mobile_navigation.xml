@@ -5,7 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/home_destination">
 
-    <keep_state_fragment
+    <fragment
         android:id="@+id/home_destination"
         android:name="com.ramiyon.soulmath.presentation.ui.home.HomeFragment"
         android:label="fragment_home"
@@ -13,16 +13,16 @@
         <action
             android:id="@+id/action_home_destination_to_materialOnBoardActivity"
             app:destination="@id/materialOnBoardActivity" />
-    </keep_state_fragment>
+    </fragment>
 
-    <keep_state_fragment
+    <fragment
         android:id="@+id/leaderboard_destination"
         android:name="com.ramiyon.soulmath.presentation.ui.leaderboard.LeaderboardFragment"
         android:label="fragment_leaderboard"
         tools:layout="@layout/fragment_leaderboard" />
 
 
-    <keep_state_fragment
+    <fragment
         android:id="@+id/profile_destination"
         android:name="com.ramiyon.soulmath.presentation.ui.profile.ProfileFragment"
         android:label="fragment_profile"

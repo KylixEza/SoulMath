@@ -35,10 +35,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpNavigation() {
         val navController = findNavController(R.id.main_navigation)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_navigation)!!
-        val navigator = KeepStateNavigator(this, navHostFragment.childFragmentManager, R.id.main_navigation)
-        navController.navigatorProvider += navigator
-        navController.setGraph(R.navigation.mobile_navigation)
         binding.mainBottomNav.setupWithNavController(navController)
     }
 }
