@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentProfileBinding
@@ -15,11 +14,11 @@ import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ScreenOrientation
 import com.ramiyon.soulmath.util.callGlide
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.navigation.koinNavGraphViewModel
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
-    private val viewModel: ProfileViewModel by viewModel()
+    private val viewModel: ProfileViewModel by koinNavGraphViewModel(R.id.mobile_navigation)
     private val dailyXpAdapter: DailyXpAdapter by inject()
     private val profileAddOnAdapter: ProfileAddOnAdapter by inject()
 
