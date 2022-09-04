@@ -11,6 +11,7 @@ import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
 import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_ID
 import com.ramiyon.soulmath.util.Constanta.ARG_STRING_ARRAY_LIST
 import com.ramiyon.soulmath.util.ScreenOrientation
+import com.ramiyon.soulmath.util.callGlide
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardThirdScreenBinding>() {
@@ -41,13 +42,8 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
     override fun FragmentMaterialOnBoardThirdScreenBinding.binder() {
         val onBoardContent = viewModel.getMaterialOnBoardThirdScreen(materialId!!)
 
-        Glide.with(this@MaterialOnBoardThirdScreenFragment)
-            .load(onBoardContent.upperImage)
-            .into(ivUpperImageThirdOnboard)
-
-        Glide.with(this@MaterialOnBoardThirdScreenFragment)
-            .load(onBoardContent.lowerImage)
-            .into(ivLowerImageThirdOnboard)
+        callGlide(requireContext(), onBoardContent.upperImage, ivUpperImageThirdOnboard)
+        callGlide(requireContext(), onBoardContent.lowerImage, ivLowerImageThirdOnboard)
 
         tvMaterialThirdOnboard.text = onBoardContent.description
 
@@ -55,6 +51,7 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
             val intent = Intent(requireActivity(), MaterialDashboardActivity::class.java)
             intent.putExtra(ARG_MODULE_ID, moduleId)
             startActivity(intent)
+            requireActivity().finish()
         }
     }
 
