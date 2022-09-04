@@ -66,7 +66,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         viewModel.getCurrentDailyXp().observe(viewLifecycleOwner) {
             when(it) {
-                is Resource.Loading -> dailyXpResourceCallback.onResourceLoading()
+                is Resource.Loading -> {
+                    viewModel.isTodayTaken().observe(viewLifecycleOwner) {
+                        if (it is Resource.Success) {
+                            isTaken = it.data!!
+                        }
+                    }
+                    dailyXpResourceCallback.onResourceLoading()
+                }
                 is Resource.Success -> dailyXpResourceCallback.onResourceSuccess(it.data!!)
                 is Resource.Error -> dailyXpResourceCallback.onResourceError(it.message, null)
                 is Resource.Empty -> dailyXpResourceCallback.onResourceEmpty()
@@ -127,41 +134,33 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             binding?.apply {
                 progressIncludeTakeDailyXp.visibility = invisible
                 containerTakeDailyXp.visibility = visible
-
-                includeTakeDailyXp.tvTakeDailyXp.animation = AnimationUtils.loadAnimation(
-                    requireContext(), R.anim.wiggle_animation
-                )
-
-                viewModel.isTodayTaken().observe(viewLifecycleOwner) {
-                    if (it is Resource.Success) {
-                        isTaken = it.data!!
+    
+                if(isTaken) {
+                    viewModel.getTodayTakenXp().observe(viewLifecycleOwner) { resourceTodayTakenXp ->
+                        if(resourceTodayTakenXp is Resource.Success) {
+                            includeTakeDailyXp.tvDailyBonusXp.text =
+                                resourceTodayTakenXp.data?.dailyXp.toString()
+                        }
+                    }
+                    includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
+                    isTaken = true
+                } else {
+                    includeTakeDailyXp.tvTakeDailyXp.animation = AnimationUtils.loadAnimation(
+                        requireContext(), R.anim.wiggle_animation
+                    )
+                    includeTakeDailyXp.tvDailyBonusXp.text = data.dailyXp.toString()
+                    includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
                         if(isTaken) {
-                            viewModel.getTodayTakenXp().observe(viewLifecycleOwner) { resourceTodayTakenXp ->
-                                if(resourceTodayTakenXp is Resource.Success) {
-                                    includeTakeDailyXp.tvDailyBonusXp.text =
-                                        resourceTodayTakenXp.data?.dailyXp.toString()
-                                }
-                            }
-                            includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
-                            isTaken = true
-                        } else {
-                            includeTakeDailyXp.tvDailyBonusXp.text = data.dailyXp.toString()
-                            includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
-                                viewModel.takeDailyXp(data.dailyXpId).observe(viewLifecycleOwner) {
-                                    when(it) {
-                                        is Resource.Success -> {
-                                            requireActivity().showAnyToast {
-                                                it.apply {
-                                                    text = "XP hari ini berhasil diambil!"
-                                                    toastType = ToastType.SUCCESS
-                                                }
+                            viewModel.takeDailyXp(data.dailyXpId).observe(viewLifecycleOwner) {
+                                when(it) {
+                                    is Resource.Success -> {
+                                        requireActivity().showAnyToast {
+                                            it.apply {
+                                                text = "XP hari ini berhasil diambil!"
+                                                toastType = ToastType.SUCCESS
                                             }
-                                            includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
                                         }
-                                        else ->  {
-                                            Log.d("VM: Take Daily XP", "${it.message}")
-                                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                                        }
+                                        includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
                                     }
                                 }
                             }
