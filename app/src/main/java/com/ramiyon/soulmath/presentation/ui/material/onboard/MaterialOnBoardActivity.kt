@@ -1,5 +1,6 @@
 package com.ramiyon.soulmath.presentation.ui.material.onboard
 
+import androidx.navigation.navArgs
 import com.ramiyon.soulmath.base.BaseActivity
 import com.ramiyon.soulmath.databinding.ActivityMaterialOnBoardBinding
 import com.ramiyon.soulmath.presentation.adapter.OnBoardingViewPagerAdapter
@@ -10,7 +11,7 @@ import com.ramiyon.soulmath.util.ScreenOrientation
 
 class MaterialOnBoardActivity : BaseActivity<ActivityMaterialOnBoardBinding>() {
 
-    private lateinit var args: MaterialOnBoardActivityArgs
+    private val args: MaterialOnBoardActivityArgs by navArgs()
 
     override fun inflateViewBinding(): ActivityMaterialOnBoardBinding {
         return ActivityMaterialOnBoardBinding.inflate(layoutInflater)
@@ -40,5 +41,9 @@ class MaterialOnBoardActivity : BaseActivity<ActivityMaterialOnBoardBinding>() {
         }
         pageIndicatorViewMaterialOnboard.setViewPager2(vpMaterialOnboard)
     }
-
+    
+    override fun onBackPressed() {
+        finish()
+        super.onBackPressed()
+    }
 }
