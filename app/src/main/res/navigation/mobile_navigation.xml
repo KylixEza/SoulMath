@@ -12,23 +12,31 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_home_destination_to_materialOnBoardActivity"
-            app:destination="@id/materialOnBoardActivity" />
+            app:destination="@id/material_on_board_destination" />
     </fragment>
 
     <fragment
         android:id="@+id/leaderboard_destination"
         android:name="com.ramiyon.soulmath.presentation.ui.leaderboard.LeaderboardFragment"
         android:label="fragment_leaderboard"
-        tools:layout="@layout/fragment_leaderboard" />
+        tools:layout="@layout/fragment_leaderboard" >
+        <action
+            android:id="@+id/action_leaderboard_destination_to_home_destination"
+            app:destination="@id/home_destination" />
+    </fragment>
 
 
     <fragment
         android:id="@+id/profile_destination"
         android:name="com.ramiyon.soulmath.presentation.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profile_destination_to_home_destination"
+            app:destination="@id/home_destination" />
+    </fragment>
     <activity
-        android:id="@+id/materialOnBoardActivity"
+        android:id="@+id/material_on_board_destination"
         android:name="com.ramiyon.soulmath.presentation.ui.material.onboard.MaterialOnBoardActivity"
         android:label="activity_material_on_board"
         tools:layout="@layout/activity_material_on_board" >
