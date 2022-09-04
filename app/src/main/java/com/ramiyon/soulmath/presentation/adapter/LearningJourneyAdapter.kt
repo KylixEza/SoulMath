@@ -2,6 +2,7 @@ package com.ramiyon.soulmath.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.ramiyon.soulmath.R
@@ -10,6 +11,7 @@ import com.ramiyon.soulmath.databinding.IncludeSubModuleProgressBarBinding
 import com.ramiyon.soulmath.databinding.ItemListLearningJourneyBinding
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.presentation.diff_callback.LearningJourneyDiffUtil
+import com.ramiyon.soulmath.presentation.ui.home.HomeFragmentDirections
 import com.ramiyon.soulmath.util.callGlide
 
 class LearningJourneyAdapter: BaseRecyclerViewAdapter<ItemListLearningJourneyBinding, LearningJourney>() {
@@ -24,6 +26,14 @@ class LearningJourneyAdapter: BaseRecyclerViewAdapter<ItemListLearningJourneyBin
                 callGlide(itemView!!.context, item.moduleIconUnlocked, ivModuleIcon)
             else
                 callGlide(itemView!!.context, item.moduleIconUnlocked, ivModuleIcon)
+            
+            ivModuleIcon.setOnClickListener {
+                if(item.isModuleUnlocked)
+                    it.findNavController().navigate(HomeFragmentDirections.actionHomeDestinationToMaterialOnBoardActivity(
+                        item.materialLearningJourneyResponse.currentMaterialId,
+                        item.moduleId
+                    ))
+            }
 
             pbMaterial.progress = item.materialLearningJourneyResponse.materialPercentage.toInt()
 

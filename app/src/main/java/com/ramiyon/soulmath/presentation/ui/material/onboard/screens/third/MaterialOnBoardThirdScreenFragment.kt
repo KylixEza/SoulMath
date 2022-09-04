@@ -9,6 +9,7 @@ import com.ramiyon.soulmath.databinding.FragmentMaterialOnBoardThirdScreenBindin
 import com.ramiyon.soulmath.presentation.ui.material.dashboard.MaterialDashboardActivity
 import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
 import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_ID
+import com.ramiyon.soulmath.util.Constanta.ARG_STRING_ARRAY_LIST
 import com.ramiyon.soulmath.util.ScreenOrientation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -21,16 +22,16 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
     companion object {
         fun getInstance(materialId: String, moduleId: String) = MaterialOnBoardThirdScreenFragment().apply {
             arguments = Bundle().apply {
-                putString(ARG_MATERIAL_ID, materialId)
-                putString(ARG_MODULE_ID, moduleId)
+                putStringArrayList(ARG_STRING_ARRAY_LIST, arrayListOf(materialId, moduleId))
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        materialId = arguments?.getString(ARG_MATERIAL_ID)
-        moduleId = arguments?.getString(ARG_MODULE_ID)
+        val argResult = arguments?.getStringArrayList(ARG_STRING_ARRAY_LIST)
+        materialId = argResult?.get(0)
+        moduleId = argResult?.get(1)
     }
 
     override fun inflateViewBinding(container: ViewGroup?): FragmentMaterialOnBoardThirdScreenBinding {
