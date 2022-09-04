@@ -13,6 +13,7 @@ import com.ramiyon.soulmath.presentation.adapter.DailyXpAdapter
 import com.ramiyon.soulmath.presentation.adapter.ProfileAddOnAdapter
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ScreenOrientation
+import com.ramiyon.soulmath.util.callGlide
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -49,10 +50,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 is Resource.Error -> { }
                 is Resource.Loading -> { }
                 is Resource.Success -> {
-                    Glide.with(this@ProfileFragment).load(it.data?.avatar).into(this.includeStudentProfileCard.ivAvatar)
                     includeStudentProfileCard.apply {
-                        tvUsername.text = it.data?.username
-                        tvXpPoints.text = "${it.data?.xp.toString()} XP"
+                        it.data?.avatar?.let { avatar -> requireContext().callGlide(avatar, ivAvatar, R.drawable.ilu_default_profile_picture) }
+                        includeStudentProfileCard.apply {
+                            tvUsername.text = it.data?.username
+                            tvXpPoints.text = "${it.data?.xp.toString()} XP"
+                        }
                     }
                 }
             }
