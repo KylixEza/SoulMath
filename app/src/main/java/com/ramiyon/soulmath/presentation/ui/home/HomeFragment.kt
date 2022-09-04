@@ -1,13 +1,9 @@
 package com.ramiyon.soulmath.presentation.ui.home
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.Toast
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdsc.gdsctoast.GDSCToast.Companion.showAnyToast
 import com.gdsc.gdsctoast.util.ToastShape
@@ -29,7 +25,7 @@ import kotlin.properties.Delegates
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val viewModel: HomeViewModel by koinNavGraphViewModel(R.id.mobile_navigation)
-    private var isTaken by Delegates.notNull<Boolean>()
+    private var isTaken = false
     private val adapter: LearningJourneyAdapter by inject()
 
     override fun inflateViewBinding(container: ViewGroup?): FragmentHomeBinding =
@@ -150,7 +146,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     )
                     includeTakeDailyXp.tvDailyBonusXp.text = data.dailyXp.toString()
                     includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
-                        if(isTaken) {
+                        if(!isTaken) {
                             viewModel.takeDailyXp(data.dailyXpId).observe(viewLifecycleOwner) {
                                 when(it) {
                                     is Resource.Success -> {
@@ -161,6 +157,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                                             }
                                         }
                                         includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
+                                        isTaken = true
                                     }
                                 }
                             }
