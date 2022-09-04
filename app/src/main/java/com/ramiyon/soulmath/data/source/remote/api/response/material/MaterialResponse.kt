@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class MaterialResponse(
 	
-	@field:SerializedName("subM_module_id")
+	@field:SerializedName("sub_module_id")
 	val subModuleId: String,
 	
 	@field:SerializedName("material_id")
