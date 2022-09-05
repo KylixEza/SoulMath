@@ -17,6 +17,7 @@ import com.ramiyon.soulmath.databinding.ActivityMaterialVideoPlayerBinding
 import com.ramiyon.soulmath.domain.model.material.MaterialDetail
 import com.ramiyon.soulmath.presentation.ui.material.reward.MaterialRewardActivity
 import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
+import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_TITLE
 import com.ramiyon.soulmath.util.Constanta.ARG_XP
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
@@ -41,6 +42,12 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
 
     override fun ActivityMaterialVideoPlayerBinding.binder() {
         val materialId = intent.getStringExtra(ARG_MATERIAL_ID)
+        val moduleTitle = intent.getStringExtra(ARG_MODULE_TITLE) ?: ""
+        
+        setSupportActionBar(materialVideoPlayerToolbar)
+        tvToolbarTitle?.text = moduleTitle
+        supportActionBar?.hide()
+        
         viewModel.fetchMaterialDetail(materialId!!).observe(this@MaterialVideoPlayerActivity) {
             when(it) {
                 is Resource.Loading -> videoPlayerResourceCallback.onResourceLoading()
@@ -103,11 +110,11 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
         exoPlayer?.release()
     }
 
-    override fun onStart() {
+    /*override fun onStart() {
         super.onStart()
 
         if (Util.SDK_INT > 23) initializePlayer(material.videoUrl)
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()
