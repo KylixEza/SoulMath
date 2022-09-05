@@ -9,6 +9,7 @@ import com.ramiyon.soulmath.databinding.ActivityMaterialDashboardBinding
 import com.ramiyon.soulmath.domain.model.material.Material
 import com.ramiyon.soulmath.presentation.adapter.MaterialAdapter
 import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_ID
+import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_TITLE
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
@@ -29,7 +30,14 @@ class MaterialDashboardActivity : BaseActivity<ActivityMaterialDashboardBinding>
     }
 
     override fun ActivityMaterialDashboardBinding.binder() {
+        
+        setSupportActionBar(materialDashboardToolbar)
+        supportActionBar?.hide()
+        
         val moduleId: String = intent.getStringExtra(ARG_MODULE_ID) ?: ""
+        val moduleTitle = intent.getStringExtra(ARG_MODULE_TITLE) ?: ""
+        
+        tvToolbarTitle.text = moduleTitle
 
         rvMaterialDashboard.apply {
             adapter = this@MaterialDashboardActivity.adapter

@@ -9,6 +9,7 @@ import com.ramiyon.soulmath.databinding.FragmentMaterialOnBoardThirdScreenBindin
 import com.ramiyon.soulmath.presentation.ui.material.dashboard.MaterialDashboardActivity
 import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
 import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_ID
+import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_TITLE
 import com.ramiyon.soulmath.util.Constanta.ARG_STRING_ARRAY_LIST
 import com.ramiyon.soulmath.util.ScreenOrientation
 import com.ramiyon.soulmath.util.callGlide
@@ -19,11 +20,12 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
     private val viewModel by viewModel<MaterialOnBoardThirdScreenViewModel>()
     private var materialId: String? = null
     private var moduleId: String? = null
+    private var moduleTitle: String? = null
 
     companion object {
-        fun getInstance(materialId: String, moduleId: String) = MaterialOnBoardThirdScreenFragment().apply {
+        fun getInstance(materialId: String, moduleId: String, moduleTitle: String) = MaterialOnBoardThirdScreenFragment().apply {
             arguments = Bundle().apply {
-                putStringArrayList(ARG_STRING_ARRAY_LIST, arrayListOf(materialId, moduleId))
+                putStringArrayList(ARG_STRING_ARRAY_LIST, arrayListOf(materialId, moduleId, moduleTitle))
             }
         }
     }
@@ -33,6 +35,7 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
         val argResult = arguments?.getStringArrayList(ARG_STRING_ARRAY_LIST)
         materialId = argResult?.get(0)
         moduleId = argResult?.get(1)
+        moduleTitle = argResult?.get(2)
     }
 
     override fun inflateViewBinding(container: ViewGroup?): FragmentMaterialOnBoardThirdScreenBinding {
@@ -50,6 +53,7 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
         btnNextMaterialThirdOnboard.setOnClickListener {
             val intent = Intent(requireActivity(), MaterialDashboardActivity::class.java)
             intent.putExtra(ARG_MODULE_ID, moduleId)
+            intent.putExtra(ARG_MODULE_TITLE, moduleTitle)
             startActivity(intent)
             requireActivity().finish()
         }

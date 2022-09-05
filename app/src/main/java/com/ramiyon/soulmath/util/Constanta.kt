@@ -11,6 +11,7 @@ object Constanta {
     const val SOURCE_SPLASH = "FROM_SPLASH"
 
     const val ARG_MODULE_ID = "ARG_MODULE_ID"
+    const val ARG_MODULE_TITLE = "ARG_MODULE_TITLE"
     const val ARG_MATERIAL_ID = "ARG_MODULE_ID"
     const val ARG_XP = "ARG_XP"
     const val ARG_STRING_ARRAY_LIST = "ARG_STRING_ARRAY_LIST"

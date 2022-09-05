@@ -38,7 +38,7 @@ class MaterialOnBoardActivity : BaseActivity<ActivityMaterialOnBoardBinding>() {
         val fragments = listOf(
             MaterialOnBoardFirstScreenFragment.getInstance(materialId),
             MaterialOnBoardSecondScreenFragment.getInstance(materialId),
-            MaterialOnBoardThirdScreenFragment.getInstance(materialId, moduleId)
+            MaterialOnBoardThirdScreenFragment.getInstance(materialId, moduleId, moduleTitle)
         )
 
         adapter.apply {
