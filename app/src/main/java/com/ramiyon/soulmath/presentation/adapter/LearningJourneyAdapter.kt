@@ -31,7 +31,8 @@ class LearningJourneyAdapter: BaseRecyclerViewAdapter<ItemListLearningJourneyBin
                 if(item.isModuleUnlocked)
                     it.findNavController().navigate(HomeFragmentDirections.actionHomeDestinationToMaterialOnBoardActivity(
                         item.materialLearningJourneyResponse.currentMaterialId,
-                        item.moduleId
+                        item.moduleId,
+                        item.moduleTitle
                     ))
             }
 

@@ -45,6 +45,8 @@
             app:argType="string" />
         <argument android:name="moduleId"
             app:argType="string" />
+        <argument android:name="moduleTitle"
+            app:argType="string" />
     </activity>
 
 

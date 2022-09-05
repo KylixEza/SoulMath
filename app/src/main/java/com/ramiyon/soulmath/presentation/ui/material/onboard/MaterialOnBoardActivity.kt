@@ -21,8 +21,14 @@ class MaterialOnBoardActivity : BaseActivity<ActivityMaterialOnBoardBinding>() {
 
     override fun ActivityMaterialOnBoardBinding.binder() {
 
+        setSupportActionBar(materialOnBoardingToolbar)
+        supportActionBar?.hide()
+    
         val materialId = args.materialId
         val moduleId = args.moduleId
+        val moduleTitle = args.moduleTitle
+        
+        tvToolbarTitle.text = moduleTitle
 
         val adapter = OnBoardingViewPagerAdapter(
             supportFragmentManager,

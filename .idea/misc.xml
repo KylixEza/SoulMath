@@ -8,6 +8,7 @@
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/card_view_profile.xml" value="0.1865" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/dialog_box.xml" value="0.1" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/email_indicator_selector.xml" value="0.1905" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_arrow_back_black.xml" value="0.1895" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_arrow_next_blue.xml" value="0.187" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_check_in_no.xml" value="0.1865" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_circle_next.xml" value="0.213" />
@@ -35,7 +36,7 @@
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_auth.xml" value="0.25" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_material_dashboard.xml" value="0.2" />
-        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_material_on_board.xml" value="0.1837962962962963" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_material_on_board.xml" value="0.33" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_material_reward.xml" value="0.2" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_material_video_player.xml" value="0.1712962962962963" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/layout/activity_on_board.xml" value="0.1837962962962963" />
