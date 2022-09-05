@@ -36,6 +36,9 @@ class MaterialDashboardActivity : BaseActivity<ActivityMaterialDashboardBinding>
         
         val moduleId: String = intent.getStringExtra(ARG_MODULE_ID) ?: ""
         val moduleTitle = intent.getStringExtra(ARG_MODULE_TITLE) ?: ""
+        adapter.mapData = mapOf(
+            ARG_MODULE_TITLE to moduleTitle
+        )
         
         tvToolbarTitle.text = moduleTitle
         ivBack.setOnClickListener { finish() }

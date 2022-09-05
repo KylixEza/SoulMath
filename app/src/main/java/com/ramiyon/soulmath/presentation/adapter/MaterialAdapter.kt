@@ -15,8 +15,12 @@ import com.ramiyon.soulmath.domain.model.material.Material
 import com.ramiyon.soulmath.presentation.diff_callback.MaterialDiffUtil
 import com.ramiyon.soulmath.presentation.ui.material.video.MaterialVideoPlayerActivity
 import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
+import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_TITLE
 
 class MaterialAdapter: BaseRecyclerViewAdapter<ItemListMaterialDashboardBinding, Material>() {
+    
+    var mapData = mapOf<String, Any>()
+    
     override fun inflateViewBinding(parent: ViewGroup): ItemListMaterialDashboardBinding {
         return ItemListMaterialDashboardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     }
@@ -36,8 +40,10 @@ class MaterialAdapter: BaseRecyclerViewAdapter<ItemListMaterialDashboardBinding,
             }
 
             itemView?.setOnClickListener {
+                val moduleTitle = mapData[ARG_MODULE_TITLE] as String
                 val intent = Intent(itemView?.context, MaterialVideoPlayerActivity::class.java)
                 intent.putExtra(ARG_MATERIAL_ID, item.materialId)
+                intent.putExtra(ARG_MODULE_TITLE, moduleTitle)
                 itemView?.context?.startActivity(intent)
             }
         }
