@@ -68,6 +68,7 @@ class LearningJourneyAdapter: BaseRecyclerViewAdapter<ItemListLearningJourneyBin
             crowningSubModule { subModuleByPosition.isDifficultiesCrowned.easy }
             crowningSubModule { subModuleByPosition.isDifficultiesCrowned.medium }
             crowningSubModule { subModuleByPosition.isDifficultiesCrowned.hard }
+            tvTitleSubModule.text = subModuleByPosition.subModuleTitle
         }
     }
 
