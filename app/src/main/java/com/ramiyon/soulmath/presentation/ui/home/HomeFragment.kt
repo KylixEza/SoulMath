@@ -95,7 +95,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
                 tvStudentXp.apply {
                     visibility = visible
-                    text = data.xp.toString()
+                    text = "${data.xp.toString()} XP"
                 }
             }
         }
@@ -155,6 +155,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                                                 includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
                                                 isTaken = true
                                             }
+                                            else -> {}
                                         }
                                     }
                                 }
