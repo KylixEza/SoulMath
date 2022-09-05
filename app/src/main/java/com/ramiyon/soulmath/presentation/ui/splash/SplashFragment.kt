@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.util.Resource
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashFragment : Fragment() {
@@ -27,10 +28,7 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed({
-            observeHaveRunAppBefore(view)
-        }, 1500)
+        observeHaveRunAppBefore(view)
     }
 
     private fun observeHaveRunAppBefore(view: View) {
@@ -50,8 +48,16 @@ class SplashFragment : Fragment() {
     private fun observeRememberMe(view: View) {
         viewModel.readPrefRememberMe().observe(viewLifecycleOwner) { isRemember ->
             if (isRemember) {
-                view.findNavController().navigate(R.id.action_splashFragment_to_baseActivity)
-                activity?.finish()
+                viewModel.fetchStudentDetail().observe(viewLifecycleOwner) {
+                    when(it) {
+                        is Resource.Loading -> {}
+                        is Resource.Success -> {
+                            view.findNavController().navigate(R.id.action_splashFragment_to_baseActivity)
+                            activity?.finish()
+                        }
+                        else -> {}
+                    }
+                }
             } else {
                 view.findNavController().navigate(R.id.action_splash_destination_to_loginFragment)
             }

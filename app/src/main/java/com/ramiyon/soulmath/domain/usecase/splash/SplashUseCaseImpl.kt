@@ -8,4 +8,5 @@ class SplashUseCaseImpl(
 
     override fun readPrefRememberMe() = repository.readPrefRememberMe()
     override fun readPrefHaveRunAppBefore() = repository.readPrefHaveRunAppBefore()
+    override fun fetchStudentDetail() = repository.fetchStudentDetail()
 }

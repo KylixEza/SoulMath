@@ -68,6 +68,13 @@ class RemoteDataSource(
             }
         }
     }.flowOn(Dispatchers.IO)
+    
+    suspend fun fetchStudentDetail(studentId: String) =
+        object : BaseRemoteResponse<StudentResponse>() {
+            override suspend fun call(): BaseResponse<StudentResponse> {
+                return apiService.login(studentId)
+            }
+        }.asFlow()
 
     suspend fun fetchLeaderboard() =
         object : BaseRemoteResponse<List<LeaderboardResponse>>() {

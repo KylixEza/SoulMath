@@ -23,6 +23,7 @@ interface SoulMathRepository {
 
     fun signUp(email: String, password: String, student: Student): Flow<Resource<Unit>>
     fun signIn(email: String, password: String): Flow<Resource<Unit>>
+    fun fetchStudentDetail(): Flow<Resource<Unit>>
     fun fetchLeaderboard(shouldFetch: Boolean): Flow<Resource<List<Leaderboard>>>
     fun fetchStudentRank(): Flow<Resource<Leaderboard>>
     fun getStudentDetail(): Flow<Resource<Student>>

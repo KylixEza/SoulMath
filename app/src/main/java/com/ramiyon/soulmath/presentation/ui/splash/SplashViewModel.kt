@@ -10,5 +10,5 @@ class SplashViewModel(
 
     fun readPrefHaveRunAppBefore() = splashUseCase.readPrefHaveRunAppBefore().asLiveData()
     fun readPrefRememberMe() = splashUseCase.readPrefRememberMe().asLiveData()
-
+    fun fetchStudentDetail() = splashUseCase.fetchStudentDetail().asLiveData()
 }

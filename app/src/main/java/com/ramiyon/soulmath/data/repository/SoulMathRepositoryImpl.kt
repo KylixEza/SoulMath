@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.work.OneTimeWorkRequest
 import com.ramiyon.soulmath.base.*
-import com.ramiyon.soulmath.data.connectivity.NetworkConnectivityObserver
 import com.ramiyon.soulmath.data.source.dummy.getOnBoardContentByPage
 import com.ramiyon.soulmath.data.source.local.LocalDataSource
 import com.ramiyon.soulmath.data.source.local.database.enitity.DailyXpEntity
@@ -85,7 +84,21 @@ class SoulMathRepositoryImpl(
             }
 
         }.asFlow()
-
+    
+    override fun fetchStudentDetail(): Flow<Resource<Unit>> =
+        object : NetworkBoundRequest<StudentResponse?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<StudentResponse?>> {
+                return remoteDataSource.fetchStudentDetail(getCurrentStudentId()!!)
+            }
+    
+            override suspend fun saveCallResult(data: StudentResponse?) {
+                if(data != null) {
+                    localDataSource.insertStudent(data.toStudentEntity())
+                }
+            }
+        }.asFlow()
+    
+    
     override fun fetchLeaderboard(shouldFetch: Boolean): Flow<Resource<List<Leaderboard>>> =
         object : NetworkBoundWorker<List<LeaderboardResponse>?, List<LeaderboardEntity>, List<Leaderboard>>() {
             override suspend fun callApi(): Flow<RemoteResponse<List<LeaderboardResponse>?>> {
