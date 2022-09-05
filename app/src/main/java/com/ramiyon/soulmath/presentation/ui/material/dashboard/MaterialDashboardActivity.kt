@@ -38,6 +38,7 @@ class MaterialDashboardActivity : BaseActivity<ActivityMaterialDashboardBinding>
         val moduleTitle = intent.getStringExtra(ARG_MODULE_TITLE) ?: ""
         
         tvToolbarTitle.text = moduleTitle
+        ivBack.setOnClickListener { finish() }
 
         rvMaterialDashboard.apply {
             adapter = this@MaterialDashboardActivity.adapter

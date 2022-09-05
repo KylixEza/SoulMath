@@ -29,6 +29,7 @@ class MaterialOnBoardActivity : BaseActivity<ActivityMaterialOnBoardBinding>() {
         val moduleTitle = args.moduleTitle
         
         tvToolbarTitle.text = moduleTitle
+        ivBack.setOnClickListener { finish() }
 
         val adapter = OnBoardingViewPagerAdapter(
             supportFragmentManager,
