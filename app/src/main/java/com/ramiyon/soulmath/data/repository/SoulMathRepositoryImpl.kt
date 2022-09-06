@@ -192,40 +192,29 @@ class SoulMathRepositoryImpl(
 
         }.doWork()
 
-    override fun increaseStudentXp(givenXp: Int) = object : DatabaseBoundWorker<String?>(context) {
-
-            private suspend fun getStudent(): Student? {
-                var student: Student? = null
-                localDataSource.getStudentDetail(getCurrentStudentId()!!).collect {
-                    student = when(it) {
-                        is LocalAnswer.Success -> it.data.toStudent()
-                        else -> null
-                    }
+    override fun increaseStudentXp(givenXp: Int) = object : NetworkBoundRequest<String?>() {
+        private suspend fun getStudent(): Student? {
+            var student: Student? = null
+            localDataSource.getStudentDetail(getCurrentStudentId()!!).collect {
+                student = when(it) {
+                    is LocalAnswer.Success -> it.data.toStudent()
+                    else -> null
                 }
-                return student
             }
-
-            override suspend fun putParamsForWorkManager(): MutableMap<String, *> {
-                return mutableMapOf(
-                    WorkerParams.STUDENT_ID.param to getCurrentStudentId(),
-                )
-            }
-
-            override suspend fun uploadToServer(): Flow<RemoteResponse<String?>> {
-                val student = getStudent()
-                return remoteDataSource.increaseStudentXp(getCurrentStudentId()!!, student!!.toStudentBody(), givenXp)
-            }
-
-            override suspend fun saveToDatabase(): LocalAnswer<Unit> {
-                val student = getStudent()
-                return localDataSource.increaseStudentXp(student!!.toStudentEntity(), givenXp)
-            }
-
-        override fun buildOneTimeWorker(): OneTimeWorkRequest.Builder {
-            return OneTimeWorkRequest.Builder(StudentXpWorker::class.java)
+            return student
         }
-
-    }.doWork()
+        
+        override suspend fun createCall(): Flow<RemoteResponse<String?>> {
+            val student = getStudent()
+            return remoteDataSource.increaseStudentXp(getCurrentStudentId()!!, student!!.toStudentBody(), givenXp)
+        }
+    
+        override suspend fun saveCallResult(data: String?) {
+            val student = getStudent()
+            localDataSource.increaseStudentXp(student!!.toStudentEntity(), givenXp)
+        }
+    
+    }.asFlow()
 
 
     override fun decreaseStudentXp(costXp: Int) =
@@ -376,6 +365,28 @@ class SoulMathRepositoryImpl(
 
             override fun mapTransform(data: MaterialDetailResponse?): MaterialDetail {
                 return data?.toMaterialDetail()!!
+            }
+        }.asFlow()
+    
+    override fun postFavorite(materialId: String): Flow<Resource<String>> =
+        object : NetworkOnlyResource<String, String?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<String?>> {
+                return remoteDataSource.postFavorite(materialId, getCurrentStudentId()!!)
+            }
+    
+            override fun mapTransform(data: String?): String {
+                return data!!
+            }
+        }.asFlow()
+    
+    override fun deleteFavorite(materialId: String): Flow<Resource<String>> =
+        object : NetworkOnlyResource<String, String?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<String?>> {
+                return remoteDataSource.deleteFavorite(materialId, getCurrentStudentId()!!)
+            }
+    
+            override fun mapTransform(data: String?): String {
+                return data!!
             }
         }.asFlow()
 }
