@@ -39,6 +39,7 @@
     <string name="ok">OK</string>
     <string name="leaderboard_dialog_description">Kamu berada pada peringkat ke %d nih. \n Yuk, terus tingkatkan belajarmu agar \n dapat tambahan poin XP.</string>
     <string name="xp_earned">%d XP</string>
+    <string name="xp_earned_greet">Yeyy, kamu berhasil belajar sampai selesai. Selamat kamu mendapatkan %d XP</string>
     <string name="check_in">Check in</string>
     <string name="other_information">Info lainnya</string>
     <string name="material">Materi</string>

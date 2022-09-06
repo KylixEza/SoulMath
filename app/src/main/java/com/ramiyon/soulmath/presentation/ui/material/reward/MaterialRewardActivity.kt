@@ -3,6 +3,7 @@ package com.ramiyon.soulmath.presentation.ui.material.reward
 import android.app.Dialog
 import android.util.Log
 import android.widget.Toast
+import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseActivity
 import com.ramiyon.soulmath.databinding.ActivityMaterialRewardBinding
 import com.ramiyon.soulmath.databinding.DialogLottieBinding
@@ -32,6 +33,8 @@ class MaterialRewardActivity : BaseActivity<ActivityMaterialRewardBinding>() {
         lottieDialog = buildLottieDialog(lottieBinding, "loading_blue_paper_airplane.json")
 
         val xpEarned = intent.getIntExtra(ARG_XP, 0)
+        tvXp.text = resources.getString(R.string.xp_earned, xpEarned)
+        tvCongratulation.text = resources.getString(R.string.xp_earned_greet, xpEarned)
         viewModel.increaseStudentXp(xpEarned).observe(this@MaterialRewardActivity) {
             when(it) {
                 is Resource.Loading -> rewardCallback.onResourceLoading()
