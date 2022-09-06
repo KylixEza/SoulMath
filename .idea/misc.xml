@@ -15,6 +15,7 @@
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_default_ava.xml" value="0.1785" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_email_indicator.xml" value="0.1905" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_email_indicator_focused.xml" value="0.1905" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_favorite.xml" value="0.1895" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_game.xml" value="0.187" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_leaderboard_star.xml" value="0.1815" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_leaderboard_star_14.xml" value="0.1785" />
@@ -29,6 +30,7 @@
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_rank_third.xml" value="0.1785" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_study.xml" value="0.187" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_uncrowned.xml" value="0.183" />
+        <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ic_unfavorite.xml" value="0.1895" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/ilu_default_profile_picture.xml" value="0.1" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/drawable/recycler_view_ripple.xml" value="0.187" />
         <entry key="..\:/Users/ACER/AndroidStudioProjects/SoulMath/app/src/main/res/font/viga.xml" value="0.23697916666666666" />

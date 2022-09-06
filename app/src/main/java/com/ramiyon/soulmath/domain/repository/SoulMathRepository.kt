@@ -1,6 +1,5 @@
 package com.ramiyon.soulmath.domain.repository
 
-import com.ramiyon.soulmath.base.DatabaseOnlyResource
 import com.ramiyon.soulmath.domain.model.material.MaterialDetail
 import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard

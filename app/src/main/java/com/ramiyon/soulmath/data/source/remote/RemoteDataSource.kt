@@ -148,14 +148,14 @@ class RemoteDataSource(
     suspend fun postFavorite(materialId: String, studentId: String) =
         object : BaseRemoteResponse<String>() {
             override suspend fun call(): BaseResponse<String> {
-                return apiService.postFavorite(materialId, studentId)
+                return apiService.postFavorite(studentId, materialId)
             }
         }.asFlow()
     
     suspend fun deleteFavorite(materialId: String, studentId: String) =
         object : BaseRemoteResponse<String>() {
             override suspend fun call(): BaseResponse<String> {
-                return apiService.deleteFavorite(materialId, studentId)
+                return apiService.deleteFavorite(studentId, materialId)
             }
         }.asFlow()
     

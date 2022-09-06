@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
+import android.widget.Toast
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -32,6 +33,7 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
     private val viewModel by viewModel<MaterialVideoPlayerViewModel>()
     private var exoPlayer: ExoPlayer? = null
     private var playerView: StyledPlayerView? = null
+    private var isFavorite = false
     private lateinit var material: MaterialDetail
     private lateinit var materialId: String
     private lateinit var mediaDataSourceFactory: DataSource.Factory
@@ -84,27 +86,35 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
         override fun onResourceSuccess(data: MaterialDetail) {
             binding.ivFavorite?.visibility = View.VISIBLE
             material = data
-            if(material.isFavorite)
+            isFavorite = data.isFavorite
+            
+            if(isFavorite)
                 binding.ivFavorite?.setImageResource(R.drawable.ic_favorite)
             else
                 binding.ivFavorite?.setImageResource(R.drawable.ic_unfavorite)
+            
             binding.ivFavorite?.setOnClickListener {
-                if(material.isFavorite) {
+                if(isFavorite) {
                     viewModel.deleteFavorite(materialId).observe(this@MaterialVideoPlayerActivity) {
                         when(it) {
-                            is Resource.Success -> binding.ivFavorite?.setImageResource(R.drawable.ic_unfavorite)
+                            is Resource.Success -> binding.ivFavorite?.setImageResource(R.drawable.ic_unfavorite).also { isFavorite = false }
+                            is Resource.Error -> {Toast.makeText(this@MaterialVideoPlayerActivity, "Gagal menghapus favorit", Toast.LENGTH_SHORT).show()}
                             else -> {}
                         }
                     }
                 } else {
                     viewModel.postFavorite(materialId).observe(this@MaterialVideoPlayerActivity) {
                         when(it) {
-                            is Resource.Success -> binding.ivFavorite?.setImageResource(R.drawable.ic_favorite)
+                            is Resource.Success -> binding.ivFavorite?.setImageResource(R.drawable.ic_favorite).also { isFavorite = true }
+                            is Resource.Error -> {Toast.makeText(this@MaterialVideoPlayerActivity, "Gagal menambahkan favorit", Toast.LENGTH_SHORT).show()}
                             else -> {}
                         }
                     }
                 }
             }
+            
+            binding.ivBack?.setOnClickListener { finish() }
+            
             initializePlayer(data.videoUrl)
         }
 
@@ -129,6 +139,7 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
                         val intent = Intent(this@MaterialVideoPlayerActivity, MaterialRewardActivity::class.java)
                         intent.putExtra(ARG_XP, material.xpEarned)
                         startActivity(intent)
+                        finish()
                     }
                     else -> super.onPlaybackStateChanged(playbackState)
                 }
