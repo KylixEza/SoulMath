@@ -14,6 +14,7 @@ import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseActivity
 import com.ramiyon.soulmath.databinding.ActivityMaterialVideoPlayerBinding
 import com.ramiyon.soulmath.domain.model.material.MaterialDetail
@@ -32,6 +33,7 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
     private var exoPlayer: ExoPlayer? = null
     private var playerView: StyledPlayerView? = null
     private lateinit var material: MaterialDetail
+    private lateinit var materialId: String
     private lateinit var mediaDataSourceFactory: DataSource.Factory
     private lateinit var decorView: View
 
@@ -44,7 +46,7 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
     }
 
     override fun ActivityMaterialVideoPlayerBinding.binder() {
-        val materialId = intent.getStringExtra(ARG_MATERIAL_ID)
+        materialId = intent.getStringExtra(ARG_MATERIAL_ID) ?: ""
         val moduleTitle = intent.getStringExtra(ARG_MODULE_TITLE) ?: ""
         
         setSupportActionBar(materialVideoPlayerToolbar)
@@ -57,10 +59,8 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
                 decorView.systemUiVisibility = hideSystemBars()
             }
         }
-        //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
         
-        
-        viewModel.fetchMaterialDetail(materialId!!).observe(this@MaterialVideoPlayerActivity) {
+        viewModel.fetchMaterialDetail(materialId).observe(this@MaterialVideoPlayerActivity) {
             when(it) {
                 is Resource.Loading -> videoPlayerResourceCallback.onResourceLoading()
                 is Resource.Success -> videoPlayerResourceCallback.onResourceSuccess(it.data!!)
@@ -78,12 +78,33 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
 
     private val videoPlayerResourceCallback = object : ResourceStateCallback<MaterialDetail>() {
         override fun onResourceLoading() {
-
+            binding.ivFavorite?.visibility = View.GONE
         }
 
         override fun onResourceSuccess(data: MaterialDetail) {
+            binding.ivFavorite?.visibility = View.VISIBLE
             material = data
-            
+            if(material.isFavorite)
+                binding.ivFavorite?.setImageResource(R.drawable.ic_favorite)
+            else
+                binding.ivFavorite?.setImageResource(R.drawable.ic_unfavorite)
+            binding.ivFavorite?.setOnClickListener {
+                if(material.isFavorite) {
+                    viewModel.deleteFavorite(materialId).observe(this@MaterialVideoPlayerActivity) {
+                        when(it) {
+                            is Resource.Success -> binding.ivFavorite?.setImageResource(R.drawable.ic_unfavorite)
+                            else -> {}
+                        }
+                    }
+                } else {
+                    viewModel.postFavorite(materialId).observe(this@MaterialVideoPlayerActivity) {
+                        when(it) {
+                            is Resource.Success -> binding.ivFavorite?.setImageResource(R.drawable.ic_favorite)
+                            else -> {}
+                        }
+                    }
+                }
+            }
             initializePlayer(data.videoUrl)
         }
 
@@ -130,11 +151,6 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
     private fun releasePlayer() {
         exoPlayer?.release()
     }
-
-    /*override fun onStart() {
-        super.onStart()
-        if (Util.SDK_INT > 23) initializePlayer(material.videoUrl)
-    }*/
 
     override fun onResume() {
         super.onResume()

@@ -21,6 +21,7 @@ abstract class DatabaseBoundWorker<FromApi>(
             when(val remoteResponse = uploadToServer().first()) {
                 is RemoteResponse.Success -> emit(Resource.Success(remoteResponse.data))
                 is RemoteResponse.Error -> emit(Resource.Error(remoteResponse.errorMessage))
+                else -> {}
             }
         } else {
             val constraints: Constraints = Constraints.Builder()

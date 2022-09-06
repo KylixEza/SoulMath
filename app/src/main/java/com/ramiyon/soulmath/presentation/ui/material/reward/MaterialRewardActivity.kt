@@ -1,6 +1,8 @@
 package com.ramiyon.soulmath.presentation.ui.material.reward
 
 import android.app.Dialog
+import android.util.Log
+import android.widget.Toast
 import com.ramiyon.soulmath.base.BaseActivity
 import com.ramiyon.soulmath.databinding.ActivityMaterialRewardBinding
 import com.ramiyon.soulmath.databinding.DialogLottieBinding
@@ -33,24 +35,24 @@ class MaterialRewardActivity : BaseActivity<ActivityMaterialRewardBinding>() {
         viewModel.increaseStudentXp(xpEarned).observe(this@MaterialRewardActivity) {
             when(it) {
                 is Resource.Loading -> rewardCallback.onResourceLoading()
-                is Resource.Success -> rewardCallback.onResourceSuccess(it.data!!)
+                is Resource.Success -> rewardCallback.onResourceSuccess(Unit)
                 is Resource.Error -> rewardCallback.onResourceError(it.message, null)
                 is Resource.Empty -> rewardCallback.onNeverFetched()
             }
         }
     }
 
-    private val rewardCallback = object : ResourceStateCallback<String>() {
+    private val rewardCallback = object : ResourceStateCallback<Unit>() {
         override fun onResourceLoading() {
             lottieDialog.show()
         }
 
-        override fun onResourceSuccess(data: String) {
+        override fun onResourceSuccess(data: Unit) {
             lottieDialog.dismiss()
         }
 
-        override fun onResourceError(message: String?, data: String?) {
-
+        override fun onResourceError(message: String?, data: Unit?) {
+            lottieDialog.dismiss()
         }
     }
 }
