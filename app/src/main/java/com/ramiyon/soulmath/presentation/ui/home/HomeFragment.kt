@@ -154,6 +154,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                                                 }
                                                 includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
                                                 isTaken = true
+                                                includeTakeDailyXp.tvTakeDailyXp.clearAnimation()
                                             }
                                             else -> {}
                                         }
