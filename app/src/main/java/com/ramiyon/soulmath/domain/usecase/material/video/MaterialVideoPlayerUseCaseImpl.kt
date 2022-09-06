@@ -10,4 +10,10 @@ class MaterialVideoPlayerUseCaseImpl(
 ): MaterialVideoPlayerUseCase {
     override fun fetchMaterialDetail(materialId: String): Flow<Resource<MaterialDetail>> =
         repository.fetchMaterialDetail(materialId)
+    
+    override fun postFavorite(materialId: String): Flow<Resource<String>> =
+        repository.postFavorite(materialId)
+    
+    override fun deleteFavorite(materialId: String): Flow<Resource<String>> =
+        repository.deleteFavorite(materialId)
 }

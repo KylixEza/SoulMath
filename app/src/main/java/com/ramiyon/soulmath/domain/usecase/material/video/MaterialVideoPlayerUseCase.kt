@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface MaterialVideoPlayerUseCase {
     fun fetchMaterialDetail(materialId: String): Flow<Resource<MaterialDetail>>
+    fun postFavorite(materialId: String): Flow<Resource<String>>
+    fun deleteFavorite(materialId: String): Flow<Resource<String>>
 }

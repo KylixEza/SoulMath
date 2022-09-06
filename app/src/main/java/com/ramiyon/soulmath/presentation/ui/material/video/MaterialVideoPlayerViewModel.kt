@@ -8,4 +8,6 @@ class MaterialVideoPlayerViewModel(
     private val useCase: MaterialVideoPlayerUseCase
 ): ViewModel() {
     fun fetchMaterialDetail(materialId: String) = useCase.fetchMaterialDetail(materialId).asLiveData()
+    fun postFavorite(materialId: String) = useCase.postFavorite(materialId).asLiveData()
+    fun deleteFavorite(materialId: String) = useCase.deleteFavorite(materialId).asLiveData()
 }

@@ -44,4 +44,16 @@ interface ApiService {
         @Path("materialId") materialId: String,
         @Path("studentId") studentId: String
     ): BaseResponse<MaterialDetailResponse>
+    
+    @POST("/favorite/{studentId}/{materialId}")
+    suspend fun postFavorite(
+        @Path("studentId") studentId: String,
+        @Path("materialId") materialId: String
+    ): BaseResponse<String>
+    
+    @DELETE("/favorite/{studentId}/{materialId}")
+    suspend fun deleteFavorite(
+        @Path("studentId") studentId: String,
+        @Path("materialId") materialId: String
+    ): BaseResponse<String>
 }
