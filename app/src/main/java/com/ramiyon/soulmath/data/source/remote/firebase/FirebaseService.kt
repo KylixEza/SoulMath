@@ -1,47 +1,27 @@
 package com.ramiyon.soulmath.data.source.remote.firebase
 
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.kiwimob.firestore.coroutines.await
+import com.ramiyon.soulmath.data.source.remote.firebase.reseponse.MaterialLearningPurposeResponse
+import com.ramiyon.soulmath.data.source.remote.firebase.reseponse.MaterialOnBoardResponse
 import com.ramiyon.soulmath.data.util.FirebaseResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
 
-class FirebaseService {
-
-    val auth = Firebase.auth
-
+interface FirebaseService {
     fun createUserWithEmailAndPassword(
         email: String,
         password: String
-    ): Flow<FirebaseResponse<String>> =
-        flow {
-            val createUser = auth.createUserWithEmailAndPassword(email, password).await()
-            val user = createUser.user
-            if (user != null) {
-                emit(FirebaseResponse.Success(user.uid))
-            } else {
-                emit(FirebaseResponse.Empty)
-            }
-        }.catch {
-            emit(FirebaseResponse.Error(it.message.toString()))
-        }.flowOn(Dispatchers.IO)
-
-
+    ): Flow<FirebaseResponse<String>>
+    
     fun signInWithEmailAndPassword(
         email: String,
         password: String
-    ): Flow<FirebaseResponse<String>> =
-        flow {
-            val singInUser = auth.signInWithEmailAndPassword(email, password).await()
-            val user = singInUser.user
-            if (user != null) {
-                emit(FirebaseResponse.Success(user.uid))
-            } else {
-                emit(FirebaseResponse.Empty)
-            }
-        }.catch {
-            emit(FirebaseResponse.Error(it.message.toString()))
-        }.flowOn(Dispatchers.IO)
+    ): Flow<FirebaseResponse<String>>
+    
+    fun fetchMaterialOnBoardingContent(
+        materialId: String,
+        page: Int
+    ): Flow<FirebaseResponse<List<MaterialOnBoardResponse>>>
+    
+    fun fetchMaterialOnBoardingLearningPurpose(
+        materialId: String,
+    ): Flow<FirebaseResponse<List<MaterialLearningPurposeResponse>>>
 }
-

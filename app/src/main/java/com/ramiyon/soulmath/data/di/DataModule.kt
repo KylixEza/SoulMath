@@ -15,8 +15,8 @@ import com.ramiyon.soulmath.data.source.local.datastore.SoulMathDataStore
 import com.ramiyon.soulmath.data.source.remote.RemoteDataSource
 import com.ramiyon.soulmath.data.source.remote.api.ApiService
 import com.ramiyon.soulmath.data.source.remote.firebase.FirebaseService
+import com.ramiyon.soulmath.data.source.remote.firebase.FirebaseServiceImpl
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
-import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import org.json.JSONArray
 import org.json.JSONException
@@ -121,7 +121,7 @@ val databaseModule = module {
 }
 
 val firebaseModule = module {
-    single { FirebaseService() }
+    single<FirebaseService> { FirebaseServiceImpl() }
 }
 
 val repositoryModule = module {

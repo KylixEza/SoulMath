@@ -6,12 +6,11 @@ import com.ramiyon.soulmath.data.source.remote.api.response.BaseResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.LearningJourneyResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialDetailResponse
-import com.ramiyon.soulmath.domain.model.material.MaterialDetail
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
-import com.ramiyon.soulmath.data.util.FirebaseResponse
 import com.ramiyon.soulmath.data.source.remote.firebase.FirebaseService
+import com.ramiyon.soulmath.data.util.FirebaseResponse
 import com.ramiyon.soulmath.data.util.RemoteResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
