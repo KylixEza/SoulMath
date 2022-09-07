@@ -81,6 +81,7 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
     private val videoPlayerResourceCallback = object : ResourceStateCallback<MaterialDetail>() {
         override fun onResourceLoading() {
             binding.ivFavorite?.visibility = View.GONE
+            binding.pbVideoPlayer?.visibility = View.GONE
         }
 
         override fun onResourceSuccess(data: MaterialDetail) {
@@ -134,13 +135,17 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
         val playbackListener = object: Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 when(playbackState) {
-                    ExoPlayer.STATE_READY -> exoPlayer?.playWhenReady = true
+                    ExoPlayer.STATE_READY -> {
+                        exoPlayer?.playWhenReady = true
+                        binding.pbVideoPlayer?.visibility = View.GONE
+                    }
                     ExoPlayer.STATE_ENDED -> {
                         val intent = Intent(this@MaterialVideoPlayerActivity, MaterialRewardActivity::class.java)
                         intent.putExtra(ARG_XP, material.xpEarned)
                         startActivity(intent)
                         finish()
                     }
+                    ExoPlayer.STATE_BUFFERING -> binding.pbVideoPlayer?.visibility = View.VISIBLE
                     else -> super.onPlaybackStateChanged(playbackState)
                 }
             }

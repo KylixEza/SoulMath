@@ -72,4 +72,13 @@
         app:layout_constraintTop_toBottomOf="@id/app_bar"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <ProgressBar
+        android:id="@+id/pb_video_player"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        app:layout_constraintStart_toStartOf="@id/material_video_player"
+        app:layout_constraintEnd_toEndOf="@id/material_video_player"
+        app:layout_constraintTop_toTopOf="@id/material_video_player"
+        app:layout_constraintBottom_toBottomOf="@id/material_video_player"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
