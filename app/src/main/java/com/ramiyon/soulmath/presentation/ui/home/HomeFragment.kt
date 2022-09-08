@@ -3,7 +3,6 @@ package com.ramiyon.soulmath.presentation.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdsc.gdsctoast.GDSCToast.Companion.showAnyToast
 import com.gdsc.gdsctoast.util.ToastShape
@@ -11,7 +10,6 @@ import com.gdsc.gdsctoast.util.ToastType
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentHomeBinding
-import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.presentation.adapter.LearningJourneyAdapter
@@ -20,7 +18,6 @@ import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
 import org.koin.android.ext.android.inject
 import org.koin.androidx.navigation.koinNavGraphViewModel
-import kotlin.properties.Delegates
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -59,13 +56,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 is Resource.Empty -> studentResourceCallback.onResourceEmpty()
             }
         }
-
-        viewModel.getCurrentDailyXp().observe(viewLifecycleOwner) {
+        
+        viewModel.isTodayTaken().observe(viewLifecycleOwner) {
             when(it) {
-                is Resource.Loading -> dailyXpResourceCallback.onResourceLoading()
-                is Resource.Success -> dailyXpResourceCallback.onResourceSuccess(it.data!!)
-                is Resource.Error -> dailyXpResourceCallback.onResourceError(it.message, null)
-                is Resource.Empty -> dailyXpResourceCallback.onResourceEmpty()
+                is Resource.Loading -> isTakenResourceCallback.onResourceLoading()
+                is Resource.Success -> isTakenResourceCallback.onResourceSuccess(it.data!!)
+                is Resource.Error -> isTakenResourceCallback.onResourceError(it.message, null)
+                is Resource.Empty -> isTakenResourceCallback.onResourceEmpty()
             }
         }
 
@@ -110,65 +107,65 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
     }
-
-    private val dailyXpResourceCallback = object : ResourceStateCallback<DailyXp>() {
+    
+    private val isTakenResourceCallback = object : ResourceStateCallback<Boolean>() {
         override fun onResourceLoading() {
             binding?.apply {
                 progressIncludeTakeDailyXp.visibility = visible
                 containerTakeDailyXp.visibility = invisible
             }
         }
-
-        override fun onResourceSuccess(data: DailyXp) {
+    
+        override fun onResourceSuccess(data: Boolean) {
             binding?.apply {
+                isTaken = data
                 progressIncludeTakeDailyXp.visibility = invisible
                 containerTakeDailyXp.visibility = visible
-    
-                viewModel.isTodayTaken().observe(viewLifecycleOwner) {
-                    if (it is Resource.Success) {
-                        isTaken = it.data!!
-                        if(isTaken) {
-                            viewModel.getTodayTakenXp().observe(viewLifecycleOwner) { resourceTodayTakenXp ->
-                                if(resourceTodayTakenXp is Resource.Success) {
-                                    includeTakeDailyXp.tvDailyBonusXp.text =
-                                        resourceTodayTakenXp.data?.dailyXp.toString()
-                                }
-                            }
-                            includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
-                            isTaken = true
-                        } else {
-                            includeTakeDailyXp.tvTakeDailyXp.animation = AnimationUtils.loadAnimation(
-                                requireContext(), R.anim.wiggle_animation
-                            )
-                            includeTakeDailyXp.tvDailyBonusXp.text = data.dailyXp.toString()
-                            includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
-                                if(!isTaken) {
-                                    viewModel.takeDailyXp(data.dailyXpId).observe(viewLifecycleOwner) {
-                                        when(it) {
-                                            is Resource.Success -> {
-                                                requireActivity().showAnyToast {
-                                                    it.apply {
-                                                        text = "XP hari ini berhasil diambil!"
-                                                        toastType = ToastType.SUCCESS
+                if(isTaken) {
+                    viewModel.getTodayTakenXp().observe(viewLifecycleOwner) { resourceTodayTakenXp ->
+                        if(resourceTodayTakenXp is Resource.Success) {
+                            binding?.includeTakeDailyXp?.tvDailyBonusXp?.text =
+                                resourceTodayTakenXp.data?.dailyXp.toString()
+                        }
+                    }
+                    binding?.includeTakeDailyXp?.tvTakeDailyXp?.text = "Terkumpul"
+                    isTaken = true
+                } else {
+                    viewModel.getCurrentDailyXp().observe(viewLifecycleOwner) { dailyXp ->
+                        when(dailyXp) {
+                            is Resource.Success -> {
+                                binding?.apply {
+                                    includeTakeDailyXp.tvDailyBonusXp.text = dailyXp.data?.dailyXp.toString()
+                                    includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
+                                        if(!isTaken) {
+                                            viewModel.takeDailyXp(dailyXp.data!!.dailyXpId).observe(viewLifecycleOwner) {
+                                                when(it) {
+                                                    is Resource.Success -> {
+                                                        requireActivity().showAnyToast {
+                                                            it.apply {
+                                                                text = "XP hari ini berhasil diambil!"
+                                                                toastType = ToastType.SUCCESS
+                                                            }
+                                                        }
+                                                        includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
+                                                        isTaken = true
+                                                        includeTakeDailyXp.tvTakeDailyXp.clearAnimation()
                                                     }
+                                                    else -> {}
                                                 }
-                                                includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
-                                                isTaken = true
-                                                includeTakeDailyXp.tvTakeDailyXp.clearAnimation()
                                             }
-                                            else -> {}
                                         }
                                     }
                                 }
                             }
+                            else -> {}
                         }
                     }
                 }
             }
-
         }
-
-        override fun onResourceError(message: String?, data: DailyXp?) {
+    
+        override fun onResourceError(message: String?, data: Boolean?) {
             binding?.apply {
                 requireContext().apply { showAnyToast { it.apply {
                     text = message.toString()
@@ -177,6 +174,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 } } }
             }
         }
+    
     }
 
     private val learningJourneyResourceCallback = object : ResourceStateCallback<List<LearningJourney>>() {
