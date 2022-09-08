@@ -12,6 +12,10 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.util.Resource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashFragment : Fragment() {

@@ -36,9 +36,10 @@ interface SoulMathRepository {
     fun deleteFavorite(materialId: String): Flow<Resource<String>>
 
     fun getDailyXpList(): Flow<Resource<List<DailyXp>>>
-    fun getCurrentDailyXp(): Flow<Resource<DailyXp>>
+    fun getCurrentDailyXp(): Flow<Resource<DailyXp?>>
     fun takeDailyXp(dailyXpId: String): Flow<Resource<Unit>>
     fun isTodayTaken(): Flow<Resource<Boolean>>
     fun getTodayTakenXp(): Flow<Resource<DailyXp>>
+    suspend fun resetDailyXp()
     suspend fun resetLeaderboard()
 }

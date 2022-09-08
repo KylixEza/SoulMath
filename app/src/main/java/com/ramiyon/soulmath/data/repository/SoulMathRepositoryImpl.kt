@@ -296,15 +296,17 @@ class SoulMathRepositoryImpl(
                 return data.toDailyXp()
             }
         }.asFlow()
-
+    
+    override suspend fun resetDailyXp(): Unit = localDataSource.resetDailyXp()
+    
     override fun getCurrentDailyXp() =
-        object : DatabaseOnlyResource<DailyXpEntity, DailyXp>() {
-            override suspend fun loadFromDb(): Flow<LocalAnswer<DailyXpEntity>> {
+        object : DatabaseOnlyResource<DailyXpEntity?, DailyXp?>() {
+            override suspend fun loadFromDb(): Flow<LocalAnswer<DailyXpEntity?>> {
                 return localDataSource.getCurrentDailyXp()
             }
 
-            override fun mapTransform(data: DailyXpEntity): DailyXp {
-                return data.toDailyXp()
+            override fun mapTransform(data: DailyXpEntity?): DailyXp? {
+                return data?.toDailyXp()
             }
 
         }.asFlow()

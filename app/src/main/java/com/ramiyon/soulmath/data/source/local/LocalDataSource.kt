@@ -83,9 +83,9 @@ class LocalDataSource(
         }.doObservable()
 
     fun getCurrentDailyXp() =
-        object : BaseDatabaseAnswer<DailyXpEntity>() {
-            override suspend fun callDatabase(): DailyXpEntity {
-                return dao.getCurrentDailyXp().first()
+        object : BaseDatabaseAnswer<DailyXpEntity?>() {
+            override suspend fun callDatabase(): DailyXpEntity? {
+                return dao.getCurrentDailyXp()?.first()
             }
         }.doObservable()
 
@@ -104,11 +104,7 @@ class LocalDataSource(
             }
         }.doSingleEvent()
 
-    suspend fun resetDailyXp() = object : BaseDatabaseAnswer<Unit>() {
-        override suspend fun callDatabase() {
-            dao.resetDailyXp()
-        }
-    }.doSingleEvent()
+    suspend fun resetDailyXp() = dao.resetDailyXp()
 
     suspend fun insertAllLeaderboard(leaderboard: LeaderboardEntity) = object : BaseDatabaseAnswer<Unit>() {
         override suspend fun callDatabase() {

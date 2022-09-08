@@ -38,7 +38,7 @@ interface SoulMathDao {
 
     /** Used in home fragment **/
     @Query("SELECT * FROM dailyXp WHERE isTaken = 0 ORDER BY dailyXp ASC LIMIT 1")
-    fun getCurrentDailyXp(): Flow<DailyXpEntity>
+    fun getCurrentDailyXp(): Flow<DailyXpEntity>?
 
     /** Used in home fragment **/
     @Query("UPDATE dailyXp SET isTaken = 1, dayTaken = :dayTaken WHERE dailyXpId = :dailyXpId")
@@ -47,7 +47,7 @@ interface SoulMathDao {
     @Query("SELECT * FROM dailyXp WHERE dailyXpId = :dailyXpId")
     fun getSelectedDailyXp(dailyXpId: String): Flow<DailyXpEntity>
 
-    @Query("UPDATE dailyXp SET isTaken = 0")
+    @Query("UPDATE dailyXp SET dayTaken = null AND isTaken = 0")
     suspend fun resetDailyXp()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

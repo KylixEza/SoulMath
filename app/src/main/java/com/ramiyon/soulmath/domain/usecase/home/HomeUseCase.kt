@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface HomeUseCase {
     fun fetchLearningJourney(): Flow<Resource<List<LearningJourney>>>
     fun getStudentDetail(): Flow<Resource<Student>>
-    fun getCurrentDailyXp(): Flow<Resource<DailyXp>>
+    fun getCurrentDailyXp(): Flow<Resource<DailyXp?>>
     fun takeDailyXp(dailyXpId: String): Flow<Resource<Unit>>
     fun isTodayTaken(): Flow<Resource<Boolean>>
     fun getTodayTakenXp(): Flow<Resource<DailyXp>>
