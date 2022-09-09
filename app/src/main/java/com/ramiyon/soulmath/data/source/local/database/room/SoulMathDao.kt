@@ -47,7 +47,7 @@ interface SoulMathDao {
     @Query("SELECT * FROM dailyXp WHERE dailyXpId = :dailyXpId")
     fun getSelectedDailyXp(dailyXpId: String): Flow<DailyXpEntity>
 
-    @Query("UPDATE dailyXp SET dayTaken = null AND isTaken = 0")
+    @Query("UPDATE dailyXp SET dayTaken = null, isTaken = 0")
     suspend fun resetDailyXp()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
