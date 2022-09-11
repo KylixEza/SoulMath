@@ -32,7 +32,7 @@ val useCaseModule = module {
     single<LeaderboardUseCase> { LeaderboardUseCaseImpl(get()) }
     single<ProfileUseCase> { ProfileUseCaseImpl(get()) }
     single<HomeUseCase> { HomeUseCaseImpl(get()) }
-    single<MaterialOnBoardUseCase> { MaterialOnBoardUseCaseImpl() }
+    single<MaterialOnBoardUseCase> { MaterialOnBoardUseCaseImpl(get()) }
     single<MaterialDashboardUseCase> { MaterialDashboardUseCaseImpl(get()) }
     single<MaterialVideoPlayerUseCase> { MaterialVideoPlayerUseCaseImpl(get()) }
     single<MaterialRewardUseCase> { MaterialRewardUseCaseImpl(get()) }

@@ -8,7 +8,11 @@ import com.bumptech.glide.Glide
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.ActivityMaterialOnBoardBinding
 import com.ramiyon.soulmath.databinding.FragmentMaterialOnBoardSecondScreenBinding
+import com.ramiyon.soulmath.domain.model.material.MaterialOnBoard
+import com.ramiyon.soulmath.presentation.ui.material.onboard.MaterialOnBoardActivity
 import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
+import com.ramiyon.soulmath.util.Resource
+import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -16,7 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MaterialOnBoardSecondScreenFragment : BaseFragment<FragmentMaterialOnBoardSecondScreenBinding>() {
 
     private val viewModel by sharedViewModel<MaterialOnBoardSecondScreenViewModel>()
-    private lateinit var parentBinding: ActivityMaterialOnBoardBinding
+    private lateinit var parent: ActivityMaterialOnBoardBinding
     private var materialId: String? = null
 
     companion object {
@@ -34,22 +38,24 @@ class MaterialOnBoardSecondScreenFragment : BaseFragment<FragmentMaterialOnBoard
         }
     }
 
-    override fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) {
-        parentBinding = ActivityMaterialOnBoardBinding.inflate(inflater, container, false)
-    }
-
     override fun inflateViewBinding(container: ViewGroup?): FragmentMaterialOnBoardSecondScreenBinding {
         return FragmentMaterialOnBoardSecondScreenBinding.inflate(layoutInflater, container, false)
     }
 
     override fun FragmentMaterialOnBoardSecondScreenBinding.binder() {
+        parent = (requireActivity() as MaterialOnBoardActivity).binding
+        
         tvLearningPurpose.paintFlags = Paint.UNDERLINE_TEXT_FLAG
 
-        val onBoardContent = viewModel.getMaterialOnBoardSecondScreen(materialId!!)
-        Glide.with(this@MaterialOnBoardSecondScreenFragment)
-            .load(onBoardContent.gif)
-            .into(ivGifMaterialSecondOnboard)
-        tvMaterialSecondOnboard.text = onBoardContent.description
+        viewModel.getMaterialOnBoardSecondScreen(materialId!!).observe(viewLifecycleOwner) {
+            when(it) {
+                is Resource.Loading -> materialOnBoardSecondScreenStateCallback.onResourceLoading()
+                is Resource.Success -> materialOnBoardSecondScreenStateCallback.onResourceSuccess(it.data!!)
+                is Resource.Error -> materialOnBoardSecondScreenStateCallback.onResourceError(it.message!!)
+                else -> materialOnBoardSecondScreenStateCallback.onNeverFetched()
+            }
+        }
+        
 
         tvLearningPurpose.setOnClickListener {
             val bottomSheetFragment = MaterialLearningPurposeBottomSheetFragment.getInstance(materialId!!)
@@ -57,7 +63,7 @@ class MaterialOnBoardSecondScreenFragment : BaseFragment<FragmentMaterialOnBoard
         }
 
         btnNextMaterialSecondOnboard.setOnClickListener {
-            parentBinding.vpMaterialOnboard.currentItem = 2
+            parent.vpMaterialOnboard.currentItem = 2
         }
     }
 
@@ -65,5 +71,20 @@ class MaterialOnBoardSecondScreenFragment : BaseFragment<FragmentMaterialOnBoard
         return ScreenOrientation.PORTRAIT
     }
 
+    private val materialOnBoardSecondScreenStateCallback = object : ResourceStateCallback<MaterialOnBoard>() {
+        override fun onResourceLoading() {
+        
+        }
+    
+        override fun onResourceSuccess(data: MaterialOnBoard) {
+            binding?.apply {
+                Glide.with(this@MaterialOnBoardSecondScreenFragment)
+                    .load(data.gif)
+                    .into(ivGifMaterialSecondOnboard)
+                tvMaterialSecondOnboard.text = data.description
+            }
+        }
+    
+    }
 
 }

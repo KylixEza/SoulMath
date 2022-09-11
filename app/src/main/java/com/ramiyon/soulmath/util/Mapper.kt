@@ -12,6 +12,8 @@ import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialDet
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
+import com.ramiyon.soulmath.data.source.remote.firebase.reseponse.MaterialLearningPurposeResponse
+import com.ramiyon.soulmath.data.source.remote.firebase.reseponse.MaterialOnBoardResponse
 import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
@@ -21,6 +23,8 @@ import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.domain.model.learning_journey.MaterialLearningJourney
 import com.ramiyon.soulmath.domain.model.material.Material
 import com.ramiyon.soulmath.domain.model.material.MaterialDetail
+import com.ramiyon.soulmath.domain.model.material.MaterialLearningPurpose
+import com.ramiyon.soulmath.domain.model.material.MaterialOnBoard
 
 fun Student.toStudentBody() = StudentBody(
     studentId, address, avatar, username, email, phoneNumber, xp
@@ -69,6 +73,14 @@ fun LearningJourneyResponse.toLearningJourney() = LearningJourney(
 
 private fun MaterialLearningJourneyResponse.toMaterialLearningJourney() = MaterialLearningJourney(
     moduleId, materialPercentage, currentMaterialId
+)
+
+fun MaterialOnBoardResponse.toMaterialOnBoard() = MaterialOnBoard(
+    materialId, page, gif, upperImage, lowerImage, description
+)
+
+fun MaterialLearningPurposeResponse.toMaterialLearningPurpose() = MaterialLearningPurpose(
+    materialId, chapter, purposes
 )
 
 fun MaterialResponse.toMaterial() = Material(

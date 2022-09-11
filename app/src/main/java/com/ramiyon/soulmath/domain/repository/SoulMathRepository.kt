@@ -6,6 +6,8 @@ import com.ramiyon.soulmath.domain.model.Leaderboard
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.domain.model.material.Material
+import com.ramiyon.soulmath.domain.model.material.MaterialLearningPurpose
+import com.ramiyon.soulmath.domain.model.material.MaterialOnBoard
 import com.ramiyon.soulmath.util.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -30,6 +32,8 @@ interface SoulMathRepository {
     fun increaseStudentXp(givenXp: Int): Flow<Resource<Unit>>
     fun decreaseStudentXp(costXp: Int): Flow<Resource<String?>>
     fun fetchLearningJourney(): Flow<Resource<List<LearningJourney>>>
+    fun fetchMaterialOnBoardingContent(materialId: String, page: Int): Flow<Resource<MaterialOnBoard>>
+    fun fetchMaterialOnBoardingLearningPurpose(materialId: String): Flow<Resource<MaterialLearningPurpose>>
     fun fetchMaterials(moduleId: String): Flow<Resource<List<Material>>>
     fun fetchMaterialDetail(materialId: String): Flow<Resource<MaterialDetail>>
     fun postFavorite(materialId: String): Flow<Resource<String>>

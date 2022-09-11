@@ -4,19 +4,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gdsc.gdsctoast.GDSCToast.Companion.showAnyToast
 import com.gdsc.gdsctoast.util.ToastShape
 import com.gdsc.gdsctoast.util.ToastType
+import com.google.android.material.snackbar.Snackbar
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentHomeBinding
+import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.presentation.adapter.LearningJourneyAdapter
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
+import io.github.tonnyl.light.Light.error
+import io.github.tonnyl.light.Light.success
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.navigation.koinNavGraphViewModel
 
@@ -66,6 +75,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 is Resource.Empty -> isTakenResourceCallback.onResourceEmpty()
             }
         }
+        
+        lifecycleScope.launchWhenStarted {
+            viewModel.studentXp.collect {
+                tvStudentXp.text = resources.getString(R.string.xp_earned, it)
+            }
+        }
+        
+        lifecycleScope.launchWhenStarted {
+            viewModel.collectedText.collect {
+                binding?.includeTakeDailyXp?.tvTakeDailyXp?.text = it
+            }
+        }
 
     }
 
@@ -91,21 +112,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     visibility = visible
                     text = "Hi, ${data.username}"
                 }
-                tvStudentXp.apply {
-                    visibility = visible
-                    text = "${data.xp.toString()} XP"
-                }
+                tvStudentXp.visibility = visible
+                viewModel.setStudentXp(data.xp)
             }
         }
 
         override fun onResourceError(message: String?, data: Student?) {
-            binding?.apply {
-                requireContext().apply { showAnyToast { it.apply {
-                    text = message.toString()
-                    toastType = ToastType.ERROR
-                    toastShape = ToastShape.RECTANGLE
-                } } }
-            }
+            error(binding?.root!!, message.toString(), Snackbar.LENGTH_SHORT)
         }
     }
     
@@ -123,60 +136,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 progressIncludeTakeDailyXp.visibility = invisible
                 containerTakeDailyXp.visibility = visible
                 if(isTaken) {
-                    viewModel.getTodayTakenXp().observe(viewLifecycleOwner) { resourceTodayTakenXp ->
-                        if(resourceTodayTakenXp is Resource.Success) {
-                            binding?.includeTakeDailyXp?.tvDailyBonusXp?.text =
-                                resourceTodayTakenXp.data?.dailyXp.toString()
-                        }
-                    }
-                    binding?.includeTakeDailyXp?.tvTakeDailyXp?.text = "Terkumpul"
+                    observeTodayTakenXp()
+                    viewModel.setCollectedText("Terkumpul")
                     isTaken = true
                 } else {
+                    viewModel.setCollectedText("Kumpulkan")
                     binding?.includeTakeDailyXp?.tvTakeDailyXp?.startAnimation(
                         AnimationUtils.loadAnimation(requireContext(), R.anim.wiggle_animation)
                     )
-                    viewModel.getCurrentDailyXp().observe(viewLifecycleOwner) { dailyXp ->
-                        when(dailyXp) {
-                            is Resource.Success -> {
-                                binding?.apply {
-                                    includeTakeDailyXp.tvDailyBonusXp.text = dailyXp.data?.dailyXp.toString()
-                                    includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
-                                        if(!isTaken) {
-                                            viewModel.takeDailyXp(dailyXp.data!!.dailyXpId).observe(viewLifecycleOwner) {
-                                                when(it) {
-                                                    is Resource.Success -> {
-                                                        requireActivity().showAnyToast {
-                                                            it.apply {
-                                                                text = "XP hari ini berhasil diambil!"
-                                                                toastType = ToastType.SUCCESS
-                                                            }
-                                                        }
-                                                        includeTakeDailyXp.tvTakeDailyXp.text = "Terkumpul"
-                                                        isTaken = true
-                                                        includeTakeDailyXp.tvTakeDailyXp.clearAnimation()
-                                                    }
-                                                    else -> {}
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            else -> {}
-                        }
-                    }
+                    observeCurrentDailyXp()
                 }
             }
         }
     
         override fun onResourceError(message: String?, data: Boolean?) {
-            binding?.apply {
-                requireContext().apply { showAnyToast { it.apply {
-                    text = message.toString()
-                    toastType = ToastType.ERROR
-                    toastShape = ToastShape.RECTANGLE
-                } } }
-            }
+            error(binding?.root!!, message.toString(), Snackbar.LENGTH_SHORT)
         }
     
     }
@@ -199,11 +173,54 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         override fun onResourceError(message: String?, data: List<LearningJourney>?) {
             binding?.apply {
-                requireContext().apply { showAnyToast { it.apply {
-                    text = message.toString()
-                    toastType = ToastType.ERROR
-                    toastShape = ToastShape.RECTANGLE
-                } } }
+                error(binding?.root!!, message.toString(), Snackbar.LENGTH_SHORT)
+            }
+        }
+    }
+    
+    private fun observeTodayTakenXp() {
+        viewModel.getTodayTakenXp().observe(viewLifecycleOwner) { resourceTodayTakenXp ->
+            if(resourceTodayTakenXp is Resource.Success) {
+                binding?.includeTakeDailyXp?.tvDailyBonusXp?.text =
+                    resourceTodayTakenXp.data?.dailyXp.toString()
+            }
+        }
+    }
+    
+    private fun observeCurrentDailyXp() {
+        viewModel.getCurrentDailyXp().observe(viewLifecycleOwner) { dailyXp ->
+            when(dailyXp) {
+                is Resource.Success -> {
+                    binding?.apply {
+                        includeTakeDailyXp.tvDailyBonusXp.text = dailyXp.data?.dailyXp.toString()
+                        includeTakeDailyXp.tvTakeDailyXp.setOnClickListener {
+                            if(!isTaken) {
+                                observeTakeDailyXp(dailyXp)
+                            }
+                        }
+                    }
+                }
+                else -> {}
+            }
+        }
+    }
+    
+    private fun observeTakeDailyXp(dailyXp: Resource<DailyXp?>) {
+        viewModel.takeDailyXp(dailyXp.data!!.dailyXpId).observe(viewLifecycleOwner) {
+            when(it) {
+                is Resource.Success -> {
+                    success(requireView(), "XP hari ini berhasil diambil!", Snackbar.LENGTH_SHORT).show()
+                    binding?.apply {
+                        viewModel.setCollectedText("Terkumpul")
+                        isTaken = true
+                        includeTakeDailyXp.tvTakeDailyXp.clearAnimation()
+                    }
+                    viewModel.increaseStudentXp(dailyXp.data.dailyXp)
+                }
+                is Resource.Error -> {
+                    error(binding?.root!!, it.message.toString(), Snackbar.LENGTH_SHORT).show()
+                }
+                else -> {}
             }
         }
     }

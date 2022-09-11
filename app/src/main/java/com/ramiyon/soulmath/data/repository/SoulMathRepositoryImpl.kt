@@ -15,6 +15,8 @@ import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.Lea
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialDetailResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
+import com.ramiyon.soulmath.data.source.remote.firebase.reseponse.MaterialLearningPurposeResponse
+import com.ramiyon.soulmath.data.source.remote.firebase.reseponse.MaterialOnBoardResponse
 import com.ramiyon.soulmath.data.util.LocalAnswer
 import com.ramiyon.soulmath.data.util.RemoteResponse
 import com.ramiyon.soulmath.data.worker.StudentProfileWorker
@@ -26,6 +28,8 @@ import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.domain.model.material.Material
 import com.ramiyon.soulmath.domain.model.material.MaterialDetail
+import com.ramiyon.soulmath.domain.model.material.MaterialLearningPurpose
+import com.ramiyon.soulmath.domain.model.material.MaterialOnBoard
 import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 import com.ramiyon.soulmath.util.*
 import kotlinx.coroutines.CoroutineScope
@@ -262,8 +266,35 @@ class SoulMathRepositoryImpl(
                 return data?.map { it.toLearningJourney() }!!
             }
         }.asFlow()
-
-
+    
+    override fun fetchMaterialOnBoardingContent(
+        materialId: String,
+        page: Int
+    ): Flow<Resource<MaterialOnBoard>> =
+        object : NetworkOnlyResource<MaterialOnBoard, MaterialOnBoardResponse>() {
+            override suspend fun createCall(): Flow<RemoteResponse<MaterialOnBoardResponse>> {
+                return remoteDataSource.fetchMaterialOnBoardingContent(materialId, page)
+            }
+    
+            override fun mapTransform(data: MaterialOnBoardResponse): MaterialOnBoard {
+                return data.toMaterialOnBoard()
+            }
+        }.asFlow()
+    
+    override fun fetchMaterialOnBoardingLearningPurpose(
+        materialId: String
+    ): Flow<Resource<MaterialLearningPurpose>> =
+        object : NetworkOnlyResource<MaterialLearningPurpose, MaterialLearningPurposeResponse>() {
+            override suspend fun createCall(): Flow<RemoteResponse<MaterialLearningPurposeResponse>> {
+                return remoteDataSource.fetchMaterialOnBoardingLearningPurpose(materialId)
+            }
+    
+            override fun mapTransform(data: MaterialLearningPurposeResponse): MaterialLearningPurpose {
+                return data.toMaterialLearningPurpose()
+            }
+        }.asFlow()
+    
+    
     override fun getDailyXpList() =
         object : DatabaseOnlyResource<List<DailyXpEntity>, List<DailyXp>>() {
             override suspend fun loadFromDb(): Flow<LocalAnswer<List<DailyXpEntity>>> {

@@ -1,8 +1,10 @@
 package com.ramiyon.soulmath.domain.usecase.material.onboard
 
-import com.ramiyon.soulmath.data.source.dummy.MaterialOnBoardContent
+import com.ramiyon.soulmath.domain.repository.SoulMathRepository
 
-class MaterialOnBoardUseCaseImpl: MaterialOnBoardUseCase {
-    override fun getMaterialOnBoardContentById(materialId: String, page: Int) = MaterialOnBoardContent.getMaterialOnBoardContentById(materialId, page)
-    override fun getMaterialLearningPurposeById(materialId: String) = MaterialOnBoardContent.getMaterialLearningPurposeById(materialId)
+class MaterialOnBoardUseCaseImpl(
+    private val repository: SoulMathRepository
+): MaterialOnBoardUseCase {
+    override fun fetchMaterialOnBoardContentById(materialId: String, page: Int) = repository.fetchMaterialOnBoardingContent(materialId, page)
+    override fun fetchMaterialLearningPurposeById(materialId: String) = repository.fetchMaterialOnBoardingLearningPurpose(materialId)
 }

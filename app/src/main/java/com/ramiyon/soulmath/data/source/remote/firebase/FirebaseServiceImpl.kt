@@ -56,49 +56,51 @@ class FirebaseServiceImpl: FirebaseService {
     override fun fetchMaterialOnBoardingContent(
         materialId: String,
         page: Int
-    ): Flow<FirebaseResponse<List<MaterialOnBoardResponse>>> = flow {
-        var materialOnBoards = mutableListOf<MaterialOnBoardResponse>()
+    ): Flow<FirebaseResponse<MaterialOnBoardResponse>> = flow {
+        var materialOnBoard: MaterialOnBoardResponse? = null
         
         CoroutineScope(Dispatchers.IO).launch {
-            materialOnBoards = materialRef
+            materialOnBoard = materialRef
                 .collection(FirestoreReference.ON_BOARDING.reference)
                 .document(FirestoreReference.CONTENT.reference)
                 .collection(materialId)
-                .whereArrayContains("page", page)
+                .document(page.toString())
                 .get()
                 .await()
-                .toObjects(MaterialOnBoardResponse::class.java)
+                .toObject(MaterialOnBoardResponse::class.java)
         }.join()
         
-        if (materialOnBoards.isNotEmpty())
-            emit(FirebaseResponse.Success(materialOnBoards))
-         else
-             //Emit empty to trigger flow catcher
-             emit(FirebaseResponse.Empty)
+        if (materialOnBoard != null) {
+            emit(FirebaseResponse.Success(materialOnBoard!!))
+        } else {
+            emit(FirebaseResponse.Empty)
+        }
         
     }.catch {
         emit(FirebaseResponse.Error(it.message.toString()))
     }.flowOn(Dispatchers.IO)
     
-    override fun fetchMaterialOnBoardingLearningPurpose(materialId: String): Flow<FirebaseResponse<List<MaterialLearningPurposeResponse>>> =
+    override fun fetchMaterialOnBoardingLearningPurpose(materialId: String): Flow<FirebaseResponse<MaterialLearningPurposeResponse>> =
         flow {
-            var materialLearningPurpose = mutableListOf<MaterialLearningPurposeResponse>()
+            var materialLearningPurpose: MaterialLearningPurposeResponse? = null
             
             CoroutineScope(Dispatchers.IO).launch {
                 materialLearningPurpose = materialRef
                     .collection(FirestoreReference.ON_BOARDING.reference)
                     .document(FirestoreReference.LEARNING_PURPOSE.reference)
                     .collection(materialId)
+                    .whereEqualTo("materialId", materialId)
                     .get()
                     .await()
                     .toObjects(MaterialLearningPurposeResponse::class.java)
+                    .first()
             }.join()
             
-            if (materialLearningPurpose.isNotEmpty())
-                emit(FirebaseResponse.Success(materialLearningPurpose))
-            else
-                //Emit empty to trigger flow catcher
+            if (materialLearningPurpose != null) {
+                emit(FirebaseResponse.Success(materialLearningPurpose!!))
+            } else {
                 emit(FirebaseResponse.Empty)
+            }
             
         }.catch {
             emit(FirebaseResponse.Error(it.message.toString()))

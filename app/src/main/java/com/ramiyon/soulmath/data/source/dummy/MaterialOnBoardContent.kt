@@ -4,16 +4,6 @@ import com.ramiyon.soulmath.domain.model.material.MaterialLearningPurpose
 import com.ramiyon.soulmath.domain.model.material.MaterialOnBoard
 
 object MaterialOnBoardContent {
-    private fun getMaterialOnBoardContent() = listOf(
-        MaterialOnBoard(materialId = "MATERIAL001", page = 1, gif = 0, description = "Tahukah kamu materi apa yang akan kita pelajari kali ini?"),
-        MaterialOnBoard(materialId = "MATERIAL001", page = 2, gif = 0, description = "Hari ini, kita akan belajar mengenal angka mulai dari 1-10. Yuk, simak lebih lanjut materinya"),
-        MaterialOnBoard(materialId = "MATERIAL001", page = 3, upperImage = 0, lowerImage = 0, description = "Di atas ini adalah contoh dari angka yang akan kita pelajari hari ini!"),
-    )
-
-    fun getMaterialOnBoardContentById(materialId: String, page: Int) =
-        getMaterialOnBoardContent().first {
-            it.materialId == materialId && it.page == page
-        }
 
     private fun getMaterialLearningPurpose() = listOf(
         MaterialLearningPurpose("MATERIAL001", "BAB", listOf(

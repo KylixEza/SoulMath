@@ -19,9 +19,9 @@ interface FirebaseService {
     fun fetchMaterialOnBoardingContent(
         materialId: String,
         page: Int
-    ): Flow<FirebaseResponse<List<MaterialOnBoardResponse>>>
+    ): Flow<FirebaseResponse<MaterialOnBoardResponse>>
     
     fun fetchMaterialOnBoardingLearningPurpose(
         materialId: String,
-    ): Flow<FirebaseResponse<List<MaterialLearningPurposeResponse>>>
+    ): Flow<FirebaseResponse<MaterialLearningPurposeResponse>>
 }

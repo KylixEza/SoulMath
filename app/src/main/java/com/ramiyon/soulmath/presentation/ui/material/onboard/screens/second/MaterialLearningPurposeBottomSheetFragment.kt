@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ramiyon.soulmath.databinding.FragmentMaterialLearningPurposeBottomSheetBinding
+import com.ramiyon.soulmath.domain.model.material.MaterialLearningPurpose
 import com.ramiyon.soulmath.presentation.adapter.LearningPurposeAdapter
 import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
+import com.ramiyon.soulmath.util.Resource
+import com.ramiyon.soulmath.util.ResourceStateCallback
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -48,19 +51,36 @@ class MaterialLearningPurposeBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val purposes = viewModel.getMaterialLearningPurposeById(materialId!!)
-        binding?.apply {
-            tvLearningPurposeChapter.text = "Tujuan Pembelajaran Bab ${purposes.chapter}"
-            rvLearningPurpose.apply {
-                adapter = this@MaterialLearningPurposeBottomSheetFragment.adapter
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        viewModel.getMaterialLearningPurposeById(materialId!!).observe(viewLifecycleOwner) {
+            when(it) {
+                is Resource.Loading -> materialLearningPurpose.onResourceLoading()
+                is Resource.Success -> materialLearningPurpose.onResourceSuccess(it.data!!)
+                is Resource.Error -> materialLearningPurpose.onResourceError(it.message!!)
+                else -> materialLearningPurpose.onNeverFetched()
             }
-            adapter.submitData(purposes.purposes)
         }
+        
     }
 
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+    
+    private val materialLearningPurpose = object : ResourceStateCallback<MaterialLearningPurpose>() {
+        override fun onResourceLoading() {
+        
+        }
+    
+        override fun onResourceSuccess(data: MaterialLearningPurpose) {
+            binding?.apply {
+                tvLearningPurposeChapter.text = "Tujuan Pembelajaran Bab ${data.chapter}"
+                rvLearningPurpose.apply {
+                    adapter = this@MaterialLearningPurposeBottomSheetFragment.adapter
+                    layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                }
+                adapter.submitData(data.purposes)
+            }
+        }
     }
 }

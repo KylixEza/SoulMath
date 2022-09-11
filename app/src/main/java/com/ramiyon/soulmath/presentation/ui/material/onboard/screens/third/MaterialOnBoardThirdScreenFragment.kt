@@ -6,11 +6,14 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentMaterialOnBoardThirdScreenBinding
+import com.ramiyon.soulmath.domain.model.material.MaterialOnBoard
 import com.ramiyon.soulmath.presentation.ui.material.dashboard.MaterialDashboardActivity
 import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
 import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_ID
 import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_TITLE
 import com.ramiyon.soulmath.util.Constanta.ARG_STRING_ARRAY_LIST
+import com.ramiyon.soulmath.util.Resource
+import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
 import com.ramiyon.soulmath.util.callGlide
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -43,12 +46,14 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
     }
 
     override fun FragmentMaterialOnBoardThirdScreenBinding.binder() {
-        val onBoardContent = viewModel.getMaterialOnBoardThirdScreen(materialId!!)
-
-        callGlide(requireContext(), onBoardContent.upperImage, ivUpperImageThirdOnboard)
-        callGlide(requireContext(), onBoardContent.lowerImage, ivLowerImageThirdOnboard)
-
-        tvMaterialThirdOnboard.text = onBoardContent.description
+        viewModel.getMaterialOnBoardThirdScreen(materialId!!).observe(viewLifecycleOwner) {
+            when(it) {
+                is Resource.Loading -> materialOnBoardThirdScreenResourceCallback.onResourceLoading()
+                is Resource.Success -> materialOnBoardThirdScreenResourceCallback.onResourceSuccess(it.data!!)
+                is Resource.Error -> materialOnBoardThirdScreenResourceCallback.onResourceError(it.message!!)
+                else -> materialOnBoardThirdScreenResourceCallback.onNeverFetched()
+            }
+        }
 
         btnNextMaterialThirdOnboard.setOnClickListener {
             val intent = Intent(requireActivity(), MaterialDashboardActivity::class.java)
@@ -63,5 +68,19 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
         return ScreenOrientation.PORTRAIT
     }
 
+    val materialOnBoardThirdScreenResourceCallback = object : ResourceStateCallback<MaterialOnBoard>() {
+        override fun onResourceLoading() {
 
+        }
+
+        override fun onResourceSuccess(data: MaterialOnBoard) {
+            binding?.apply {
+                callGlide(requireContext(), data.upperImage, ivUpperImageThirdOnboard)
+                callGlide(requireContext(), data.lowerImage, ivLowerImageThirdOnboard)
+
+                tvMaterialThirdOnboard.text = data.description
+            }
+        }
+
+    }
 }

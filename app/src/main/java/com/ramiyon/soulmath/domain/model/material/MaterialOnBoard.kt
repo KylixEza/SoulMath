@@ -1,10 +1,10 @@
 package com.ramiyon.soulmath.domain.model.material
 
 data class MaterialOnBoard(
-    val materialId: String,
+    val materialId: String = "",
     val page: Int,
-    val gif: Int = 0,
-    val upperImage: Int = 0,
-    val lowerImage: Int = 0,
-    val description: String,
+    val gif: String = "",
+    val upperImage: String = "",
+    val lowerImage: String = "",
+    val description: String = "",
 )

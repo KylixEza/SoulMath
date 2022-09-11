@@ -14,6 +14,7 @@ import com.ramiyon.soulmath.data.util.FirebaseResponse
 import com.ramiyon.soulmath.data.util.RemoteResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
@@ -129,6 +130,26 @@ class RemoteDataSource(
                 return apiService.fetchLearningJourney(studentId)
             }
         }.asFlow()
+    
+    suspend fun fetchMaterialOnBoardingContent(materialId: String, page: Int) = flow {
+        firebaseService.fetchMaterialOnBoardingContent(materialId, page).collect {
+            when(it) {
+                is FirebaseResponse.Success -> emit(RemoteResponse.Success(it.data))
+                is FirebaseResponse.Error -> emit(RemoteResponse.Error(it.errorMessage))
+                is FirebaseResponse.Empty -> emit(RemoteResponse.Empty())
+            }
+        }
+    }
+    
+    suspend fun fetchMaterialOnBoardingLearningPurpose(materialId: String) = flow {
+        firebaseService.fetchMaterialOnBoardingLearningPurpose(materialId).collect {
+            when(it) {
+                is FirebaseResponse.Success -> emit(RemoteResponse.Success(it.data))
+                is FirebaseResponse.Error -> emit(RemoteResponse.Error(it.errorMessage))
+                is FirebaseResponse.Empty -> emit(RemoteResponse.Empty())
+            }
+        }
+    }
 
     suspend fun fetchMaterials(moduleId: String, studentId: String) =
         object : BaseRemoteResponse<List<MaterialResponse>>() {
