@@ -16,10 +16,9 @@ interface FirebaseService {
         password: String
     ): Flow<FirebaseResponse<String>>
     
-    fun fetchMaterialOnBoardingContent(
+    fun fetchMaterialOnBoardingContents(
         materialId: String,
-        page: Int
-    ): Flow<FirebaseResponse<MaterialOnBoardResponse>>
+    ): Flow<FirebaseResponse<List<MaterialOnBoardResponse>>>
     
     fun fetchMaterialOnBoardingLearningPurpose(
         materialId: String,

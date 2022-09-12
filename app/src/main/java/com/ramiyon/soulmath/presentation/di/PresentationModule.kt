@@ -6,9 +6,7 @@ import com.ramiyon.soulmath.presentation.ui.auth.register.RegisterViewModel
 import com.ramiyon.soulmath.presentation.ui.home.HomeViewModel
 import com.ramiyon.soulmath.presentation.ui.leaderboard.LeaderboardViewModel
 import com.ramiyon.soulmath.presentation.ui.material.dashboard.MaterialDashboardViewModel
-import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.first.MaterialOnBoardFirstScreenViewModel
-import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.second.MaterialOnBoardSecondScreenViewModel
-import com.ramiyon.soulmath.presentation.ui.material.onboard.screens.third.MaterialOnBoardThirdScreenViewModel
+import com.ramiyon.soulmath.presentation.ui.material.onboard.MaterialOnBoardViewModel
 import com.ramiyon.soulmath.presentation.ui.material.reward.MaterialRewardViewModel
 import com.ramiyon.soulmath.presentation.ui.material.video.MaterialVideoPlayerViewModel
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.first.FirstScreenViewModel
@@ -16,7 +14,6 @@ import com.ramiyon.soulmath.presentation.ui.onboard.screens.second.SecondScreenV
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.third.ThirdScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.profile.ProfileViewModel
 import com.ramiyon.soulmath.presentation.ui.splash.SplashViewModel
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -30,9 +27,7 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get()) }
     viewModel { LeaderboardViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
-    viewModel { MaterialOnBoardFirstScreenViewModel(get()) }
-    viewModel { MaterialOnBoardSecondScreenViewModel(get()) }
-    viewModel { MaterialOnBoardThirdScreenViewModel(get()) }
+    viewModel { MaterialOnBoardViewModel(get()) }
     viewModel { MaterialDashboardViewModel(get()) }
     viewModel { MaterialVideoPlayerViewModel(get()) }
     viewModel { MaterialRewardViewModel(get()) }

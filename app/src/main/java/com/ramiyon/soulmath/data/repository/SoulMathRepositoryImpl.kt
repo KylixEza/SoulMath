@@ -268,16 +268,15 @@ class SoulMathRepositoryImpl(
         }.asFlow()
     
     override fun fetchMaterialOnBoardingContent(
-        materialId: String,
-        page: Int
-    ): Flow<Resource<MaterialOnBoard>> =
-        object : NetworkOnlyResource<MaterialOnBoard, MaterialOnBoardResponse>() {
-            override suspend fun createCall(): Flow<RemoteResponse<MaterialOnBoardResponse>> {
-                return remoteDataSource.fetchMaterialOnBoardingContent(materialId, page)
+        materialId: String
+    ): Flow<Resource<List<MaterialOnBoard>>> =
+        object : NetworkOnlyResource<List<MaterialOnBoard>, List<MaterialOnBoardResponse>>() {
+            override suspend fun createCall(): Flow<RemoteResponse<List<MaterialOnBoardResponse>>> {
+                return remoteDataSource.fetchMaterialOnBoardingContents(materialId)
             }
-    
-            override fun mapTransform(data: MaterialOnBoardResponse): MaterialOnBoard {
-                return data.toMaterialOnBoard()
+
+            override fun mapTransform(data: List<MaterialOnBoardResponse>): List<MaterialOnBoard> {
+                return data.map { it.toMaterialOnBoard() }
             }
         }.asFlow()
     

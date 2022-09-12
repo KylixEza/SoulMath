@@ -32,7 +32,7 @@ interface SoulMathRepository {
     fun increaseStudentXp(givenXp: Int): Flow<Resource<Unit>>
     fun decreaseStudentXp(costXp: Int): Flow<Resource<String?>>
     fun fetchLearningJourney(): Flow<Resource<List<LearningJourney>>>
-    fun fetchMaterialOnBoardingContent(materialId: String, page: Int): Flow<Resource<MaterialOnBoard>>
+    fun fetchMaterialOnBoardingContent(materialId: String): Flow<Resource<List<MaterialOnBoard>>>
     fun fetchMaterialOnBoardingLearningPurpose(materialId: String): Flow<Resource<MaterialLearningPurpose>>
     fun fetchMaterials(moduleId: String): Flow<Resource<List<Material>>>
     fun fetchMaterialDetail(materialId: String): Flow<Resource<MaterialDetail>>

@@ -53,25 +53,23 @@ class FirebaseServiceImpl: FirebaseService {
             emit(FirebaseResponse.Error(it.message.toString()))
         }.flowOn(Dispatchers.IO)
     
-    override fun fetchMaterialOnBoardingContent(
-        materialId: String,
-        page: Int
-    ): Flow<FirebaseResponse<MaterialOnBoardResponse>> = flow {
-        var materialOnBoard: MaterialOnBoardResponse? = null
+    override fun fetchMaterialOnBoardingContents(
+        materialId: String
+    ): Flow<FirebaseResponse<List<MaterialOnBoardResponse>>> = flow {
+        var materialOnBoard: List<MaterialOnBoardResponse> = arrayListOf()
         
         CoroutineScope(Dispatchers.IO).launch {
             materialOnBoard = materialRef
                 .collection(FirestoreReference.ON_BOARDING.reference)
                 .document(FirestoreReference.CONTENT.reference)
                 .collection(materialId)
-                .document(page.toString())
                 .get()
                 .await()
-                .toObject(MaterialOnBoardResponse::class.java)
+                .toObjects(MaterialOnBoardResponse::class.java)
         }.join()
-        
-        if (materialOnBoard != null) {
-            emit(FirebaseResponse.Success(materialOnBoard!!))
+
+        if (materialOnBoard.isNotEmpty()) {
+            emit(FirebaseResponse.Success(materialOnBoard))
         } else {
             emit(FirebaseResponse.Empty)
         }

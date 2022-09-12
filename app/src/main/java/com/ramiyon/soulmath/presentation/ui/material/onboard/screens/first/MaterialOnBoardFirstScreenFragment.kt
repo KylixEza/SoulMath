@@ -3,6 +3,7 @@ package com.ramiyon.soulmath.presentation.ui.material.onboard.screens.first
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.ActivityMaterialOnBoardBinding
@@ -11,15 +12,17 @@ import com.ramiyon.soulmath.databinding.FragmentMaterialOnBoardFirstScreenBindin
 import com.ramiyon.soulmath.domain.model.material.MaterialOnBoard
 import com.ramiyon.soulmath.presentation.common.buildLottieDialog
 import com.ramiyon.soulmath.presentation.ui.material.onboard.MaterialOnBoardActivity
+import com.ramiyon.soulmath.presentation.ui.material.onboard.MaterialOnBoardViewModel
 import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MaterialOnBoardFirstScreenFragment : BaseFragment<FragmentMaterialOnBoardFirstScreenBinding>() {
 
-    private val viewModel by viewModel<MaterialOnBoardFirstScreenViewModel>()
+    private val viewModel by sharedViewModel<MaterialOnBoardViewModel>()
     private lateinit var lottieBinding: DialogLottieBinding
     private lateinit var parent: ActivityMaterialOnBoardBinding
     private var materialId: String? = null
@@ -45,46 +48,55 @@ class MaterialOnBoardFirstScreenFragment : BaseFragment<FragmentMaterialOnBoardF
 
     override fun FragmentMaterialOnBoardFirstScreenBinding.binder() {
         lottieBinding = DialogLottieBinding.inflate(layoutInflater)
-        viewModel.getMaterialOnBoardFirstScreen(materialId!!).observe(viewLifecycleOwner) { resource ->
-            when(resource) {
-                is Resource.Success -> materialOnBoardFirstScreenStateCallback.onResourceSuccess(resource.data!!)
-                is Resource.Error -> materialOnBoardFirstScreenStateCallback.onResourceError(resource.message!!)
-                is Resource.Loading -> materialOnBoardFirstScreenStateCallback.onResourceLoading()
-                else -> materialOnBoardFirstScreenStateCallback.onNeverFetched()
+        viewModel.fetchMaterialOnBoardContentById(materialId!!, 1)
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.contentState.collect { resource ->
+                when(resource) {
+                    is Resource.Success -> materialOnBoardFirstScreenStateCallback.onResourceSuccess(resource.data!!.first())
+                    is Resource.Error -> materialOnBoardFirstScreenStateCallback.onResourceError(resource.message!!)
+                    is Resource.Loading -> materialOnBoardFirstScreenStateCallback.onResourceLoading()
+                    else -> materialOnBoardFirstScreenStateCallback.onNeverFetched()
+                }
             }
+        }
+
+        btnNextMaterialFirstOnboard.setOnClickListener {
+            parent.vpMaterialOnboard.currentItem = 1
         }
         
         parent = (activity as MaterialOnBoardActivity).binding
     }
 
-    override fun determineScreenOrientation(): ScreenOrientation {
-        return ScreenOrientation.PORTRAIT
-    }
-    
     private val materialOnBoardFirstScreenStateCallback = object : ResourceStateCallback<MaterialOnBoard>() {
         val lottieDialog = activity?.buildLottieDialog(lottieBinding, "loading_blue_paper_airplane.json")
-        
+
         override fun onResourceLoading() {
             lottieDialog?.show()
         }
-    
+
         override fun onResourceSuccess(data: MaterialOnBoard) {
-            lottieDialog?.hide()
-            binding?.apply {
-                Glide.with(this@MaterialOnBoardFirstScreenFragment)
-                    .load(data.gif)
-                    .into(ivGifMaterialFirstOnboard)
-                tvMaterialFirstOnboard.text = data.description
-    
-                btnNextMaterialFirstOnboard.setOnClickListener {
-                    parent.vpMaterialOnboard.currentItem = 1
+            lifecycleScope.launchWhenStarted {
+                viewModel.content.collect {
+                    lottieDialog?.hide()
+                    binding?.apply {
+                        Glide.with(this@MaterialOnBoardFirstScreenFragment)
+                            .load(it.gif)
+                            .into(ivGifMaterialFirstOnboard)
+                        tvMaterialFirstOnboard.text = it.description
+
+                    }
                 }
             }
         }
-    
+
         override fun onResourceError(message: String) {
             lottieDialog?.hide()
         }
+    }
+
+    override fun determineScreenOrientation(): ScreenOrientation {
+        return ScreenOrientation.PORTRAIT
     }
 
 }

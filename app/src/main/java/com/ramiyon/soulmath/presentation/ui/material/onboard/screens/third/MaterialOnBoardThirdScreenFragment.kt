@@ -3,11 +3,13 @@ package com.ramiyon.soulmath.presentation.ui.material.onboard.screens.third
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.FragmentMaterialOnBoardThirdScreenBinding
 import com.ramiyon.soulmath.domain.model.material.MaterialOnBoard
 import com.ramiyon.soulmath.presentation.ui.material.dashboard.MaterialDashboardActivity
+import com.ramiyon.soulmath.presentation.ui.material.onboard.MaterialOnBoardViewModel
 import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
 import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_ID
 import com.ramiyon.soulmath.util.Constanta.ARG_MODULE_TITLE
@@ -16,11 +18,12 @@ import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
 import com.ramiyon.soulmath.util.callGlide
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardThirdScreenBinding>() {
 
-    private val viewModel by viewModel<MaterialOnBoardThirdScreenViewModel>()
+    private val viewModel by sharedViewModel<MaterialOnBoardViewModel>()
     private var materialId: String? = null
     private var moduleId: String? = null
     private var moduleTitle: String? = null
@@ -46,12 +49,16 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
     }
 
     override fun FragmentMaterialOnBoardThirdScreenBinding.binder() {
-        viewModel.getMaterialOnBoardThirdScreen(materialId!!).observe(viewLifecycleOwner) {
-            when(it) {
-                is Resource.Loading -> materialOnBoardThirdScreenResourceCallback.onResourceLoading()
-                is Resource.Success -> materialOnBoardThirdScreenResourceCallback.onResourceSuccess(it.data!!)
-                is Resource.Error -> materialOnBoardThirdScreenResourceCallback.onResourceError(it.message!!)
-                else -> materialOnBoardThirdScreenResourceCallback.onNeverFetched()
+        viewModel.fetchMaterialOnBoardContentById(materialId!!, 3)
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.contentState.collect {
+                when(it) {
+                    is Resource.Loading -> materialOnBoardThirdScreenResourceCallback.onResourceLoading()
+                    is Resource.Success -> materialOnBoardThirdScreenResourceCallback.onResourceSuccess(it.data!!.first())
+                    is Resource.Error -> materialOnBoardThirdScreenResourceCallback.onResourceError(it.message!!)
+                    else -> materialOnBoardThirdScreenResourceCallback.onNeverFetched()
+                }
             }
         }
 
@@ -68,17 +75,21 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
         return ScreenOrientation.PORTRAIT
     }
 
-    val materialOnBoardThirdScreenResourceCallback = object : ResourceStateCallback<MaterialOnBoard>() {
+    private val materialOnBoardThirdScreenResourceCallback = object : ResourceStateCallback<MaterialOnBoard>() {
         override fun onResourceLoading() {
 
         }
 
         override fun onResourceSuccess(data: MaterialOnBoard) {
-            binding?.apply {
-                callGlide(requireContext(), data.upperImage, ivUpperImageThirdOnboard)
-                callGlide(requireContext(), data.lowerImage, ivLowerImageThirdOnboard)
+            lifecycleScope.launchWhenStarted {
+                viewModel.content.collect {
+                    binding?.apply {
+                        callGlide(requireContext(), data.upperImage, ivUpperImageThirdOnboard)
+                        callGlide(requireContext(), data.lowerImage, ivLowerImageThirdOnboard)
 
-                tvMaterialThirdOnboard.text = data.description
+                        tvMaterialThirdOnboard.text = data.description
+                    }
+                }
             }
         }
 
