@@ -16,6 +16,8 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
     private var _binding: VB? = null
     val binding get() = _binding
 
+    lateinit var fragmentView: View
+
     abstract fun inflateViewBinding(container: ViewGroup?): VB
     abstract fun VB.binder()
     abstract fun determineScreenOrientation(): ScreenOrientation
@@ -40,6 +42,8 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.fragmentView = view
+
         if(determineScreenOrientation() == ScreenOrientation.PORTRAIT) {
             activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         } else {
