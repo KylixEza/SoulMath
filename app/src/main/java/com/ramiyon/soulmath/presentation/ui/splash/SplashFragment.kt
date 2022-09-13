@@ -1,38 +1,23 @@
 package com.ramiyon.soulmath.presentation.ui.splash
 
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.ramiyon.soulmath.R
+import com.ramiyon.soulmath.base.BaseFragment
+import com.ramiyon.soulmath.databinding.FragmentSplashBinding
 import com.ramiyon.soulmath.util.Resource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import com.ramiyon.soulmath.util.ScreenOrientation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SplashFragment : Fragment() {
+class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
     private val viewModel by viewModel<SplashViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) {
         requireActivity().window.statusBarColor = View.GONE
-        return inflater.inflate(R.layout.fragment_splash, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        observeHaveRunAppBefore(view)
     }
 
     private fun observeHaveRunAppBefore(view: View) {
@@ -66,6 +51,18 @@ class SplashFragment : Fragment() {
                 view.findNavController().navigate(R.id.action_splash_destination_to_loginFragment)
             }
         }
+    }
+
+    override fun inflateViewBinding(container: ViewGroup?): FragmentSplashBinding {
+        return FragmentSplashBinding.inflate(layoutInflater, container, false)
+    }
+
+    override fun FragmentSplashBinding.binder() {
+        observeHaveRunAppBefore(fragmentView)
+    }
+
+    override fun determineScreenOrientation(): ScreenOrientation {
+        return ScreenOrientation.PORTRAIT
     }
 
 }
