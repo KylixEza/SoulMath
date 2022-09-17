@@ -47,4 +47,5 @@
     <string name="ready_to_study_today">Sudah siap belajar hari ini?</string>
     <string name="daily_bonus">Bonus harian</string>
     <string name="collect">Kumpulkan</string>
+    <string name="difficulty_easy">Level Mudah</string>
 </resources>
