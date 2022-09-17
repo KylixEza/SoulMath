@@ -156,6 +156,7 @@ dependencies {
     implementation 'com.github.allan1st:JellyRefreshLayout:2.0'
     implementation 'com.github.omadahealth:swipy:1.2.3@aar'
     implementation 'io.github.tonnyl:light:1.0.0'
+    implementation 'com.sasank.roundedhorizontalprogress:roundedhorizontalprogress:1.0.1'
 
     //Lottie
     implementation "com.airbnb.android:lottie:4.2.2"
