@@ -6,22 +6,25 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import com.ramiyon.soulmath.databinding.FragmentLoginBinding
 import io.reactivex.Observable
 
-class LoginValidator(
-    private val binding: FragmentLoginBinding
-): ConstraintValidator {
+class LoginValidator: ConstraintValidator<FragmentLoginBinding> {
 
-    init {
-        initObserve()
+    private fun FragmentLoginBinding.showPasswordMinimalAlert(isNotValid: Boolean?) {
+        edtPassword.error = if (isNotValid == true) "Password minimal 6 karakter" else null
+    }
+
+    private fun FragmentLoginBinding.showEmailExistAlert(isNotValid: Boolean?) {
+        edtEmail.error = if (isNotValid == true) "Email tidak valid" else null
     }
 
     @SuppressLint("CheckResult")
-    private fun initObserve() {
-        val emailObservable = RxTextView.textChanges(binding.edtEmail)
+    override fun FragmentLoginBinding.validate() {
+
+        val emailObservable = RxTextView.textChanges(edtEmail)
             .map { it.toString() }
             .map { return@map it.isEmpty() }
             .distinctUntilChanged()
 
-        val passwordObservable = RxTextView.textChanges(binding.edtPassword)
+        val passwordObservable = RxTextView.textChanges(edtPassword)
             .map { it.toString() }
             .map { return@map it.isEmpty() }
             .distinctUntilChanged()
@@ -34,21 +37,10 @@ class LoginValidator(
         }
 
         loginObservable.subscribe {
-            binding.btnLogin.isEnabled = it
+            btnLogin.isEnabled = it
         }
-    }
 
-    private fun showPasswordMinimalAlert(isNotValid: Boolean?) {
-        binding.edtPassword.error = if (isNotValid == true) "Password minimal 6 karakter" else null
-    }
-
-    private fun showEmailExistAlert(isNotValid: Boolean?) {
-        binding.edtEmail.error = if (isNotValid == true) "Email tidak valid" else null
-    }
-
-    @SuppressLint("CheckResult")
-    override fun validate() {
-        val emailStream = RxTextView.textChanges(binding.edtEmail)
+        val emailStream = RxTextView.textChanges(edtEmail)
             .skipInitialValue()
             .map { email ->
                 !Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -57,7 +49,7 @@ class LoginValidator(
             showEmailExistAlert(it)
         }
 
-        val passwordStream = RxTextView.textChanges(binding.edtPassword)
+        val passwordStream = RxTextView.textChanges(edtPassword)
             .skipInitialValue()
             .map { password ->
                 password.length < 6
@@ -74,7 +66,7 @@ class LoginValidator(
         }
 
         invalidFieldStream.subscribe { isValid ->
-            binding.btnLogin.isEnabled = isValid
+            btnLogin.isEnabled = isValid
         }
     }
 }

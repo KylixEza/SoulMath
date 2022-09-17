@@ -24,7 +24,7 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
     open fun onCreateViewBehaviour(inflater: LayoutInflater, container: ViewGroup?) { }
     open fun onViewCreatedBehaviour() { }
-    open fun constraintValidator(): ConstraintValidator? { return null }
+    open fun constraintValidator(): ConstraintValidator<VB>? { return null }
     open fun onDestroyBehaviour() { }
     open fun onBackPressedBehaviour() { }
 
@@ -52,8 +52,9 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
         binding?.apply {
             binder()
-            constraintValidator()?.validate()
         }
+
+        constraintValidator()?.apply { binding?.validate() }
 
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

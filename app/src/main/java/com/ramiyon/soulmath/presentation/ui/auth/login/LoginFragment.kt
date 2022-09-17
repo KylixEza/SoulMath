@@ -19,12 +19,15 @@ import com.ramiyon.soulmath.util.Constanta
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ScreenOrientation
 import com.thecode.aestheticdialogs.DialogType
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private val viewModel by viewModel<LoginViewModel>()
+    private val validator by inject<LoginValidator>()
+
     private var isRememberMe by Delegates.notNull<Boolean>()
     private lateinit var lottieBinding: DialogLottieBinding
 
@@ -107,7 +110,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         return ScreenOrientation.PORTRAIT
     }
 
-    override fun constraintValidator(): ConstraintValidator? {
-        return binding?.let { LoginValidator(it) }
+    override fun constraintValidator(): ConstraintValidator<FragmentLoginBinding> {
+        return validator
     }
 }

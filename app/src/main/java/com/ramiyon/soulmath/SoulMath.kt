@@ -4,6 +4,7 @@ import android.app.Application
 import com.ramiyon.soulmath.data.di.*
 import com.ramiyon.soulmath.domain.di.useCaseModule
 import com.ramiyon.soulmath.presentation.di.adapterModule
+import com.ramiyon.soulmath.presentation.di.validatorModule
 import com.ramiyon.soulmath.presentation.di.viewModelModule
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
@@ -28,6 +29,7 @@ class SoulMath: Application() {
                     useCaseModule,
                     viewModelModule,
                     adapterModule,
+                    validatorModule,
                     lifecycleModule,
                     networkConnectivityModule
                 )

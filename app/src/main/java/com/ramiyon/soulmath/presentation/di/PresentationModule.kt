@@ -14,6 +14,7 @@ import com.ramiyon.soulmath.presentation.ui.onboard.screens.second.SecondScreenV
 import com.ramiyon.soulmath.presentation.ui.onboard.screens.third.ThirdScreenViewModel
 import com.ramiyon.soulmath.presentation.ui.profile.ProfileViewModel
 import com.ramiyon.soulmath.presentation.ui.splash.SplashViewModel
+import com.ramiyon.soulmath.presentation.validator.LoginValidator
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -40,4 +41,8 @@ val adapterModule = module {
     factory { LearningJourneyAdapter() }
     factory { LearningPurposeAdapter() }
     factory { MaterialAdapter() }
+}
+
+val validatorModule = module {
+    factory { LoginValidator() }
 }

@@ -1,7 +1,9 @@
 package com.ramiyon.soulmath.presentation.validator
 
-interface ConstraintValidator {
+import androidx.viewbinding.ViewBinding
 
-    fun validate()
+interface ConstraintValidator<VB: ViewBinding> {
+
+    fun VB.validate()
 
 }
