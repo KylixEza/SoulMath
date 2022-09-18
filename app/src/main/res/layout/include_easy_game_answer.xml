@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
    <com.google.android.material.button.MaterialButton
-       android:id="@+id/cv_first_answer"
+       android:id="@+id/btn_first_answer"
        android:layout_width="0dp"
        android:layout_height="64dp"
        android:layout_marginEnd="12dp"
@@ -18,11 +18,11 @@
        android:textColor="@color/black"
        android:textAllCaps="false"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintEnd_toStartOf="@id/cv_second_answer"
+       app:layout_constraintEnd_toStartOf="@id/btn_second_answer"
        app:layout_constraintTop_toTopOf="parent"/>
 
    <com.google.android.material.button.MaterialButton
-       android:id="@+id/cv_second_answer"
+       android:id="@+id/btn_second_answer"
        android:layout_width="0dp"
        android:layout_height="64dp"
        android:layout_marginEnd="12dp"
@@ -34,12 +34,12 @@
        android:textSize="12sp"
        android:textColor="@color/black"
        android:textAllCaps="false"
-       app:layout_constraintStart_toEndOf="@id/cv_first_answer"
-       app:layout_constraintEnd_toStartOf="@id/cv_third_answer"
-       app:layout_constraintTop_toTopOf="@id/cv_first_answer"/>
+       app:layout_constraintStart_toEndOf="@id/btn_first_answer"
+       app:layout_constraintEnd_toStartOf="@id/btn_third_answer"
+       app:layout_constraintTop_toTopOf="@id/btn_first_answer"/>
 
    <com.google.android.material.button.MaterialButton
-       android:id="@+id/cv_third_answer"
+       android:id="@+id/btn_third_answer"
        android:layout_width="0dp"
        android:layout_height="64dp"
        android:layout_marginEnd="12dp"
@@ -51,12 +51,12 @@
        android:textSize="12sp"
        android:textColor="@color/black"
        android:textAllCaps="false"
-       app:layout_constraintStart_toEndOf="@id/cv_second_answer"
-       app:layout_constraintEnd_toStartOf="@id/cv_fourth_answer"
-       app:layout_constraintTop_toTopOf="@id/cv_second_answer"/>
+       app:layout_constraintStart_toEndOf="@id/btn_second_answer"
+       app:layout_constraintEnd_toStartOf="@id/btn_fourth_answer"
+       app:layout_constraintTop_toTopOf="@id/btn_second_answer"/>
 
    <com.google.android.material.button.MaterialButton
-       android:id="@+id/cv_fourth_answer"
+       android:id="@+id/btn_fourth_answer"
        android:layout_width="0dp"
        android:layout_height="64dp"
        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -67,8 +67,8 @@
        android:textSize="12sp"
        android:textColor="@color/black"
        android:textAllCaps="false"
-       app:layout_constraintStart_toEndOf="@id/cv_third_answer"
+       app:layout_constraintStart_toEndOf="@id/btn_third_answer"
        app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toTopOf="@id/cv_third_answer"/>
+       app:layout_constraintTop_toTopOf="@id/btn_third_answer"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
