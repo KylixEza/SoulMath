@@ -48,4 +48,6 @@
     <string name="daily_bonus">Bonus harian</string>
     <string name="collect">Kumpulkan</string>
     <string name="difficulty_easy">Level Mudah</string>
+    <string name="difficulty_medium">Level Menengah</string>
+    <string name="difficulty_hard">Level Sulit</string>
 </resources>
