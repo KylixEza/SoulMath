@@ -3,6 +3,7 @@ package com.ramiyon.soulmath.domain.repository
 import com.ramiyon.soulmath.domain.model.material.MaterialDetail
 import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard
+import com.ramiyon.soulmath.domain.model.Question
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.domain.model.material.Material
@@ -36,6 +37,7 @@ interface SoulMathRepository {
     fun fetchMaterialOnBoardingLearningPurpose(materialId: String): Flow<Resource<MaterialLearningPurpose>>
     fun fetchMaterials(moduleId: String): Flow<Resource<List<Material>>>
     fun fetchMaterialDetail(materialId: String): Flow<Resource<MaterialDetail>>
+    fun fetchQuestions(gameId: String): Flow<Resource<List<Question>>>
     fun postFavorite(materialId: String): Flow<Resource<String>>
     fun deleteFavorite(materialId: String): Flow<Resource<String>>
 

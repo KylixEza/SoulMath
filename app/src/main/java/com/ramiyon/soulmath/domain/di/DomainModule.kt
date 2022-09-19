@@ -18,6 +18,8 @@ import com.ramiyon.soulmath.domain.usecase.onboard.OnBoardUseCase
 import com.ramiyon.soulmath.domain.usecase.onboard.OnBoardUseCaseImpl
 import com.ramiyon.soulmath.domain.usecase.profile.ProfileUseCase
 import com.ramiyon.soulmath.domain.usecase.profile.ProfileUseCaseImpl
+import com.ramiyon.soulmath.domain.usecase.game.GameUseCase
+import com.ramiyon.soulmath.domain.usecase.game.GameUseCaseImpl
 import com.ramiyon.soulmath.domain.usecase.register.RegisterUseCase
 import com.ramiyon.soulmath.domain.usecase.register.RegisterUseCaseImpl
 import com.ramiyon.soulmath.domain.usecase.splash.SplashUseCase
@@ -36,4 +38,5 @@ val useCaseModule = module {
     single<MaterialDashboardUseCase> { MaterialDashboardUseCaseImpl(get()) }
     single<MaterialVideoPlayerUseCase> { MaterialVideoPlayerUseCaseImpl(get()) }
     single<MaterialRewardUseCase> { MaterialRewardUseCaseImpl(get()) }
+    single<GameUseCase> { GameUseCaseImpl(get()) }
 }

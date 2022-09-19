@@ -6,6 +6,7 @@ import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.Lea
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialDetailResponse
 import com.ramiyon.soulmath.domain.model.material.MaterialDetail
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.question.QuestionResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import retrofit2.http.*
@@ -44,6 +45,11 @@ interface ApiService {
         @Path("materialId") materialId: String,
         @Path("studentId") studentId: String
     ): BaseResponse<MaterialDetailResponse>
+
+    @GET("/game/{gameId}/questions")
+    suspend fun fetchQuestions(
+        @Path("gameId") gameId: String
+    ): BaseResponse<List<QuestionResponse>>
     
     @POST("/favorite/{studentId}/{materialId}")
     suspend fun postFavorite(

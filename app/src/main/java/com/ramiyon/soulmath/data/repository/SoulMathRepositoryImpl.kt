@@ -14,6 +14,7 @@ import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.Leaderbo
 import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.LearningJourneyResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialDetailResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.question.QuestionResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.data.source.remote.firebase.reseponse.MaterialLearningPurposeResponse
 import com.ramiyon.soulmath.data.source.remote.firebase.reseponse.MaterialOnBoardResponse
@@ -24,6 +25,7 @@ import com.ramiyon.soulmath.data.worker.StudentXpWorker
 import com.ramiyon.soulmath.data.worker.WorkerParams
 import com.ramiyon.soulmath.domain.model.DailyXp
 import com.ramiyon.soulmath.domain.model.Leaderboard
+import com.ramiyon.soulmath.domain.model.Question
 import com.ramiyon.soulmath.domain.model.Student
 import com.ramiyon.soulmath.domain.model.learning_journey.LearningJourney
 import com.ramiyon.soulmath.domain.model.material.Material
@@ -399,7 +401,18 @@ class SoulMathRepositoryImpl(
                 return data?.toMaterialDetail()!!
             }
         }.asFlow()
-    
+
+    override fun fetchQuestions(gameId: String): Flow<Resource<List<Question>>> =
+        object : NetworkOnlyResource<List<Question>, List<QuestionResponse>?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<List<QuestionResponse>?>> {
+                return remoteDataSource.fetchQuestions(gameId)
+            }
+
+            override fun mapTransform(data: List<QuestionResponse>?): List<Question> {
+                return data?.map { it.toQuestion() }!!
+            }
+        }.asFlow()
+
     override fun postFavorite(materialId: String): Flow<Resource<String>> =
         object : NetworkOnlyResource<String, String?>() {
             override suspend fun createCall(): Flow<RemoteResponse<String?>> {

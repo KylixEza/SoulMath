@@ -7,6 +7,7 @@ import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.Leaderbo
 import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.LearningJourneyResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialDetailResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialResponse
+import com.ramiyon.soulmath.data.source.remote.api.response.question.QuestionResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentResponse
 import com.ramiyon.soulmath.data.source.remote.firebase.FirebaseService
@@ -161,6 +162,13 @@ class RemoteDataSource(
         object : BaseRemoteResponse<MaterialDetailResponse>() {
             override suspend fun call(): BaseResponse<MaterialDetailResponse> {
                 return apiService.fetchMaterialDetail(materialId, studentId)
+            }
+        }.asFlow()
+
+    suspend fun fetchQuestions(gameId: String) =
+        object : BaseRemoteResponse<List<QuestionResponse>>() {
+            override suspend fun call(): BaseResponse<List<QuestionResponse>> {
+                return apiService.fetchQuestions(gameId)
             }
         }.asFlow()
 
