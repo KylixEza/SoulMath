@@ -3,6 +3,7 @@ package com.ramiyon.soulmath.base
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import com.ramiyon.soulmath.presentation.validator.ConstraintValidator
 import com.ramiyon.soulmath.util.ScreenOrientation
 
 abstract class BaseActivity<VB: ViewBinding>: AppCompatActivity() {
@@ -13,6 +14,8 @@ abstract class BaseActivity<VB: ViewBinding>: AppCompatActivity() {
     abstract fun inflateViewBinding(): VB
     abstract fun determineScreenOrientation(): ScreenOrientation?
     abstract fun VB.binder()
+
+    open fun constraintValidator(): ConstraintValidator<VB>? { return null }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,7 @@ abstract class BaseActivity<VB: ViewBinding>: AppCompatActivity() {
 
         binding.apply {
             binder()
+            constraintValidator()?.apply { validate() }
         }
 
     }

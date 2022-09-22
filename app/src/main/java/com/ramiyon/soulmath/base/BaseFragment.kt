@@ -52,9 +52,8 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
         binding?.apply {
             binder()
+            constraintValidator()?.apply { validate() }
         }
-
-        constraintValidator()?.apply { binding?.validate() }
 
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
