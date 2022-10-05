@@ -142,6 +142,7 @@ class MaterialVideoPlayerActivity : BaseActivity<ActivityMaterialVideoPlayerBind
                     ExoPlayer.STATE_ENDED -> {
                         val intent = Intent(this@MaterialVideoPlayerActivity, MaterialRewardActivity::class.java)
                         intent.putExtra(ARG_XP, material.xpEarned)
+                        intent.putExtra(ARG_MATERIAL_ID, materialId)
                         startActivity(intent)
                         finish()
                     }

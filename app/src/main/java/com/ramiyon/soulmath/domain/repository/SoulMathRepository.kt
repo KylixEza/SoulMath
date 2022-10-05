@@ -37,6 +37,7 @@ interface SoulMathRepository {
     fun fetchMaterialOnBoardingLearningPurpose(materialId: String): Flow<Resource<MaterialLearningPurpose>>
     fun fetchMaterials(moduleId: String): Flow<Resource<List<Material>>>
     fun fetchMaterialDetail(materialId: String): Flow<Resource<MaterialDetail>>
+    fun unlockMaterial(materialId: String): Flow<Resource<Unit>>
     fun fetchQuestions(gameId: String): Flow<Resource<List<Question>>>
     fun postFavorite(materialId: String): Flow<Resource<String>>
     fun deleteFavorite(materialId: String): Flow<Resource<String>>

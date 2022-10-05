@@ -31,6 +31,7 @@ abstract class NetworkBoundWorker<Api, Database, Domain>() {
                             is LocalAnswer.Success -> {
                                 data = it.data
                             }
+                            else -> {}
                         }
                     }
                 }.join()
@@ -42,6 +43,7 @@ abstract class NetworkBoundWorker<Api, Database, Domain>() {
                     is LocalAnswer.Success -> {
                         emit(Resource.Success(mapDatabaseToDomain(it.data)))
                     }
+                    else -> {}
                 }
             }
         }

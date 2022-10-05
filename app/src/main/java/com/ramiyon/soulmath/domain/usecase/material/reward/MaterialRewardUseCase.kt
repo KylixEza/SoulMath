@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface MaterialRewardUseCase {
 
     fun increaseStudentXp(givenXp: Int): Flow<Resource<Unit>>
-
+    fun unlockMaterial(materialId: String): Flow<Resource<Unit>>
 }

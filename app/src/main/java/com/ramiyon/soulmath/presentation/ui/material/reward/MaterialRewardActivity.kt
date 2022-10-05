@@ -2,14 +2,13 @@ package com.ramiyon.soulmath.presentation.ui.material.reward
 
 import android.app.Dialog
 import android.content.Intent
-import android.util.Log
-import android.widget.Toast
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseActivity
 import com.ramiyon.soulmath.databinding.ActivityMaterialRewardBinding
 import com.ramiyon.soulmath.databinding.DialogLottieBinding
 import com.ramiyon.soulmath.presentation.common.buildLottieDialog
 import com.ramiyon.soulmath.presentation.ui.MainActivity
+import com.ramiyon.soulmath.util.Constanta.ARG_MATERIAL_ID
 import com.ramiyon.soulmath.util.Constanta.ARG_XP
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
@@ -21,6 +20,7 @@ class MaterialRewardActivity : BaseActivity<ActivityMaterialRewardBinding>() {
     private val viewModel by viewModel<MaterialRewardViewModel>()
     private lateinit var lottieBinding: DialogLottieBinding
     private lateinit var lottieDialog: Dialog
+    private lateinit var materialId: String
 
     override fun inflateViewBinding(): ActivityMaterialRewardBinding {
         return ActivityMaterialRewardBinding.inflate(layoutInflater)
@@ -31,6 +31,8 @@ class MaterialRewardActivity : BaseActivity<ActivityMaterialRewardBinding>() {
     }
 
     override fun ActivityMaterialRewardBinding.binder() {
+        materialId = intent.getStringExtra(ARG_MATERIAL_ID) ?: ""
+
         lottieBinding = DialogLottieBinding.inflate(layoutInflater)
         lottieDialog = buildLottieDialog(lottieBinding, "loading_blue_paper_airplane.json")
 
@@ -45,6 +47,8 @@ class MaterialRewardActivity : BaseActivity<ActivityMaterialRewardBinding>() {
                 is Resource.Empty -> rewardCallback.onNeverFetched()
             }
         }
+
+
         btnNext.setOnClickListener {
             val intent = Intent(this@MaterialRewardActivity, MainActivity::class.java)
             startActivity(intent)
@@ -55,6 +59,27 @@ class MaterialRewardActivity : BaseActivity<ActivityMaterialRewardBinding>() {
     private val rewardCallback = object : ResourceStateCallback<Unit>() {
         override fun onResourceLoading() {
             lottieDialog.show()
+        }
+
+        override fun onResourceSuccess(data: Unit) {
+            viewModel.unlockMaterial(materialId).observe(this@MaterialRewardActivity) {
+                when(it) {
+                    is Resource.Loading -> unlockCallback.onResourceLoading()
+                    is Resource.Success -> unlockCallback.onResourceSuccess(Unit)
+                    is Resource.Error -> unlockCallback.onResourceError(it.message, null)
+                    is Resource.Empty -> unlockCallback.onNeverFetched()
+                }
+            }
+        }
+
+        override fun onResourceError(message: String?, data: Unit?) {
+            lottieDialog.dismiss()
+        }
+    }
+
+    private val unlockCallback = object : ResourceStateCallback<Unit>() {
+        override fun onResourceLoading() {
+
         }
 
         override fun onResourceSuccess(data: Unit) {

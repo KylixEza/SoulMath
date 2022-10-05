@@ -165,6 +165,13 @@ class RemoteDataSource(
             }
         }.asFlow()
 
+    suspend fun unlockMaterial(materialId: String, studentId: String) =
+        object : BaseRemoteResponse<String>() {
+            override suspend fun call(): BaseResponse<String> {
+                return apiService.unlockMaterial(materialId, studentId)
+            }
+        }.asFlow()
+
     suspend fun fetchQuestions(gameId: String) =
         object : BaseRemoteResponse<List<QuestionResponse>>() {
             override suspend fun call(): BaseResponse<List<QuestionResponse>> {

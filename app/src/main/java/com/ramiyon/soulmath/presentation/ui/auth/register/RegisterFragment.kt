@@ -39,10 +39,10 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         activity?.apply {
             val lottieDialog = buildLottieDialog(lottieBinding, "loading_blue_paper_airplane.json")
             btnRegister.setOnClickListener {
-                val email = edtEmail.editText?.text.toString()
-                val password = edtPassword.editText?.text.toString()
-                val username = edtUsername.editText?.text.toString()
-                val phoneNumber = edtPhoneNumber.editText?.text.toString()
+                val email = edtEmail.text.toString()
+                val password = edtPassword.text.toString()
+                val username = edtUsername.text.toString()
+                val phoneNumber = edtPhoneNumber.text.toString()
 
                 val user = Student(
                     address = "", email = email, username = username, phoneNumber = phoneNumber

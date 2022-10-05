@@ -3,6 +3,9 @@ package com.ramiyon.soulmath.presentation.di
 import com.ramiyon.soulmath.presentation.adapter.*
 import com.ramiyon.soulmath.presentation.ui.auth.login.LoginViewModel
 import com.ramiyon.soulmath.presentation.ui.auth.register.RegisterViewModel
+import com.ramiyon.soulmath.presentation.ui.game.easy.EasyGameViewModel
+import com.ramiyon.soulmath.presentation.ui.game.hard.HardGameViewModel
+import com.ramiyon.soulmath.presentation.ui.game.medium.MediumGameViewModel
 import com.ramiyon.soulmath.presentation.ui.home.HomeViewModel
 import com.ramiyon.soulmath.presentation.ui.leaderboard.LeaderboardViewModel
 import com.ramiyon.soulmath.presentation.ui.material.dashboard.MaterialDashboardViewModel
@@ -32,6 +35,9 @@ val viewModelModule = module {
     viewModel { MaterialDashboardViewModel(get()) }
     viewModel { MaterialVideoPlayerViewModel(get()) }
     viewModel { MaterialRewardViewModel(get()) }
+    viewModel { EasyGameViewModel(get()) }
+    viewModel { MediumGameViewModel(get()) }
+    viewModel { HardGameViewModel(get()) }
 }
 
 val adapterModule = module {

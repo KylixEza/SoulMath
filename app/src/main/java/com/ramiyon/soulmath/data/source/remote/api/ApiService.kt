@@ -4,7 +4,6 @@ import com.ramiyon.soulmath.data.source.remote.api.response.BaseResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.leaderboard.LeaderboardResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.learning_journey.LearningJourneyResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialDetailResponse
-import com.ramiyon.soulmath.domain.model.material.MaterialDetail
 import com.ramiyon.soulmath.data.source.remote.api.response.material.MaterialResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.question.QuestionResponse
 import com.ramiyon.soulmath.data.source.remote.api.response.student.StudentBody
@@ -45,6 +44,12 @@ interface ApiService {
         @Path("materialId") materialId: String,
         @Path("studentId") studentId: String
     ): BaseResponse<MaterialDetailResponse>
+
+    @PUT("/material/{materialId}/{studentId}/unlock")
+    suspend fun unlockMaterial(
+        @Path("materialId") materialId: String,
+        @Path("studentId") studentId: String
+    ): BaseResponse<String>
 
     @GET("/game/{gameId}/questions")
     suspend fun fetchQuestions(

@@ -6,4 +6,5 @@ class MaterialRewardUseCaseImpl(
     private val repository: SoulMathRepository
 ): MaterialRewardUseCase {
     override fun increaseStudentXp(givenXp: Int) = repository.increaseStudentXp(givenXp)
+    override fun unlockMaterial(materialId: String) = repository.unlockMaterial(materialId)
 }

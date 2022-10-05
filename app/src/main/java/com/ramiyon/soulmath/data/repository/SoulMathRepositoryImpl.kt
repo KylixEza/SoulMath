@@ -402,6 +402,18 @@ class SoulMathRepositoryImpl(
             }
         }.asFlow()
 
+    override fun unlockMaterial(materialId: String): Flow<Resource<Unit>> =
+        object : NetworkOnlyResource<Unit, String?>() {
+            override suspend fun createCall(): Flow<RemoteResponse<String?>> {
+                return remoteDataSource.unlockMaterial(materialId, getCurrentStudentId()!!)
+            }
+
+            override fun mapTransform(data: String?): Unit {
+                return
+            }
+        }.asFlow()
+
+
     override fun fetchQuestions(gameId: String): Flow<Resource<List<Question>>> =
         object : NetworkOnlyResource<List<Question>, List<QuestionResponse>?>() {
             override suspend fun createCall(): Flow<RemoteResponse<List<QuestionResponse>?>> {
