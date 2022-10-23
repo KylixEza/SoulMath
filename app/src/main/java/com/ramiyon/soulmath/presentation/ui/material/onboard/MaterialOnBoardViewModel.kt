@@ -2,6 +2,7 @@ package com.ramiyon.soulmath.presentation.ui.material.onboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ramiyon.soulmath.data.source.dummy.MaterialOnBoardContent
 import com.ramiyon.soulmath.domain.model.material.MaterialLearningPurpose
 import com.ramiyon.soulmath.domain.model.material.MaterialOnBoard
 import com.ramiyon.soulmath.domain.usecase.material.onboard.MaterialOnBoardUseCase
@@ -58,4 +59,8 @@ class MaterialOnBoardViewModel(
             }
         }
     }
+
+    fun getDummyMaterialOnBoardContent(materialId: String, page: Int) = MaterialOnBoardContent.getMaterialOnBoardContentById(materialId, page)
+
+    fun getDummyMaterialLearningPurpose(materialId: String) = MaterialOnBoardContent.getMaterialLearningPurposeById(materialId)
 }

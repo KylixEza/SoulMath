@@ -61,9 +61,14 @@ class MaterialLearningPurposeBottomSheetFragment : BottomSheetDialogFragment() {
             }
         }
 
-        viewModel.fetchMaterialLearningPurposeById(materialId!!)
+        viewModel.getDummyMaterialLearningPurpose(materialId!!).let {
+            binding?.apply {
+                tvLearningPurposeChapter.text = "Tujuan Pembelajaran Bab ${it.chapter}"
+                adapter.submitData(it.purposes)
+            }
+        }
 
-        lifecycleScope.launchWhenStarted {
+        /*lifecycleScope.launchWhenStarted {
             viewModel.learningPurposeState.collect {
                 when(it) {
                     is Resource.Loading -> materialLearningPurpose.onResourceLoading()
@@ -72,7 +77,7 @@ class MaterialLearningPurposeBottomSheetFragment : BottomSheetDialogFragment() {
                     else -> materialLearningPurpose.onNeverFetched()
                 }
             }
-        }
+        }*/
     }
 
     override fun onDestroyView() {

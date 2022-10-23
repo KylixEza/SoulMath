@@ -1,7 +1,6 @@
 package com.ramiyon.soulmath.presentation.ui.material.onboard.screens.first
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -18,7 +17,6 @@ import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ResourceStateCallback
 import com.ramiyon.soulmath.util.ScreenOrientation
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MaterialOnBoardFirstScreenFragment : BaseFragment<FragmentMaterialOnBoardFirstScreenBinding>() {
 
@@ -48,9 +46,16 @@ class MaterialOnBoardFirstScreenFragment : BaseFragment<FragmentMaterialOnBoardF
 
     override fun FragmentMaterialOnBoardFirstScreenBinding.binder() {
         lottieBinding = DialogLottieBinding.inflate(layoutInflater)
-        viewModel.fetchMaterialOnBoardContentById(materialId!!, 1)
+        val content = viewModel.getDummyMaterialOnBoardContent(materialId!!, 1)
 
-        lifecycleScope.launchWhenStarted {
+        binding?.apply {
+            Glide.with(this@MaterialOnBoardFirstScreenFragment)
+                .load(content.gif)
+                .into(ivGifMaterialFirstOnboard)
+            tvMaterialFirstOnboard.text = content.description
+        }
+
+        /*lifecycleScope.launchWhenStarted {
             viewModel.contentState.collect { resource ->
                 when(resource) {
                     is Resource.Success -> materialOnBoardFirstScreenStateCallback.onResourceSuccess(resource.data!!.first())
@@ -59,7 +64,7 @@ class MaterialOnBoardFirstScreenFragment : BaseFragment<FragmentMaterialOnBoardF
                     else -> materialOnBoardFirstScreenStateCallback.onNeverFetched()
                 }
             }
-        }
+        }*/
 
         btnNextMaterialFirstOnboard.setOnClickListener {
             parent.vpMaterialOnboard.currentItem = 1

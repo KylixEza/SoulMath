@@ -8,13 +8,16 @@ import android.graphics.drawable.ColorDrawable
 import android.widget.LinearLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.databinding.DialogRankBinding
 import com.ramiyon.soulmath.domain.model.Leaderboard
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 
 @SuppressLint("InflateParams")
 fun Context.buildLeaderboardDialog(
@@ -27,17 +30,19 @@ fun Context.buildLeaderboardDialog(
         setContentView(rankBinding.root)
     
     with(rankBinding) {
-        setLeaderboardDialogData(null).asLiveData(Dispatchers.Main).observe(lifecycleOwner) {
-            Glide.with(this@buildLeaderboardDialog)
-                .load(data?.avatar)
-                .placeholder(R.drawable.ilu_default_profile_picture)
-                .into(rankBinding.ivProfile)
-            tvXp.text = getString(R.string.xp_earned, data?.xp)
-            tvDescRank.text = getString(R.string.leaderboard_dialog_description, data?.rank)
-            
+        lifecycleOwner.lifecycleScope.launch {
+            setLeaderboardDialogData(null).collect {
+                Glide.with(this@buildLeaderboardDialog)
+                    .load(data?.avatar)
+                    .placeholder(R.drawable.ilu_default_profile_picture)
+                    .into(rankBinding.ivProfile)
+                tvXp.text = getString(R.string.xp_earned, data?.xp)
+                tvDescRank.text = getString(R.string.leaderboard_dialog_description, data?.rank)
+
+            }
+            btnOk.setOnClickListener { dismiss() }
+            ivClose.setOnClickListener { dismiss() }
         }
-        btnOk.setOnClickListener { dismiss() }
-        ivClose.setOnClickListener { dismiss() }
     }
     
     setCanceledOnTouchOutside(false)

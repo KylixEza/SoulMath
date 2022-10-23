@@ -49,9 +49,14 @@ class MaterialOnBoardSecondScreenFragment : BaseFragment<FragmentMaterialOnBoard
         
         tvLearningPurpose.paintFlags = Paint.UNDERLINE_TEXT_FLAG
 
-        viewModel.fetchMaterialOnBoardContentById(materialId!!, 2)
+        viewModel.getDummyMaterialOnBoardContent(materialId!!, 2).let { content ->
+            Glide.with(this@MaterialOnBoardSecondScreenFragment)
+                .load(content.gif)
+                .into(ivGifMaterialSecondOnboard)
+            tvMaterialSecondOnboard.text = content.description
+        }
 
-        lifecycleScope.launchWhenStarted {
+        /*lifecycleScope.launchWhenStarted {
             viewModel.contentState.collect {
                 when(it) {
                     is Resource.Loading -> materialOnBoardSecondScreenStateCallback.onResourceLoading()
@@ -60,7 +65,7 @@ class MaterialOnBoardSecondScreenFragment : BaseFragment<FragmentMaterialOnBoard
                     else -> materialOnBoardSecondScreenStateCallback.onNeverFetched()
                 }
             }
-        }
+        }*/
 
         tvLearningPurpose.setOnClickListener {
             val bottomSheetFragment = MaterialLearningPurposeBottomSheetFragment.getInstance(materialId!!)

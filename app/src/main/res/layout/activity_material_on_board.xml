@@ -63,10 +63,10 @@
         android:id="@+id/page_indicator_view_material_onboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="500dp"
+        android:layout_marginBottom="216dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:selectedDotColor="@color/rose_red"
         app:dotsColor="@color/soft_rose_red"/>
 

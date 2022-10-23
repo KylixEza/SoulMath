@@ -49,9 +49,16 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
     }
 
     override fun FragmentMaterialOnBoardThirdScreenBinding.binder() {
-        viewModel.fetchMaterialOnBoardContentById(materialId!!, 3)
+        viewModel.getDummyMaterialOnBoardContent(materialId!!, 3).let {  data ->
+            binding.apply {
+                callGlide(requireContext(), data.upperImage, ivUpperImageThirdOnboard)
+                callGlide(requireContext(), data.lowerImage, ivLowerImageThirdOnboard)
 
-        lifecycleScope.launchWhenStarted {
+                tvMaterialThirdOnboard.text = data.description
+            }
+        }
+
+        /*lifecycleScope.launchWhenStarted {
             viewModel.contentState.collect {
                 when(it) {
                     is Resource.Loading -> materialOnBoardThirdScreenResourceCallback.onResourceLoading()
@@ -60,7 +67,7 @@ class MaterialOnBoardThirdScreenFragment : BaseFragment<FragmentMaterialOnBoardT
                     else -> materialOnBoardThirdScreenResourceCallback.onNeverFetched()
                 }
             }
-        }
+        }*/
 
         btnNextMaterialThirdOnboard.setOnClickListener {
             val intent = Intent(requireActivity(), MaterialDashboardActivity::class.java)
