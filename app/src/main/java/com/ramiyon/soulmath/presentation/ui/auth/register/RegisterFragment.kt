@@ -1,15 +1,9 @@
 package com.ramiyon.soulmath.presentation.ui.auth.register
 
 import android.content.Intent
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.viewbinding.library.fragment.viewBinding
 import androidx.activity.addCallback
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseFragment
 import com.ramiyon.soulmath.databinding.DialogLottieBinding
 import com.ramiyon.soulmath.presentation.common.buildAestheticDialog
@@ -20,7 +14,6 @@ import com.ramiyon.soulmath.presentation.ui.MainActivity
 import com.ramiyon.soulmath.util.Constanta
 import com.ramiyon.soulmath.util.Resource
 import com.ramiyon.soulmath.util.ScreenOrientation
-import com.ramiyon.soulmath.util.toStudentBody
 import com.thecode.aestheticdialogs.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

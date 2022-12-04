@@ -137,23 +137,6 @@ class LeaderboardFragment : BaseFragment<FragmentLeaderboardBinding>() {
                         is Resource.Error -> { }
                     }
                 }
-
-                val constraints: Constraints = Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .build()
-
-                val periodicWorkRequest: PeriodicWorkRequest =
-                    PeriodicWorkRequestBuilder<LeaderboardWorker>(1, TimeUnit.MINUTES)
-                        .setConstraints(constraints)
-                        .build()
-
-                val workManager = WorkManager.getInstance(requireContext())
-                workManager.enqueueUniquePeriodicWork(this@LeaderboardFragment::class.java.simpleName, ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
-                workManager.getWorkInfoByIdLiveData(periodicWorkRequest.id).observeForever {
-                    if (it.state == WorkInfo.State.FAILED) {
-                        workManager.enqueueUniquePeriodicWork(this@LeaderboardFragment::class.java.simpleName, ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
-                    }
-                }
             }
         }
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.ramiyon.soulmath.presentation.validator.ConstraintValidator
 import com.ramiyon.soulmath.util.ScreenOrientation
@@ -52,7 +53,9 @@ abstract class BaseFragment<VB: ViewBinding>: Fragment() {
 
         binding?.apply {
             binder()
-            constraintValidator()?.apply { validate() }
+            lifecycleScope.launchWhenStarted {
+                constraintValidator()?.apply { validate() }
+            }
         }
 
         val onBackPressedCallback = object : OnBackPressedCallback(true) {

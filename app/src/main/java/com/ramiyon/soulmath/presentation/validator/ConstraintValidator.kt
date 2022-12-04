@@ -4,6 +4,6 @@ import androidx.viewbinding.ViewBinding
 
 interface ConstraintValidator<VB: ViewBinding> {
 
-    fun VB.validate()
+    suspend fun VB.validate()
 
 }

@@ -5,6 +5,8 @@ import android.util.Patterns
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.ramiyon.soulmath.databinding.FragmentLoginBinding
 import io.reactivex.Observable
+import kotlinx.coroutines.flow.*
+import reactivecircus.flowbinding.android.widget.textChanges
 
 class LoginValidator: ConstraintValidator<FragmentLoginBinding> {
 
@@ -17,26 +19,21 @@ class LoginValidator: ConstraintValidator<FragmentLoginBinding> {
     }
 
     @SuppressLint("CheckResult")
-    override fun FragmentLoginBinding.validate() {
+    override suspend fun FragmentLoginBinding.validate() {
 
-        val emailObservable = RxTextView.textChanges(edtEmail)
+        val emailObservable = edtEmail.textChanges()
             .map { it.toString() }
             .map { return@map it.isEmpty() }
             .distinctUntilChanged()
 
-        val passwordObservable = RxTextView.textChanges(edtPassword)
+        val passwordObservable = edtPassword.textChanges()
             .map { it.toString() }
             .map { return@map it.isEmpty() }
             .distinctUntilChanged()
 
-        val loginObservable = Observable.combineLatest(
-            emailObservable,
-            passwordObservable
-        ) { emailInvalid: Boolean, passwordInvalid: Boolean ->
+        emailObservable.combine(passwordObservable) { emailInvalid: Boolean, passwordInvalid: Boolean ->
             !emailInvalid && !passwordInvalid
-        }
-
-        loginObservable.subscribe {
+        }.collectLatest {
             btnLogin.isEnabled = it
         }
 

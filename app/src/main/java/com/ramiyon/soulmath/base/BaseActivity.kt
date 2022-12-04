@@ -2,6 +2,7 @@ package com.ramiyon.soulmath.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.ramiyon.soulmath.presentation.validator.ConstraintValidator
 import com.ramiyon.soulmath.util.ScreenOrientation
@@ -35,7 +36,9 @@ abstract class BaseActivity<VB: ViewBinding>: AppCompatActivity() {
 
         binding.apply {
             binder()
-            constraintValidator()?.apply { validate() }
+            lifecycleScope.launchWhenStarted {
+                constraintValidator()?.apply { validate() }
+            }
         }
 
     }

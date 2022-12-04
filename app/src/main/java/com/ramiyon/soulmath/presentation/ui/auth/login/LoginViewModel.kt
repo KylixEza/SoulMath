@@ -7,6 +7,7 @@ import com.ramiyon.soulmath.domain.usecase.login.LoginUseCase
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val loginUseCase: LoginUseCase): ViewModel() {
+
     fun savePrefRememberMe(isRemember: Boolean) = viewModelScope.launch {
         loginUseCase.savePrefRememberMe(isRemember)
     }
